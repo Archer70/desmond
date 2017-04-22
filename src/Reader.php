@@ -18,6 +18,6 @@ class Reader
 
     public function peek()
     {
-        return $this->characters[$this->position];
+        return $this->characters[$this->position] ?? null;
     }
 }
