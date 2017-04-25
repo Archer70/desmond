@@ -1,7 +1,7 @@
 <?php
 namespace Desmond\data_types;
 
-class NilType extends Type
+class NilType extends AbstractAtom
 {
     public function __construct($token)
     {

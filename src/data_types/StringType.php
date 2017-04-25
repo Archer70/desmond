@@ -1,7 +1,7 @@
 <?php
 namespace Desmond\data_types;
 
-class StringType extends Type
+class StringType extends AbstractAtom
 {
     public function __construct($token)
     {

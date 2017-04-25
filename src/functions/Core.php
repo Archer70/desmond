@@ -1,6 +1,7 @@
 <?php
 namespace Desmond\functions;
 use Desmond\data_types\IntegerType;
+use Desmond\data_types\StringType;
 use Desmond\data_types\TrueType;
 
 class Core
@@ -10,7 +11,8 @@ class Core
         '-' => 'subtraction',
         '*' => 'multiplication',
         '/' => 'division',
-        'print' => 'outputPrint'
+        'print' => 'outputPrint',
+        'print-line' => 'outputPrintLine'
     ];
 
     public static function run($func, $args)
@@ -62,6 +64,12 @@ class Core
     private static function outputPrint($string)
     {
         print($string[0]->value());
-        return new TrueType(true);
+        return $string[0];
+    }
+
+    private static function outputPrintLine($string)
+    {
+        print($string[0]->value() . "\n");
+        return $string[0];
     }
 }

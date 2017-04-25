@@ -1,7 +1,7 @@
 <?php
 namespace Desmond\data_types;
 
-class IntegerType extends Type
+class IntegerType extends AbstractAtom
 {
     public function __construct($token)
     {

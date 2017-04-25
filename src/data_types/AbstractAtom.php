@@ -1,7 +1,7 @@
 <?php
 namespace Desmond\data_types;
 
-abstract class Type
+abstract class AbstractAtom
 {
     private $name;
     private $value;

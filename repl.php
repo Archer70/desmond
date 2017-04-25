@@ -11,7 +11,9 @@ do {
     $input = fgets(STDIN);
     if (!empty($input)) {
         $commands[] = $input;
-        $return = $evaluator->getReturn($lexer->readString($input))->value();
-        echo "#> $return\n";
+        $ast = $lexer->readString($input);
+        print_r($ast);
+        $return = $evaluator->getReturn($ast);
+        echo "#> {$return->value()}\n";
     }
 } while (!feof(STDIN));

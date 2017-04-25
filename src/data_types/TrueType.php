@@ -1,7 +1,7 @@
 <?php
 namespace Desmond\data_types;
 
-class TrueType extends Type
+class TrueType extends AbstractAtom
 {
     public function __construct($token)
     {

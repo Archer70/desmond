@@ -1,7 +1,7 @@
 <?php
 namespace Desmond\data_types;
 
-class FalseType extends Type
+class FalseType extends AbstractAtom
 {
     public function __construct($token)
     {
