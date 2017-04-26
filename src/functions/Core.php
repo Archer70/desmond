@@ -3,6 +3,7 @@ namespace Desmond\functions;
 use Desmond\data_types\IntegerType;
 use Desmond\data_types\StringType;
 use Desmond\data_types\TrueType;
+use Desmond\Environment;
 
 class Core
 {
@@ -15,14 +16,14 @@ class Core
         'print-line' => 'outputPrintLine'
     ];
 
-    public static function run($func, $args)
+    public static function loadInto(Environment $env)
     {
-        if (array_key_exists($func, self::$FUNCTION_LIST)) {
-            return self::{self::$FUNCTION_LIST[$func]}($args);
+        foreach (self::$FUNCTION_LIST as $func => $name) {
+            $env->set($func, "Desmond\\functions\\Core::$name");
         }
     }
 
-    private static function addition($args)
+    public static function addition($args)
     {
         $value = 0;
         foreach ($args as $arg) {
@@ -31,7 +32,7 @@ class Core
         return new IntegerType($value);
     }
 
-    private static function subtraction($args)
+    public static function subtraction($args)
     {
         $value = $args[0]->value();
         array_shift($args);
@@ -41,7 +42,7 @@ class Core
         return new IntegerType($value);
     }
 
-    private static function multiplication($args)
+    public static function multiplication($args)
     {
         $value = $args[0]->value();
         array_shift($args);
@@ -51,7 +52,7 @@ class Core
         return new IntegerType($value);
     }
 
-    private static function division($args)
+    public static function division($args)
     {
         $value = $args[0]->value();
         array_shift($args);
@@ -61,13 +62,13 @@ class Core
         return new IntegerType($value);
     }
 
-    private static function outputPrint($string)
+    public static function outputPrint($string)
     {
         print($string[0]->value());
         return $string[0];
     }
 
-    private static function outputPrintLine($string)
+    public static function outputPrintLine($string)
     {
         print($string[0]->value() . "\n");
         return $string[0];

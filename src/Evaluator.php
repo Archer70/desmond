@@ -6,6 +6,12 @@ use Desmond\data_types\TrueType;
 
 class Evaluator
 {
+    public function __construct()
+    {
+        $this->coreEnv = new Environment();
+        Core::loadInto($this->coreEnv);
+    }
+
     public function getReturn($ast)
     {
         if (!is_array($ast)) {
@@ -18,7 +24,8 @@ class Evaluator
                     $ast[$formIndex] = $this->getReturn($atom);
                 }
             }
-            return CORE::run($function->name(), $ast);
+            $actualFunction = $this->coreEnv->get($function->name());
+            return call_user_func($actualFunction, $ast);
         }
     }
 }
