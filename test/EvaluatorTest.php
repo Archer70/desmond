@@ -59,4 +59,12 @@ class EvaluatorTest extends TestCase
         $ast = $this->lexer->readString('(+ 1 2 (+ 3 4) (- 6 2))'); // (+ 3 7 4)
         $this->assertEquals(14, $this->eval->getReturn($ast)->value());
     }
+
+    public function testDefine()
+    {
+        $ast = $this->lexer->readString('(define my-sym "it worked")');
+        $this->eval->getReturn($ast);
+        $ast = $this->lexer->readString('my-sym');
+        $this->assertEquals('it worked', $this->eval->getReturn($ast)->value());
+    }
 }
