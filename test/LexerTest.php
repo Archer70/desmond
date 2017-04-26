@@ -48,14 +48,14 @@ class LexerTest extends TestCase
     {
         $symbol = $this->lexer->readString('my-sym');
         $this->assertInstanceOf('Desmond\data_types\SymbolType', $symbol);
-        $this->assertEquals('my-sym', $symbol->name());
+        $this->assertEquals('my-sym', $symbol->value());
     }
 
     public function testForm()
     {
         $tree = $this->lexer->readString('(+ 1 2)');
         $this->assertEquals(3, count($tree));
-        $this->assertEquals('+', $tree[0]->name());
+        $this->assertEquals('+', $tree[0]->value());
         $this->assertEquals(1, $tree[1]->value());
         $this->assertEquals(2, $tree[2]->value());
     }

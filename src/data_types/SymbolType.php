@@ -6,6 +6,6 @@ class SymbolType extends AbstractAtom
 {
     public function __construct($token)
     {
-        $this->setName($token);
+        $this->setValue($token);
     }
 }
