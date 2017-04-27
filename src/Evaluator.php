@@ -4,6 +4,8 @@ use Desmond\functions\Core as CoreFunctions;
 use Desmond\data_types\ListType;
 use Desmond\data_types\VectorType;
 use Desmond\data_types\HashType;
+use Desmond\data_types\SymbolType;
+use Desmond\data_types\IntegerType;
 use Exception;
 
 class Evaluator
@@ -20,7 +22,6 @@ class Evaluator
 
     public function getReturn($ast)
     {
-
         if ($ast instanceof ListType) {
             return $this->evalForm($ast);
         } else if ($ast instanceof VectorType || $ast instanceof HashType) {
@@ -32,11 +33,12 @@ class Evaluator
 
     private function evalAtom($atom)
     {
+        if (!($atom instanceof SymbolType || $atom instanceof IntegerType)) {
+            return $atom;
+        }
         try {
             $value = $this->currentEnv->get($atom->value());
-            if ($value) { // TODO Find out why I did this.
-                return $value;
-            };
+            return $value;
         } catch (Exception $exeption) {
             return $atom;
         }

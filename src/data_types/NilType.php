@@ -7,4 +7,9 @@ class NilType extends AbstractAtom
     {
         $this->setValue(null);
     }
+
+    public function __toString()
+    {
+        return 'nil';
+    }
 }

@@ -7,4 +7,9 @@ class TrueType extends AbstractAtom
     {
         $this->setValue(true);
     }
+
+    public function __toString()
+    {
+        return 'true';
+    }
 }

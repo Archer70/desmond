@@ -7,4 +7,9 @@ class FalseType extends AbstractAtom
     {
         $this->setValue(false);
     }
+
+    public function __toString()
+    {
+        return 'false';
+    }
 }
