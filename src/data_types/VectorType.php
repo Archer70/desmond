@@ -4,5 +4,8 @@ use Desmond\data_types\AbstractCollection;
 
 class VectorType extends AbstractCollection
 {
-    
+    public function ends()
+    {
+        return ['[', ']'];
+    }
 }

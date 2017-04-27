@@ -13,7 +13,7 @@ do {
         $commands[] = $input;
         try {
             $ast = $lexer->readString($input);
-            $return = $evaluator->getReturn($ast)->value();
+            $return = $evaluator->getReturn($ast);
         } catch (Exception $exception) {
             echo "#! {$exception->getMessage()}\n";
             continue;

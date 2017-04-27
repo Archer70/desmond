@@ -2,6 +2,7 @@
 namespace Desmond;
 use Desmond\functions\Core;
 use Desmond\data_types\ListType;
+use Desmond\data_types\VectorType;
 use Exception;
 
 class Evaluator
@@ -17,6 +18,8 @@ class Evaluator
 
         if ($ast instanceof ListType) {
             return $this->evalForm($ast);
+        } else if ($ast instanceof VectorType) {
+            return $this->evalCollection($ast);
         } else { // Form
             return $this->evalAtom($ast);
         }
@@ -26,7 +29,7 @@ class Evaluator
     {
         try {
             $value = $this->coreEnv->get($atom->value());
-            if ($value) {
+            if ($value) { // TODO Find out why I did this.
                 return $value;
             };
         } catch (Exception $exeption) {
@@ -49,5 +52,14 @@ class Evaluator
         }
         $actualFunction = $this->coreEnv->get($function->value());
         return call_user_func($actualFunction, $args);
+    }
+
+    public function evalCollection($ast)
+    {
+        $collection = $ast;
+        foreach ($collection->value() as $key => $value) {
+            $collection->set($this->getReturn($value), $key);
+        }
+        return $collection;
     }
 }

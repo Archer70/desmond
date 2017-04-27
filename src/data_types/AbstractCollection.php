@@ -5,6 +5,8 @@ abstract class AbstractCollection
 {
     protected $collection = [];
 
+    protected abstract function ends();
+
     public function get($key)
     {
         return array_key_exists($key, $this->collection)
@@ -42,10 +44,13 @@ abstract class AbstractCollection
         return $this->collection; // IDK. This will probably be gone soon.
     }
 
-    public function dump()
+    public function __toString()
     {
-        foreach ($this->collection as $item) {
-            print_r($item);
+        $string = '';
+        for ($i=0; $i<count($this->collection); $i++) {
+            $prefix = $i == 0 ? '' : ', ';
+            $string .= $prefix . $this->collection[$i]->value();
         }
+        return $this->ends()[0] . $string . $this->ends()[1];
     }
 }

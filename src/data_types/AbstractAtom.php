@@ -19,4 +19,9 @@ abstract class AbstractAtom
     {
         return __CLASS__;
     }
+
+    public function __toString()
+    {
+        return (string) $this->value();
+    }
 }
