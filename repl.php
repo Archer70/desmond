@@ -11,9 +11,13 @@ do {
     $input = fgets(STDIN);
     if (!empty($input)) {
         $commands[] = $input;
-        $ast = $lexer->readString($input);
-        print_r($ast);
-        $return = $evaluator->getReturn($ast);
-        echo "#> {$return->value()}\n";
+        try {
+            $ast = $lexer->readString($input);
+            $return = $evaluator->getReturn($ast)->value();
+        } catch (Exception $exception) {
+            echo "#! {$exception->getMessage()}\n";
+            continue;
+        }
+        echo "#> {$return}\n";
     }
 } while (!feof(STDIN));
