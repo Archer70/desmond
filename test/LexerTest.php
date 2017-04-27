@@ -1,6 +1,8 @@
 <?php
 use PHPUnit\Framework\TestCase;
 use Desmond\Lexer;
+use Desmond\data_types\VectorType;
+use Desmon\data_types\HashType;
 
 class LexerTest extends TestCase
 {
@@ -51,12 +53,58 @@ class LexerTest extends TestCase
         $this->assertEquals('my-sym', $symbol->value());
     }
 
-    // public function testVector()
-    // {
-    //     $tree = $this->lexer->readString('[1 2 3]');
-    //     $this->assertEquals(3, count($tree));
-    //     $this->assertEquals(2, $tree[2]->value());
-    // }
+    public function testVector()
+    {
+        $tree = $this->lexer->readString('[1 2 3]');
+        $this->assertEquals(3, $tree->count());
+        $this->assertEquals(2, $tree->get(1)->value());
+    }
+
+    public function testMultiLevelVectors()
+    {
+        $tree = $this->lexer->readString('[1 2 [3 4]]');
+        $nestedVector = $tree->get(2);
+        $this->assertTrue($nestedVector instanceof VectorType);
+        $this->assertEquals(3, $nestedVector->get(0)->value());
+    }
+
+    public function testHash()
+    {
+        $tree = $this->lexer->readString('{key "val"}');
+        $this->assertInstanceOf('Desmond\\data_types\\HashType', $tree);
+        $this->assertInstanceOf('Desmond\\data_types\\StringType', $tree->get('key'));
+    }
+
+    public function testMultipleHashPairs()
+    {
+        $tree = $this->lexer->readString('{:key1 "one" :key2 "two"}');
+        $this->assertEquals('one', $tree->get(':key1')->value());
+        $this->assertEquals('two', $tree->get(':key2')->value());
+    }
+
+    public function testNestedHashes()
+    {
+        $tree = $this->lexer->readString('{:key {:nested 1}}');
+        $this->assertInstanceOf('Desmond\\data_types\\IntegerType', $tree->get(':key')->get(':nested'));
+    }
+
+    /**
+     * @expectedException Exception
+     * @expectedExceptionMessage Unexpected end of hash. Every key must have a value.
+     */
+    public function testUnmatchedHashKey()
+    {
+        $this->lexer->readString('{:one "val" :two}');
+    }
+
+    /**
+     * @expectedException Exception
+     * @expectedExceptionMessage Expected "}", found EOF.
+     */
+    public function testUnmatchedCurlyBrace()
+    {
+        $this->lexer->readString('{:one "one"');
+    }
 
     public function testForm()
     {
@@ -76,7 +124,7 @@ class LexerTest extends TestCase
 
     /**
      * @expectedException Exception
-     * @expectedExceptionMessage Expected ")", found EOL.
+     * @expectedExceptionMessage Expected ")", found EOF.
      */
     public function testUnmatchedClosingParen()
     {

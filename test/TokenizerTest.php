@@ -55,4 +55,9 @@ class TokenizerTest extends TestCase
     {
         $this->assertEquals(['sym1', '1', '+'], Tokenizer::tokenize('sym1 1 +'));
     }
+
+    public function testMap()
+    {
+        $this->assertEquals(['{', 'key', '"val"', '}'], Tokenizer::tokenize('{key "val"}'));
+    }
 }

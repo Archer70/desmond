@@ -4,6 +4,8 @@ use Exception;
 use Desmond\Reader;
 use Desmond\Tokenizer;
 use Desmond\data_types\ListType;
+use Desmond\data_types\VectorType;
+use Desmond\data_types\HashType;
 use Desmond\data_types\SymbolType;
 use Desmond\data_types\IntegerType;
 use Desmond\data_types\NilType;
@@ -15,6 +17,7 @@ class Lexer
 {
     private static $CONDITON = 0;
     private static $VALUE = 1;
+    private $hashTokenIsKey = true;
 
     public function readString($string)
     {
@@ -31,29 +34,56 @@ class Lexer
             case '(':
                 $reader->next();
                 $collection = new ListType();
-                return $this->readList($reader, $collection);
-                break;
+                return $this->readCollection($reader, $collection, ')');
             case ')':
                 throw new Exception('unexpected )');
-                break;
+            case '[':
+                $reader->next();
+                $collection = new VectorType();
+                return $this->readCollection($reader, $collection, ']');
+            case ']':
+                throw new Exception('unexpected )');
+            case '{':
+                $reader->next();
+                $hash = new HashType();
+                return $this->readHash($reader, $hash);
+            case '}':
+                throw new Exception('unexpected }');
             default:
                 $form = $this->readAtom($reader->peek());
                 $reader->next();
                 return $form;
-                break;
         }
     }
 
-    private function readList(Reader $reader, $collection)
+    private function readCollection(Reader $reader, $collection, $end)
     {
-        while (($token = $reader->peek()) !== ')') {
+        while (($token = $reader->peek()) !== $end) {
             if ($token === null) {
-                throw new Exception('Expected ")", found EOL.');
+                throw new Exception('Expected "' . $end . '", found EOF.');
             }
             $collection->set($this->readForm($reader));
         }
         $reader->next();
         return $collection;
+    }
+
+    private function readHash(Reader $reader, $hash)
+    {
+        while (($token = $reader->peek()) !== '}') {
+            if ($token === null) {
+                throw new Exception('Expected "}", found EOF.');
+            }
+            $key = $this->readForm($reader);
+            try {
+                $value = $this->readForm($reader);
+            } catch (Exception $exeption) {
+                throw new Exception('Unexpected end of hash. Every key must have a value.');
+            }
+            $hash->set($value, $key->value());
+        }
+        $reader->next();
+        return $hash;
     }
 
     private function readAtom($token)
