@@ -1,8 +1,7 @@
 <?php
 namespace Desmond;
 use Desmond\functions\Core;
-use Desmond\data_types\IntegerType;
-use Desmond\data_types\TrueType;
+use Desmond\data_types\ListType;
 use Exception;
 
 class Evaluator
@@ -15,10 +14,11 @@ class Evaluator
 
     public function getReturn($ast)
     {
-        if (!is_array($ast)) {
-            return $this->evalAtom($ast);
-        } else { // Form
+
+        if ($ast instanceof ListType) {
             return $this->evalForm($ast);
+        } else { // Form
+            return $this->evalAtom($ast);
         }
     }
 
@@ -36,18 +36,18 @@ class Evaluator
 
     private function evalForm($form)
     {
-        $function = $form[0];
-        array_shift($form);
+        $function = $form->getFunction();
+        $args = $form->getArgs();
         if ($function->value() == 'define') {
-            $this->coreEnv->set($form[0]->value(), $form[1]);
-            return $form[1];
+            $this->coreEnv->set($args[0]->value(), $args[1]);
+            return $args[1];
         }
-        foreach ($form as $formIndex => $atom) {
-            if (is_array($atom)) { // Sub form
-                $form[$formIndex] = $this->getReturn($atom);
+        foreach ($args as $formIndex => $atom) {
+            if ($atom instanceof ListType) { // Sub form
+                $args[$formIndex] = $this->getReturn($atom);
             }
         }
         $actualFunction = $this->coreEnv->get($function->value());
-        return call_user_func($actualFunction, $form);
+        return call_user_func($actualFunction, $args);
     }
 }

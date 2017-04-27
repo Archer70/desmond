@@ -3,6 +3,7 @@ namespace Desmond;
 use Exception;
 use Desmond\Reader;
 use Desmond\Tokenizer;
+use Desmond\data_types\ListType;
 use Desmond\data_types\SymbolType;
 use Desmond\data_types\IntegerType;
 use Desmond\data_types\NilType;
@@ -26,11 +27,11 @@ class Lexer
 
     private function readForm(Reader $reader)
     {
-        $form = null;
         switch ($reader->peek()) {
             case '(':
                 $reader->next();
-                $form =  $this->readList($reader);
+                $collection = new ListType();
+                return $this->readList($reader, $collection);
                 break;
             case ')':
                 throw new Exception('unexpected )');
@@ -38,22 +39,21 @@ class Lexer
             default:
                 $form = $this->readAtom($reader->peek());
                 $reader->next();
+                return $form;
                 break;
         }
-        return $form;
     }
 
-    private function readList(Reader $reader)
+    private function readList(Reader $reader, $collection)
     {
-        $syntaxTree = [];
         while (($token = $reader->peek()) !== ')') {
             if ($token === null) {
                 throw new Exception('Expected ")", found EOL.');
             }
-            $syntaxTree[] = $this->readForm($reader);
+            $collection->set($this->readForm($reader));
         }
         $reader->next();
-        return $syntaxTree;
+        return $collection;
     }
 
     private function readAtom($token)

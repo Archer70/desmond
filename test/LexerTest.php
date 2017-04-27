@@ -51,20 +51,27 @@ class LexerTest extends TestCase
         $this->assertEquals('my-sym', $symbol->value());
     }
 
+    // public function testVector()
+    // {
+    //     $tree = $this->lexer->readString('[1 2 3]');
+    //     $this->assertEquals(3, count($tree));
+    //     $this->assertEquals(2, $tree[2]->value());
+    // }
+
     public function testForm()
     {
-        $tree = $this->lexer->readString('(+ 1 2)');
-        $this->assertEquals(3, count($tree));
-        $this->assertEquals('+', $tree[0]->value());
-        $this->assertEquals(1, $tree[1]->value());
-        $this->assertEquals(2, $tree[2]->value());
+        $list = $this->lexer->readString('(+ 1 2)');
+        $this->assertEquals(3, $list->count());
+        $this->assertEquals('+', $list->get(0)->value());
+        $this->assertEquals(1, $list->get(1)->value());
+        $this->assertEquals(2, $list->get(2)->value());
     }
 
     public function testRecursiveTree()
     {
         $tree = $this->lexer->readString('(1 (2))');
-        $this->assertInstanceOf('Desmond\data_types\IntegerType', $tree[0]);
-        $this->assertInstanceOf('Desmond\data_types\IntegerType', $tree[1][0]);
+        $this->assertInstanceOf('Desmond\data_types\IntegerType', $tree->get(0));
+        $this->assertInstanceOf('Desmond\data_types\IntegerType', $tree->get(1)->get(0));
     }
 
     /**
