@@ -67,6 +67,16 @@ class EvaluatorTest extends TestCase
         $this->assertEquals('it worked', $this->eval->getReturn($ast)->value());
     }
 
+    public function testDefineCondition()
+    {
+        $ast = $this->lexer->readString('(define :hello (if true "world" "universe"))');
+        $this->eval->getReturn($ast);
+        $ast = $this->lexer->readString(':hello');
+        $result = $this->eval->getReturn($ast);
+        $this->assertInstanceOf('Desmond\\data_types\\StringType', $result);
+        $this->assertEquals('world', $result->value());
+    }
+
     public function testDefinedSymInForm()
     {
         $ast = $this->lexer->readString('(define :five 5)');

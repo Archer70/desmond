@@ -74,8 +74,9 @@ class Evaluator
 
     private function defineVar($name, $var)
     {
-        $this->currentEnv->set($name->value(), $var);
-        return $var;
+        $value = $this->getReturn($var);
+        $this->currentEnv->set($name->value(), $value);
+        return $value;
     }
 
     private function doLet($hash, $function)
@@ -119,7 +120,7 @@ class Evaluator
         if ($condition !== null && $condition !== false) {
             return $this->getReturn($args[1]);
         } else {
-            return isset($args[2]) ? $args[2] : new NilType();
+            return isset($args[2]) ? $this->getReturn($args[2]) : new NilType();
         }
     }
 
