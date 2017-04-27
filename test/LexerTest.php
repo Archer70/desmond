@@ -130,4 +130,10 @@ class LexerTest extends TestCase
     {
         $this->lexer->readString('(+ 1 2');
     }
+
+    public function testIfForm()
+    {
+        $result = $this->lexer->readString('(if false "yes" "no")');
+        $this->assertEquals('yes', $result->get(2)->value());
+    }
 }

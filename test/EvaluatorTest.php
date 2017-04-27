@@ -97,4 +97,22 @@ class EvaluatorTest extends TestCase
         $do = $this->eval->getReturn($ast);
         $this->assertEquals(6, $do->value());
     }
+
+    public function testIf()
+    {
+        $ast = $this->lexer->readString('(if true "yay")');
+        $result = $this->eval->getReturn($ast);
+        $this->assertEquals('yay', $result->value());
+
+        $ast = $this->lexer->readString('(if false "nope")');
+        $result = $this->eval->getReturn($ast);
+        $this->assertNull($result->value());
+    }
+
+    public function testIfElse()
+    {
+        $ast = $this->lexer->readString('(if false "yep" "nope")');
+        $result = $this->eval->getReturn($ast);
+        $this->assertEquals('nope', $result->value());
+    }
 }

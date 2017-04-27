@@ -6,6 +6,7 @@ use Desmond\data_types\VectorType;
 use Desmond\data_types\HashType;
 use Desmond\data_types\SymbolType;
 use Desmond\data_types\IntegerType;
+use Desmond\data_types\NilType;
 use Exception;
 
 class Evaluator
@@ -54,6 +55,9 @@ class Evaluator
             return $this->doLet($args[0], $args[1]);
         } else if ($function == 'do') {
             return $this->doBlock($args);
+        } else if ($function == 'if') {
+
+            return $this->doConditional($args);
         } else {
             return $this->doEnvironmentFunction($function, $args);
         }
@@ -107,6 +111,16 @@ class Evaluator
             $this->getReturn($arg);
         }
         return $this->getReturn($last);
+    }
+
+    private function doConditional($args)
+    {
+        $condition = $this->getReturn($args[0])->value();
+        if ($condition !== null && $condition !== false) {
+            return $this->getReturn($args[1]);
+        } else {
+            return isset($args[2]) ? $args[2] : new NilType();
+        }
     }
 
     private function getNewEnvId()
