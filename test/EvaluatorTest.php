@@ -36,11 +36,27 @@ class EvaluatorTest extends TestCase
         $this->assertEquals(2, $this->eval->getReturn($ast)->get(1)->value());
     }
 
-    public function testVectorEvaluatesSymbols()
+    public function testVectorEvaluatesForms()
     {
         $ast = $this->lexer->readString('[(+ 2 3)]');
         $vector = $this->eval->getReturn($ast);
         $this->assertEquals(5, $vector->get(0)->value());
+    }
+
+    public function testHash()
+    {
+        $ast = $this->lexer->readString('{:key 1}');
+        $hash = $this->eval->getReturn($ast);
+        $this->assertInstanceOf('Desmond\\data_types\\HashType', $hash);
+        $this->assertEquals(1, $hash->get(':key')->value());
+    }
+
+    public function testHashEvaluatesForms()
+    {
+        $ast = $this->lexer->readString('{:key (+ 1 2)}');
+        $hash = $this->eval->getReturn($ast);
+        $this->assertInstanceOf('Desmond\\data_types\\IntegerType', $hash->get(':key'));
+        $this->assertEquals(3, $hash->get(':key')->value());
     }
 
     public function testDefine()

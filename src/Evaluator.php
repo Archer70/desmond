@@ -3,6 +3,7 @@ namespace Desmond;
 use Desmond\functions\Core;
 use Desmond\data_types\ListType;
 use Desmond\data_types\VectorType;
+use Desmond\data_types\HashType;
 use Exception;
 
 class Evaluator
@@ -18,9 +19,9 @@ class Evaluator
 
         if ($ast instanceof ListType) {
             return $this->evalForm($ast);
-        } else if ($ast instanceof VectorType) {
+        } else if ($ast instanceof VectorType || $ast instanceof HashType) {
             return $this->evalCollection($ast);
-        } else { // Form
+        } else {
             return $this->evalAtom($ast);
         }
     }
