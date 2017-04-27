@@ -47,9 +47,11 @@ abstract class AbstractCollection
     public function __toString()
     {
         $string = '';
-        for ($i=0; $i<count($this->collection); $i++) {
-            $prefix = $i == 0 ? '' : ', ';
-            $string .= $prefix . $this->collection[$i]->value();
+        $first = true;
+        foreach ($this->collection as $key => $val) {
+            $separator = $first ? '' : ', ';
+            $first = false;
+            $string .= $separator. $key. ': '. $val->value();
         }
         return $this->ends()[0] . $string . $this->ends()[1];
     }
