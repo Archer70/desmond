@@ -66,4 +66,28 @@ class EvaluatorTest extends TestCase
         $ast = $this->lexer->readString('my-sym');
         $this->assertEquals('it worked', $this->eval->getReturn($ast)->value());
     }
+
+    public function testDefinedSymInForm()
+    {
+        $ast = $this->lexer->readString('(define :five 5)');
+        $this->eval->getReturn($ast);
+        $ast = $this->lexer->readString('(+ 1 :five)');
+        $this->assertEquals(6, $this->eval->getReturn($ast)->value());
+    }
+
+    public function testLetIsOwnEnvironment()
+    {
+        $ast = $this->lexer->readString('(let {:num 5} :num)');
+        $this->eval->getReturn($ast);
+        $ast = $this->lexer->readString(':num');
+        $this->assertNotEquals(5, $this->eval->getReturn($ast)->value());
+    }
+
+    public function testLet()
+    {
+        $ast = $this->lexer->readString('(let {:num 5} :num)');
+        $letBlock = $this->eval->getReturn($ast);
+        $this->assertInstanceOf('Desmond\\data_types\\IntegerType', $letBlock);
+        $this->assertEquals(5, $letBlock->value());
+    }
 }

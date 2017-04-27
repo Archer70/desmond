@@ -1,6 +1,6 @@
 <?php
 namespace Desmond;
-use Desmond\functions\Core;
+use Desmond\functions\Core as CoreFunctions;
 use Desmond\data_types\ListType;
 use Desmond\data_types\VectorType;
 use Desmond\data_types\HashType;
@@ -8,10 +8,14 @@ use Exception;
 
 class Evaluator
 {
+    private $coreEnv;
+    private $currentEnv;
+
     public function __construct()
     {
         $this->coreEnv = new Environment();
-        Core::loadInto($this->coreEnv);
+        $this->currentEnv = $this->coreEnv;
+        CoreFunctions::loadInto($this->coreEnv);
     }
 
     public function getReturn($ast)
@@ -29,7 +33,7 @@ class Evaluator
     private function evalAtom($atom)
     {
         try {
-            $value = $this->coreEnv->get($atom->value());
+            $value = $this->currentEnv->get($atom->value());
             if ($value) { // TODO Find out why I did this.
                 return $value;
             };
@@ -43,16 +47,12 @@ class Evaluator
         $function = $form->getFunction();
         $args = $form->getArgs();
         if ($function->value() == 'define') {
-            $this->coreEnv->set($args[0]->value(), $args[1]);
-            return $args[1];
+            return $this->defineVar($args[0], $args[1]);
+        } else if ($function->value() == 'let') {
+            return $this->doLet($args[0], $args[1]);
+        } else {
+            return $this->doEnvironmentFunction($function->value(), $args);
         }
-        foreach ($args as $formIndex => $atom) {
-            if ($atom instanceof ListType) { // Sub form
-                $args[$formIndex] = $this->getReturn($atom);
-            }
-        }
-        $actualFunction = $this->coreEnv->get($function->value());
-        return call_user_func($actualFunction, $args);
     }
 
     public function evalCollection($ast)
@@ -62,5 +62,44 @@ class Evaluator
             $collection->set($this->getReturn($value), $key);
         }
         return $collection;
+    }
+
+    private function defineVar($name, $var)
+    {
+        $this->currentEnv->set($name->value(), $var);
+        return $var;
+    }
+
+    private function doLet($hash, $function)
+    {
+        $envId = $this->getNewEnvId();
+        $newEnv = new Environment($this->currentEnv);
+        $previousEnv = $this->currentEnv;
+        $this->currentEnv->set($envId, $newEnv);
+        $this->currentEnv = $newEnv;
+        foreach ($hash->value() as $key => $val) {
+            $this->currentEnv->set($key, $this->getReturn($val));
+        }
+        $funcVal = $this->getReturn($function);
+        $this->currentEnv = $previousEnv;
+        unset($this->currentEnv->values[$envId]);
+        return $funcVal;
+    }
+
+    function doEnvironmentFunction($function, $args)
+    {
+        foreach ($args as $formIndex => $atom) {
+            $args[$formIndex] = $this->getReturn($atom);
+        }
+        $actualFunction = $this->currentEnv->get($function);
+        return call_user_func($actualFunction, $args);
+    }
+
+    private function getNewEnvId()
+    {
+        do {
+            $envId = 'let_' . mt_rand(); // Most probably, this will only happen once.
+        } while (array_key_exists($envId, $this->currentEnv->values));
+        return $envId;
     }
 }
