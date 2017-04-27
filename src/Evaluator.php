@@ -46,14 +46,16 @@ class Evaluator
 
     private function evalForm($form)
     {
-        $function = $form->getFunction();
+        $function = $form->getFunction()->value();
         $args = $form->getArgs();
-        if ($function->value() == 'define') {
+        if ($function == 'define') {
             return $this->defineVar($args[0], $args[1]);
-        } else if ($function->value() == 'let') {
+        } else if ($function == 'let') {
             return $this->doLet($args[0], $args[1]);
+        } else if ($function == 'do') {
+            return $this->doBlock($args);
         } else {
-            return $this->doEnvironmentFunction($function->value(), $args);
+            return $this->doEnvironmentFunction($function, $args);
         }
     }
 
@@ -88,13 +90,23 @@ class Evaluator
         return $funcVal;
     }
 
-    function doEnvironmentFunction($function, $args)
+    private function doEnvironmentFunction($function, $args)
     {
         foreach ($args as $formIndex => $atom) {
             $args[$formIndex] = $this->getReturn($atom);
         }
         $actualFunction = $this->currentEnv->get($function);
         return call_user_func($actualFunction, $args);
+    }
+
+    private function doBlock($args)
+    {
+        $last = end($args);
+        array_pop($args);
+        foreach($args as $arg) {
+            $this->getReturn($arg);
+        }
+        return $this->getReturn($last);
     }
 
     private function getNewEnvId()

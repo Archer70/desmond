@@ -75,6 +75,14 @@ class EvaluatorTest extends TestCase
         $this->assertEquals(6, $this->eval->getReturn($ast)->value());
     }
 
+    public function testLet()
+    {
+        $ast = $this->lexer->readString('(let {:num 5} :num)');
+        $letBlock = $this->eval->getReturn($ast);
+        $this->assertInstanceOf('Desmond\\data_types\\IntegerType', $letBlock);
+        $this->assertEquals(5, $letBlock->value());
+    }
+
     public function testLetIsOwnEnvironment()
     {
         $ast = $this->lexer->readString('(let {:num 5} :num)');
@@ -83,11 +91,10 @@ class EvaluatorTest extends TestCase
         $this->assertNotEquals(5, $this->eval->getReturn($ast)->value());
     }
 
-    public function testLet()
+    public function testDo()
     {
-        $ast = $this->lexer->readString('(let {:num 5} :num)');
-        $letBlock = $this->eval->getReturn($ast);
-        $this->assertInstanceOf('Desmond\\data_types\\IntegerType', $letBlock);
-        $this->assertEquals(5, $letBlock->value());
+        $ast = $this->lexer->readString('(do (define :five 5) (+ 1 :five))');
+        $do = $this->eval->getReturn($ast);
+        $this->assertEquals(6, $do->value());
     }
 }
