@@ -125,4 +125,37 @@ class EvaluatorTest extends TestCase
         $result = $this->eval->getReturn($ast);
         $this->assertEquals('nope', $result->value());
     }
+
+    public function testLamda()
+    {
+        $ast = $this->lexer->readString('(lambda [arg] arg)');
+        $result = $this->eval->getReturn($ast);
+        $this->assertInstanceOf('Desmond\\data_types\\LambdaType', $result);
+    }
+
+    public function testEvalutationOfLambda()
+    {
+        $ast = $this->lexer->readString('((lambda [arg] arg) "executed!")');
+        $result = $this->eval->getReturn($ast);
+        $this->assertEquals('executed!', $result->value());
+
+        $ast = $this->lexer->readString('((lambda [:x :y] (+ :x :y)) 1 2)');
+        $result = $this->eval->getReturn($ast);
+        $this->assertEquals(3, $result->value());
+    }
+
+    public function testDefineLambda()
+    {
+        $ast = $this->lexer->readString('
+(do
+    (define my-func
+        (lambda [:x :y]
+            (+ :x :y)
+        )
+    )
+    (my-func 1 2)
+)');
+        $result = $this->eval->getReturn($ast);
+        $this->assertEquals(3, $result->value());
+    }
 }

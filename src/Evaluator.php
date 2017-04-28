@@ -4,6 +4,7 @@ use Desmond\functions\Core as CoreFunctions;
 use Desmond\data_types\ListType;
 use Desmond\data_types\VectorType;
 use Desmond\data_types\HashType;
+use Desmond\data_types\LambdaType;
 use Desmond\data_types\SymbolType;
 use Desmond\data_types\IntegerType;
 use Desmond\data_types\NilType;
@@ -12,7 +13,7 @@ use Exception;
 class Evaluator
 {
     private $coreEnv;
-    private $currentEnv;
+    public $currentEnv;
 
     public function __construct()
     {
@@ -47,7 +48,11 @@ class Evaluator
 
     private function evalForm($form)
     {
-        $function = $form->getFunction()->value();
+        if ($form->get(0) instanceof ListType || $this->getReturn($form->get(0)) instanceof LambdaType) {
+            $function = $this->getReturn($form->get(0));
+        } else {
+            $function = $form->getFunction()->value();
+        }
         $args = $form->getArgs();
         if ($function == 'define') {
             return $this->defineVar($args[0], $args[1]);
@@ -56,8 +61,13 @@ class Evaluator
         } else if ($function == 'do') {
             return $this->doBlock($args);
         } else if ($function == 'if') {
-
             return $this->doConditional($args);
+        } else if ($function == 'lambda') {
+            $lambdaArgs = $args[0];
+            $body = $args[1];
+            return new LambdaType($this, $lambdaArgs, $body);
+        } else if ($function instanceof LambdaType) {
+            return $function->run($args);
         } else {
             return $this->doEnvironmentFunction($function, $args);
         }
@@ -124,7 +134,7 @@ class Evaluator
         }
     }
 
-    private function getNewEnvId()
+    public function getNewEnvId()
     {
         do {
             $envId = 'let_' . mt_rand(); // Most probably, this will only happen once.
