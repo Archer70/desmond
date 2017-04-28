@@ -1,3 +1,4 @@
+#!/bin/php
 <?php
 use Desmond\Lexer;
 use Desmond\Evaluator;
@@ -9,6 +10,9 @@ $commands = [];
 do {
     echo 'user> ';
     $input = fgets(STDIN);
+    if ($input == "exit\n") {
+        exit("Later, guy.\n");
+    }
     if (!empty($input)) {
         $commands[] = $input;
         try {
