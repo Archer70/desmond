@@ -22,6 +22,6 @@ do {
             echo "#! {$exception->getMessage()}\n";
             continue;
         }
-        echo "#> {$return}\n";
+        echo "#> $return\n";
     }
 } while (!feof(STDIN));

@@ -39,6 +39,14 @@ class CoreTest extends TestCase
         $this->assertEquals(5, Core::division([$int1, $int2])->value());
     }
 
+    public function testEquals()
+    {
+        $equalArgs = [new IntegerType(7), new IntegerType(7), new IntegerType(7)];
+        $unequalArgs = [new IntegerType(7), new IntegerType(7), new IntegerType(5)];
+        $this->assertEquals(true, Core::equal($equalArgs)->value());
+        $this->assertEquals(false, Core::equal($unequalArgs)->value());
+    }
+
     public function testPrint()
     {
         $this->expectOutputString('test');

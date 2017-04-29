@@ -3,6 +3,7 @@ namespace Desmond\functions;
 use Desmond\data_types\IntegerType;
 use Desmond\data_types\StringType;
 use Desmond\data_types\TrueType;
+use Desmond\data_types\FalseType;
 use Desmond\Environment;
 
 class Core
@@ -12,6 +13,8 @@ class Core
         '-' => 'subtraction',
         '*' => 'multiplication',
         '/' => 'division',
+        '=' => 'equal',
+        'equal?' => 'equal',
         'print' => 'outputPrint',
         'print-line' => 'outputPrintLine'
     ];
@@ -60,6 +63,20 @@ class Core
             $value /= $number->value();
         }
         return new IntegerType($value);
+    }
+
+    public static function equal($args)
+    {
+        $last = $args[0];
+        array_shift($args);
+        $equal = false;
+        foreach ($args as $arg) {
+            if ($arg->value() !== $last->value()) {
+                return new FalseType();
+            }
+            $last = $arg;
+        }
+        return new TrueType();
     }
 
     public static function outputPrint($string)
