@@ -4,6 +4,7 @@ use Desmond\data_types\IntegerType;
 use Desmond\data_types\StringType;
 use Desmond\data_types\TrueType;
 use Desmond\data_types\FalseType;
+use Desmond\data_types\VoidType;
 use Desmond\Environment;
 
 class Core
@@ -79,15 +80,23 @@ class Core
         return new TrueType();
     }
 
-    public static function outputPrint($string)
+    public static function outputPrint($strings)
     {
-        print($string[0]->value());
-        return $string[0];
+        $string = '';
+        foreach ($strings as $arg) {
+            $string .= $arg->value();
+        }
+        print($string);
+        return new VoidType();
     }
 
-    public static function outputPrintLine($string)
+    public static function outputPrintLine($strings)
     {
-        print($string[0]->value() . "\n");
-        return $string[0];
+        $string = '';
+        foreach ($strings as $arg) {
+            $string .= $arg->value();
+        }
+        print($string . "\n");
+        return new VoidType();
     }
 }
