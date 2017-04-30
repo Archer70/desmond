@@ -49,13 +49,13 @@ class CoreTest extends TestCase
 
     public function testPrint()
     {
-        $this->expectOutputString('test');
-        Core::outputPrint([new StringType('test')]);
+        $this->expectOutputString('test words');
+        Core::outputPrint([new StringType('test'), new StringType(' words')]);
     }
 
     public function testPrintLine()
     {
-        $this->expectOutputString("test\n");
-        Core::outputPrintLine([new StringType('test')]);
+        $this->expectOutputString("test words\n");
+        Core::outputPrintLine([new StringType('test'), new StringType(' words')]);
     }
 }

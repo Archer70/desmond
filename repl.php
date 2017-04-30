@@ -2,6 +2,7 @@
 <?php
 use Desmond\Lexer;
 use Desmond\Evaluator;
+use Desmond\data_types\VoidType;
 require_once __DIR__ . '/test/bootstrap.php';
 
 $lexer = new Lexer();
@@ -17,7 +18,7 @@ do {
     if ($input == "exit\n") {
         exit("Later, guy.\n");
     }
-    if (!empty($input)) {
+    if (!empty($input) && !preg_match('/^;/', $input)) {
         $commands[] = $input;
         try {
             $ast = $lexer->readString($input);
@@ -26,6 +27,6 @@ do {
             echo "#! {$exception->getMessage()}\n";
             continue;
         }
-        echo "#> $return\n";
+        echo $return instanceof VoidType ? "\n" : "#> $return\n";
     }
 } while (!feof(STDIN));
