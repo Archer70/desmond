@@ -25,10 +25,14 @@ class ReaderTest extends TestCase
 
     public function testPeekReturnsNullIfEndOfTokens()
     {
-        $this->reader->next();
-        $this->reader->next();
-        $this->reader->next();
-        $this->reader->next();
+        $this->reader->next()->next()->next()->next();
         $this->assertNull($this->reader->peek());
+    }
+
+    public function testHasNext()
+    {
+        $this->assertTrue($this->reader->hasNext());
+        $this->reader->next()->next()->next();
+        $this->assertFalse($this->reader->hasNext());
     }
 }

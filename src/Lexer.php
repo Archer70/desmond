@@ -1,73 +1,112 @@
 <?php
 namespace Desmond;
+use Exception;
 use Desmond\Reader;
 use Desmond\Tokenizer;
-use Desmond\data_types\Symbol;
+use Desmond\data_types\ListType;
+use Desmond\data_types\VectorType;
+use Desmond\data_types\HashType;
+use Desmond\data_types\SymbolType;
+use Desmond\data_types\IntegerType;
+use Desmond\data_types\NilType;
+use Desmond\data_types\TrueType;
+use Desmond\data_types\FalseType;
+use Desmond\data_types\StringType;
 
 class Lexer
 {
+    private static $CONDITON = 0;
+    private static $VALUE = 1;
+    private $hashTokenIsKey = true;
+
     public function readString($string)
     {
         $tokens = Tokenizer::tokenize($string);
         if (empty($tokens)) {
-            throw new \Exception('No code.');
+            return null;
         }
-        $tree = $this->readForm(new Reader($tokens));
-        return $tree;
+        return $this->readForm(new Reader($tokens));
     }
 
-    public function readForm(Reader $reader)
+    private function readForm(Reader $reader)
     {
-        $form = null;
         switch ($reader->peek()) {
             case '(':
-                $form =  $this->readList($reader);
-                break;
+                $reader->next();
+                $collection = new ListType();
+                return $this->readCollection($reader, $collection, ')');
             case ')':
-                throw new \Exception('unexpected )');
-                break;
+                throw new Exception('unexpected )');
+            case '[':
+                $reader->next();
+                $collection = new VectorType();
+                return $this->readCollection($reader, $collection, ']');
+            case ']':
+                throw new Exception('unexpected )');
+            case '{':
+                $reader->next();
+                $hash = new HashType();
+                return $this->readHash($reader, $hash);
+            case '}':
+                throw new Exception('unexpected }');
             default:
-                $form = $this->readAtom($reader);
-                break;
+                $form = $this->readAtom($reader->peek());
+                $reader->next();
+                return $form;
         }
-        return $form;
     }
 
-    public function readList(Reader $reader)
+    private function readCollection(Reader $reader, $collection, $end)
     {
-        $syntaxTree = [];
-        $reader->next();
-        while (($token = $reader->peek()) !== ')') {
+        while (($token = $reader->peek()) !== $end) {
             if ($token === null) {
-                throw new \Exception('expected ); got EOL.');
+                throw new Exception('Expected "' . $end . '", found EOF.');
             }
-            $syntaxTree[] = $this->readForm($reader);
+            $collection->set($this->readForm($reader));
         }
         $reader->next();
-        return $syntaxTree;
+        return $collection;
     }
 
-    public function readAtom(Reader $reader)
+    private function readHash(Reader $reader, $hash)
     {
-        $token = $reader->peek();
+        while (($token = $reader->peek()) !== '}') {
+            if ($token === null) {
+                throw new Exception('Expected "}", found EOF.');
+            }
+            $key = $this->readForm($reader);
+            try {
+                $value = $this->readForm($reader);
+            } catch (Exception $exeption) {
+                throw new Exception('Unexpected end of hash. Every key must have a value.');
+            }
+            $hash->set($value, $key->value());
+        }
         $reader->next();
+        return $hash;
+    }
+
+    private function readAtom($token)
+    {
         $tokenLiteral = null;
-        if (preg_match('/^-?[0-9]+$/', $token)) {
-            $tokenLiteral = (int) $token;
-        } else if (preg_match('/^".*"$/', $token)) {
-            $tokenLiteral = preg_replace(
-                ['/^"|"$/', '/\\\"/', '/\\\n/'],
-                ['', '"', "\n"],
-                $token);
-        } else if ($token === 'nil') {
-            $tokenLiteral = null;
-        } else if ($token === 'true') {
-            $tokenLiteral = true;
-        } else if ($token === 'false') {
-            $tokenLiteral = false;
-        } else {
-            $tokenLiteral = new Symbol($token);
+        foreach ($this->tokenTestList($token) as $test) {
+            if ($test[self::$CONDITON]) {
+                $tokenLiteral = $test[self::$VALUE];
+                break;
+            }
         }
         return $tokenLiteral;
+    }
+
+    private function tokenTestList($token)
+    {
+        return [
+            [preg_match('/^-?[0-9]+$/', $token), new IntegerType($token)],
+            [preg_match('/^".*"$/', $token), new StringType($token)],
+            [$token === 'nil', new NilType($token)],
+            [$token === 'true', new TrueType($token)],
+            [$token === 'false', new FalseType($token)],
+            [true, new SymbolType($token)] // Basically, if it's nothing else, it's a symbol.
+        ];
     }
 }

@@ -14,10 +14,16 @@ class Reader
     public function next()
     {
         $this->position++;
+        return $this;
     }
 
     public function peek()
     {
         return $this->characters[$this->position] ?? null;
+    }
+
+    public function hasNext()
+    {
+        return isset($this->characters[$this->position + 1]);
     }
 }
