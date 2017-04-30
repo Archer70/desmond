@@ -7,8 +7,12 @@ require_once __DIR__ . '/test/bootstrap.php';
 $lexer = new Lexer();
 $evaluator = new Evaluator();
 $commands = [];
+echo "
+Copyright 2017, Scott Christianson
+Version 0.1.0
+Welcome to Desmond's REPL.\n\n";
 do {
-    echo 'user> ';
+    echo '/user λ ';
     $input = fgets(STDIN);
     if ($input == "exit\n") {
         exit("Later, guy.\n");
