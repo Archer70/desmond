@@ -86,4 +86,15 @@ class CoreTest extends TestCase
         $this->expectOutputString("test words\n");
         Core::outputPrintLine([new StringType('test'), new StringType(' words')]);
     }
+
+    public function testList()
+    {
+        $args = [
+            new SymbolType('+'),
+            new IntegerType(1),
+            new IntegerType(2)
+        ];
+        $this->assertInstanceOf('Desmond\\data_types\\ListType', Core::newList($args));
+        $this->assertInstanceOf('Desmond\\data_types\\SymbolType', Core::newList($args)->get(0));
+    }
 }

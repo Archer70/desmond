@@ -51,7 +51,7 @@ abstract class AbstractCollection
         foreach ($this->collection as $key => $val) {
             $separator = $first ? '' : ', ';
             $first = false;
-            $string .= $separator. $val->value();
+            $string .= $separator. $val->__toString();
         }
         return $this->ends()[0] . $string . $this->ends()[1];
     }

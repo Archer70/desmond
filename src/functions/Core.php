@@ -5,7 +5,7 @@ use Desmond\data_types\StringType;
 use Desmond\data_types\TrueType;
 use Desmond\data_types\FalseType;
 use Desmond\data_types\VoidType;
-use Desmond\data_types\VectorType;
+use Desmond\data_types\ListType;
 use Desmond\Environment;
 use Desmond\Lexer;
 
@@ -21,7 +21,8 @@ class Core
         '=' => 'equal',
         'equal?' => 'equal',
         'print' => 'outputPrint',
-        'print-line' => 'outputPrintLine'
+        'print-line' => 'outputPrintLine',
+        'list' => 'newList'
     ];
 
     public static function loadInto(Environment $env)
@@ -119,5 +120,14 @@ class Core
         }
         print($string . "\n");
         return new VoidType();
+    }
+
+    public static function newList($args)
+    {
+        $list = new ListType();
+        foreach ($args as $arg) {
+            $list->set($arg);
+        }
+        return $list;
     }
 }
