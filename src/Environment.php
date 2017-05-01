@@ -37,4 +37,32 @@ class Environment
             return null;
         }
     }
+
+    public function makeChild()
+    {
+        $newEnvId = Environment::getNewEnvId($this->values);
+        $newEnv = new Environment($this);
+        $previousEnv = $this;
+
+        $this->set($newEnvId, $newEnv);
+        return $newEnvId;
+    }
+
+    public function getParent()
+    {
+        return $this->upperEnv;
+    }
+
+    public function destroyChild($child)
+    {
+        unset($this->values[$child]);
+    }
+
+    public static function getNewEnvId($values)
+    {
+        do {
+            $envId = 'let_' . mt_rand(); // Most probably, this will only happen once.
+        } while (array_key_exists($envId, $values));
+        return $envId;
+    }
 }

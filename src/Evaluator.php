@@ -73,30 +73,29 @@ class Evaluator
         return $value;
     }
 
-    private function doLet($args)
+    private function doLet($args, $function, &$env)
     {
         $hash = $args[0];
         $function = $args[1];
-        $envId = $this->getNewEnvId();
-        $newEnv = new Environment($this->currentEnv);
-        $previousEnv = $this->currentEnv;
-        $this->currentEnv->set($envId, $newEnv);
-        $this->currentEnv = $newEnv;
+        $newEnvId = $env->makeChild();
+
+        $env = $env->values[$newEnvId];
         foreach ($hash->value() as $key => $val) {
-            $this->currentEnv->set($key, $this->getReturn($val));
+            $env->set($key, $this->getReturn($val));
         }
         $funcVal = $this->getReturn($function);
-        $this->currentEnv = $previousEnv;
-        unset($this->currentEnv->values[$envId]);
+
+        $env = $env->getParent();
+        $env->destroyChild($newEnvId);
         return $funcVal;
     }
 
-    private function doEnvironmentFunction($args, $function)
+    private function doEnvironmentFunction($args, $function, $env)
     {
         foreach ($args as $formIndex => $atom) {
             $args[$formIndex] = $this->getReturn($atom);
         }
-        $actualFunction = $this->currentEnv->get($function);
+        $actualFunction = $env->get($function);
         return call_user_func($actualFunction, $args);
     }
 
@@ -168,16 +167,8 @@ class Evaluator
         ];
         foreach ($possibilities as $possibility) {
             if ($possibility[0]) {
-                return $this->{$possibility[1]}($args, $function);
+                return $this->{$possibility[1]}($args, $function, $this->currentEnv);
             }
         }
-    }
-
-    public function getNewEnvId()
-    {
-        do {
-            $envId = 'let_' . mt_rand(); // Most probably, this will only happen once.
-        } while (array_key_exists($envId, $this->currentEnv->values));
-        return $envId;
     }
 }

@@ -20,17 +20,15 @@ class LambdaType
 
     public function run($params)
     {
-        $envId = $this->evaluator->getNewEnvId();
-        $newEnv = new Environment($this->evaluator->currentEnv);
-        $previousEnv = $this->evaluator->currentEnv;
-        $this->evaluator->currentEnv->set($envId, $newEnv);
-        $this->evaluator->currentEnv = $newEnv;
+        $env = &$this->evaluator->currentEnv;
+        $newEnv = $env->makeChild();
+        $env = $env->values[$newEnv];
         for ($i=0; $i<$this->args->count(); $i++) {
-            $this->evaluator->currentEnv->set($this->args->get($i)->value(), $params[$i]);
+            $env->set($this->args->get($i)->value(), $params[$i]);
         }
         $funcVal = $this->evaluator->getReturn($this->body);
-        $this->evaluator->currentEnv = $previousEnv;
-        unset($this->evaluator->currentEnv->values[$envId]);
+        $env = $env->getParent();
+        $env->destroyChild($newEnv);
         return $funcVal;
     }
 
