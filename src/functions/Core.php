@@ -13,6 +13,7 @@ class Core
 {
     private static $FUNCTION_LIST = [
         'ast' => 'ast',
+        'file-contents' => 'file_contents',
         '+' => 'addition',
         '-' => 'subtraction',
         '*' => 'multiplication',
@@ -35,6 +36,16 @@ class Core
         $string = $args[0];
         $lexer = new Lexer();
         return $lexer->readString($string->value());
+    }
+
+    public static function file_contents($args)
+    {
+        $path = $args[0];
+        if (!file_exists($path)) {
+            throw new \Exception('File not found.');
+        }
+        $contents = file_get_contents($path);
+        return new StringType($contents);
     }
 
     public static function addition($args)

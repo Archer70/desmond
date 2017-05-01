@@ -21,6 +21,24 @@ class CoreTest extends TestCase
         $this->assertEquals('/', $ast->value());
     }
 
+    public function testFileContents()
+    {
+        $contents = Core::file_contents(
+            [new StringType(__DIR__ . '/../desmond_files/single-line.dsmnd')]);
+        $this->assertInstanceOf('Desmond\\data_types\\StringType', $contents);
+        $this->assertEquals("(+ 1 2)\n", $contents->value());
+    }
+
+    /**
+     * @expectedException Exception
+     * @exectedExceptionMessage File not found.
+     */
+    public function testFileContentsNoFile()
+    {
+        // TODO Make the exception message more specific.
+        Core::file_contents('asdfa');
+    }
+
     public function testAddition()
     {
         $int1 = new IntegerType(1);
