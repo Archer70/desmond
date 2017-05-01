@@ -8,6 +8,7 @@ use Desmond\data_types\LambdaType;
 use Desmond\data_types\SymbolType;
 use Desmond\data_types\IntegerType;
 use Desmond\data_types\NilType;
+use Desmond\data_types\StringType;
 use Exception;
 
 class Evaluator
@@ -67,10 +68,18 @@ class Evaluator
             $body = $args[1];
             return new LambdaType($this, $lambdaArgs, $body);
         } else if ($function instanceof LambdaType) {
+            foreach ($args as $index => $arg) {
+                $args[$index] = $this->getReturn($arg);
+            }
             return $function->run($args);
         } else if ($function == 'eval') {
             $return = $this->getReturn($args[0]);
             return $this->getReturn($return);
+        } else if ($function == 'load-file') {
+            $contents = CoreFunctions::file_contents([$args[0]]);
+            $contents = sprintf('(do %s)', $contents->value());
+            $ast = CoreFunctions::ast([new StringType($contents)]);
+            return $this->getReturn($ast);
         } else {
             return $this->doEnvironmentFunction($function, $args);
         }

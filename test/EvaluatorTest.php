@@ -43,6 +43,13 @@ class EvaluatorTest extends TestCase
         $this->assertEquals(5, $vector->get(0)->value());
     }
 
+    public function testVectorEvaluatesSymbols()
+    {
+        $ast = $this->lexer->readString('(do (define x 2) [1 x])');
+        $vector = $this->eval->getReturn($ast);
+        $this->assertEquals(2, $vector->get(1)->value());
+    }
+
     public function testHash()
     {
         $ast = $this->lexer->readString('{:key 1}');
@@ -159,6 +166,20 @@ class EvaluatorTest extends TestCase
         $this->assertEquals(3, $result->value());
     }
 
+    public function testLambdaEvaluatesParams()
+    {
+        $ast = $this->lexer->readString('
+            (do
+                (define :x 1)
+                (define :y 2)
+                ((lambda [:num1 :num2]
+                    (+ :num1 :num2)
+                ) :x :y)
+            )');
+        $result = $this->eval->getReturn($ast);
+        $this->assertEquals(3, $result->value());
+    }
+
     public function testEval()
     {
         $ast = $this->lexer->readString('(eval :sym)');
@@ -168,5 +189,12 @@ class EvaluatorTest extends TestCase
         $ast = $this->lexer->readString('(eval (ast "(+ 1 2)"))');
         $result = $this->eval->getReturn($ast);
         $this->assertEquals(3, $result->value());
+    }
+
+    public function testLoadFile()
+    {
+        $this->expectOutputString("30");
+        $ast = $this->lexer->readString('(load-file "' . __DIR__ . '/desmond_files/print-math.dsmnd")');
+        $this->eval->getReturn($ast);
     }
 }
