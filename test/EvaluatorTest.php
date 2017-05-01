@@ -158,4 +158,15 @@ class EvaluatorTest extends TestCase
         $result = $this->eval->getReturn($ast);
         $this->assertEquals(3, $result->value());
     }
+
+    public function testEval()
+    {
+        $ast = $this->lexer->readString('(eval :sym)');
+        $result = $this->eval->getReturn($ast);
+        $this->assertInstanceOf('Desmond\\data_types\\SymbolType', $result);
+
+        $ast = $this->lexer->readString('(eval (ast "(+ 1 2)"))');
+        $result = $this->eval->getReturn($ast);
+        $this->assertEquals(3, $result->value());
+    }
 }

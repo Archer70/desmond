@@ -68,6 +68,9 @@ class Evaluator
             return new LambdaType($this, $lambdaArgs, $body);
         } else if ($function instanceof LambdaType) {
             return $function->run($args);
+        } else if ($function == 'eval') {
+            $return = $this->getReturn($args[0]);
+            return $this->getReturn($return);
         } else {
             return $this->doEnvironmentFunction($function, $args);
         }
