@@ -54,35 +54,7 @@ class Evaluator
         } else {
             $function = $form->getFunction()->value();
         }
-        $args = $form->getArgs();
-        if ($function == 'define') {
-            return $this->defineVar($args[0], $args[1]);
-        } else if ($function == 'let') {
-            return $this->doLet($args[0], $args[1]);
-        } else if ($function == 'do') {
-            return $this->doBlock($args);
-        } else if ($function == 'if') {
-            return $this->doConditional($args);
-        } else if ($function == 'lambda') {
-            $lambdaArgs = $args[0];
-            $body = $args[1];
-            return new LambdaType($this, $lambdaArgs, $body);
-        } else if ($function instanceof LambdaType) {
-            foreach ($args as $index => $arg) {
-                $args[$index] = $this->getReturn($arg);
-            }
-            return $function->run($args);
-        } else if ($function == 'eval') {
-            $return = $this->getReturn($args[0]);
-            return $this->getReturn($return);
-        } else if ($function == 'load-file') {
-            $contents = CoreFunctions::file_contents([$args[0]]);
-            $contents = sprintf('(do %s)', $contents->value());
-            $ast = CoreFunctions::ast([new StringType($contents)]);
-            return $this->getReturn($ast);
-        } else {
-            return $this->doEnvironmentFunction($function, $args);
-        }
+        return $this->doSpecialForm($function, $form->getArgs());
     }
 
     public function evalCollection($ast)
@@ -94,15 +66,17 @@ class Evaluator
         return $collection;
     }
 
-    private function defineVar($name, $var)
+    private function defineVar($args)
     {
-        $value = $this->getReturn($var);
-        $this->currentEnv->set($name->value(), $value);
+        $value = $this->getReturn($args[1]);
+        $this->currentEnv->set($args[0]->value(), $value);
         return $value;
     }
 
-    private function doLet($hash, $function)
+    private function doLet($args)
     {
+        $hash = $args[0];
+        $function = $args[1];
         $envId = $this->getNewEnvId();
         $newEnv = new Environment($this->currentEnv);
         $previousEnv = $this->currentEnv;
@@ -117,7 +91,7 @@ class Evaluator
         return $funcVal;
     }
 
-    private function doEnvironmentFunction($function, $args)
+    private function doEnvironmentFunction($args, $function)
     {
         foreach ($args as $formIndex => $atom) {
             $args[$formIndex] = $this->getReturn($atom);
@@ -143,6 +117,59 @@ class Evaluator
             return $this->getReturn($args[1]);
         } else {
             return isset($args[2]) ? $this->getReturn($args[2]) : new NilType();
+        }
+    }
+
+    private function getLambda($args)
+    {
+        return new LambdaType($this, $args[0], $args[1]);
+    }
+
+    private function doLambda($args, $function)
+    {
+        foreach ($args as $index => $arg) {
+            $args[$index] = $this->getReturn($arg);
+        }
+        return $function->run($args);
+    }
+
+    public function loadFile($args)
+    {
+        $contents = CoreFunctions::file_contents([$args[0]]);
+        $contents = sprintf('(do %s)', $contents->value());
+        $ast = CoreFunctions::ast([new StringType($contents)]);
+        return $this->getReturn($ast);
+    }
+
+    public function doEval($args)
+    {
+        $return = $this->getReturn($args[0]);
+        return $this->getReturn($return);
+    }
+
+    private function quote($args, $function)
+    {
+        return $args[0];
+    }
+
+    private function doSpecialForm($function, $args)
+    {
+        $possibilities = [
+            [$function == 'quote', 'quote'],
+            [$function == 'define', 'defineVar'],
+            [$function == 'let', 'doLet'],
+            [$function == 'do', 'doBlock'],
+            [$function == 'if', 'doConditional'],
+            [$function == 'lambda', 'getLambda'],
+            [($function instanceof LambdaType), 'doLambda'],
+            [$function == 'load-file', 'loadFile'],
+            [$function == 'eval', 'doEval'],
+            [true, 'doEnvironmentFunction']
+        ];
+        foreach ($possibilities as $possibility) {
+            if ($possibility[0]) {
+                return $this->{$possibility[1]}($args, $function);
+            }
         }
     }
 

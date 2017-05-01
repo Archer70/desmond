@@ -163,6 +163,12 @@ class EvaluatorTest extends TestCase
             '(load-file "' . __DIR__ . '/desmond_files/print-math.dsmnd")');
     }
 
+    public function testQuote()
+    {
+        $this->assertInstanceOf(
+            'Desmond\\data_types\\ListType', $this->resultOf('(quote (+ 1 2))'));
+    }
+
     private function resultOf($string)
     {
         $ast = $this->lexer->readString($string);
