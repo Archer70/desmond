@@ -5,11 +5,14 @@ use Desmond\data_types\StringType;
 use Desmond\data_types\TrueType;
 use Desmond\data_types\FalseType;
 use Desmond\data_types\VoidType;
+use Desmond\data_types\VectorType;
 use Desmond\Environment;
+use Desmond\Lexer;
 
 class Core
 {
     private static $FUNCTION_LIST = [
+        'ast' => 'ast',
         '+' => 'addition',
         '-' => 'subtraction',
         '*' => 'multiplication',
@@ -25,6 +28,13 @@ class Core
         foreach (self::$FUNCTION_LIST as $func => $name) {
             $env->set($func, "Desmond\\functions\\Core::$name");
         }
+    }
+
+    public static function ast($args)
+    {
+        $string = $args[0];
+        $lexer = new Lexer();
+        return $lexer->readString($string->value());
     }
 
     public static function addition($args)

@@ -11,6 +11,16 @@ use Desmond\data_types\NilType;
 
 class CoreTest extends TestCase
 {
+    public function testAst()
+    {
+        $ast = Core::ast([new StringType("(+ 1 2)")]);
+        $this->assertInstanceOf('Desmond\\data_types\\ListType', $ast);
+        $this->assertEquals('+', $ast->get(0)->value());
+
+        $ast = Core::ast([new StringType("/")]);
+        $this->assertEquals('/', $ast->value());
+    }
+
     public function testAddition()
     {
         $int1 = new IntegerType(1);
