@@ -22,7 +22,9 @@ class Core
         'equal?' => 'equal',
         'print' => 'outputPrint',
         'print-line' => 'outputPrintLine',
-        'list' => 'newList'
+        'list' => 'newList',
+        'cons' => 'cons',
+        'concat' => 'concat'
     ];
 
     public static function loadInto(Environment $env)
@@ -129,5 +131,27 @@ class Core
             $list->set($arg);
         }
         return $list;
+    }
+
+    public static function cons($args)
+    {
+        $newList = new ListType();
+        $newList->set($args[0]);
+        $oldList = $args[1];
+        foreach ($oldList->value() as $value) {
+            $newList->set($value);
+        }
+        return $newList;
+    }
+
+    public static function concat($args)
+    {
+        $newList = new ListType();
+        foreach ($args as $list) {
+            foreach ($list->value() as $value) {
+                $newList->set($value);
+            }
+        }
+        return $newList;
     }
 }
