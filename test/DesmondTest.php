@@ -11,6 +11,13 @@ class DesmondTest extends TestCase
         $this->assertEquals(3, $desmond->run('(+ 1 2)')->value());
     }
 
+    public function testKeepsState()
+    {
+        $desmond = new Desmond();
+        $desmond->run('(define :a 10)');
+        $this->assertEquals(10, $desmond->run(':a')->value());
+    }
+
     public function testGetsPrettyString()
     {
         $desmond = new Desmond();
