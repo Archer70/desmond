@@ -146,15 +146,50 @@ class Evaluator
         return $this->getReturn($return);
     }
 
-    private function quote($args, $function)
+    private function quasiquote($args)
+    {
+        $list = $args[0];
+        if (!$this->isPair($list)) {
+            $newList = new ListType();
+            $newList->set(new SymbolType('quote'));
+            $newList->set($list);
+            return $this->getReturn($newList);
+        } else if ($list->get(0)->value() == 'unquote') {
+            return $this->getReturn($list->get(1));
+        } else if ($this->isPair($list->get(0)) && $list->get(0)->get(0)->value == 'splice-unquote') {
+            $newList = new ListType();
+            $newList->set(new SymbolType('concat'));
+            $newList->set($list->get(0)->get(1));
+            $rest = $list->value();
+            array_shift($rest);
+            $newList->set($this->quasiquote($rest));
+            return $this->getReturn($newList);
+        } else {
+            $newList = new ListType();
+            $newList->set(new SymbolType('cons'));
+            $newList->set($this->quasiquote($list->value()));
+            $rest = $list->value();
+            array_shift($rest);
+            $newList->set($this->quasiquote($rest));
+            return $this->getReturn($newList);
+        }
+    }
+
+    private function quote($args)
     {
         return $args[0];
+    }
+
+    private function isPair($ast)
+    {
+        return $ast instanceof ListType && !empty($ast->value());
     }
 
     private function doSpecialForm($function, $args)
     {
         $possibilities = [
             [$function == 'quote', 'quote'],
+            [$function == 'quasiquote', 'quasiquote'],
             [$function == 'define', 'defineVar'],
             [$function == 'let', 'doLet'],
             [$function == 'do', 'doBlock'],

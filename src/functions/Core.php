@@ -135,8 +135,7 @@ class Core
 
     public static function cons($args)
     {
-        $newList = new ListType();
-        $newList->set($args[0]);
+        $newList = new ListType([$args[0]]);
         $oldList = $args[1];
         foreach ($oldList->value() as $value) {
             $newList->set($value);

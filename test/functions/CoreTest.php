@@ -1,5 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
+use Desmond\Lexer;
+use Desmond\Evaluator;
 use Desmond\functions\Core;
 use Desmond\data_types\ListType;
 use Desmond\data_types\IntegerType;
@@ -12,6 +14,15 @@ use Desmond\data_types\NilType;
 
 class CoreTest extends TestCase
 {
+    private $lexer;
+    private $eval;
+
+    public function setUp()
+    {
+        $this->lexer = new Lexer();
+        $this->eval = new Evaluator();
+    }
+
     public function testAst()
     {
         $ast = Core::ast([new StringType("(+ 1 2)")]);
@@ -101,29 +112,44 @@ class CoreTest extends TestCase
 
     public function testCons()
     {
-        $list = new ListType();
-        $list->set(new IntegerType(2));
-        $list->set(new IntegerType(3));
-        $int = new IntegerType(1);
-        $this->assertEquals(1, Core::cons([$int, $list])->get(0)->value());
-        $this->assertEquals(3, Core::cons([$int, $list])->get(2)->value());
+        $one = new IntegerType(1);
+        $two = new IntegerType(2);
+        $three = new IntegerType(3);
+        $cons = function($args) {
+            return Core::cons($args)->value();
+        };
+
+        $this->assertEquals([$one], $this->valueOf('(cons 1 (list))'));
+        $this->assertEquals([$one, $two], $this->valueOf('(cons 1 (list 2))'));
+        $this->assertEquals([$one, $two, $three], $this->valueOf('(cons 1 (list 2 3))'));
+        $this->assertEquals(
+            [new ListType([$one]), $two, $three],
+            $this->valueOf('(cons (list 1) (list 2 3))'));
+        $this->assertEquals(
+            [$one, $two, $three],
+            $this->valueOf('(do (define a (list 2 3)) (cons 1 a))'));
     }
 
     public function testConcat()
     {
-        $list = new ListType();
-        $list->set(new IntegerType(1));
-        $list->set(new IntegerType(2));
-        $list2 = new ListType();
-        $list2->set(new IntegerType(3));
-        $list2->set(new IntegerType(4));
-        $list3 = new ListType();
-        $list3->set(new IntegerType(5));
-        $list3->set(new IntegerType(6));
+        $list = new ListType([new IntegerType(1), new IntegerType(2)]);
+        $list2 = new ListType([new IntegerType(3), new IntegerType(4)]);
+        $list3 = new ListType([new IntegerType(5), new IntegerType(6)]);
 
         $result = Core::concat([$list, $list2, $list3]);
         $this->assertEquals(1, $result->get(0)->value());
         $this->assertEquals(3, $result->get(2)->value());
         $this->assertEquals(5, $result->get(4)->value());
+    }
+
+    private function resultOf($string)
+    {
+        $ast = $this->lexer->readString($string);
+        return $this->eval->getReturn($ast);
+    }
+
+    private function valueOf($string)
+    {
+        return $this->resultOf($string)->value();
     }
 }

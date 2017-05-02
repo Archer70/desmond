@@ -169,6 +169,27 @@ class EvaluatorTest extends TestCase
             'Desmond\\data_types\\ListType', $this->resultOf('(quote (+ 1 2))'));
     }
 
+    public function testQuasiQuoteNil()
+    {
+        $this->assertInstanceOf(
+            'Desmond\\data_types\\NilType', $this->resultOf('(quasiquote nil)'));
+    }
+
+    
+
+    public function testQuasiQuoteSymbol()
+    {
+        $this->assertEquals('a', $this->valueOf('(do (define a 8) (quasiquote a))'));
+    }
+
+    public function testQuasiQuoteUnquote()
+    {
+        $this->assertEquals(8, $this->valueOf('
+            (do
+                (define a 8)
+                (quasiquote (unquote a)))'));
+    }
+
     private function resultOf($string)
     {
         $ast = $this->lexer->readString($string);
