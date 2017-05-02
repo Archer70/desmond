@@ -115,9 +115,6 @@ class CoreTest extends TestCase
         $one = new IntegerType(1);
         $two = new IntegerType(2);
         $three = new IntegerType(3);
-        $cons = function($args) {
-            return Core::cons($args)->value();
-        };
 
         $this->assertEquals([$one], $this->valueOf('(cons 1 (list))'));
         $this->assertEquals([$one, $two], $this->valueOf('(cons 1 (list 2))'));
@@ -132,14 +129,37 @@ class CoreTest extends TestCase
 
     public function testConcat()
     {
-        $list = new ListType([new IntegerType(1), new IntegerType(2)]);
-        $list2 = new ListType([new IntegerType(3), new IntegerType(4)]);
-        $list3 = new ListType([new IntegerType(5), new IntegerType(6)]);
+        $one = new IntegerType(1);
+        $two = new IntegerType(2);
+        $three = new IntegerType(3);
+        $four = new IntegerType(4);
+        $five = new IntegerType(5);
+        $six = new IntegerType(6);
 
-        $result = Core::concat([$list, $list2, $list3]);
-        $this->assertEquals(1, $result->get(0)->value());
-        $this->assertEquals(3, $result->get(2)->value());
-        $this->assertEquals(5, $result->get(4)->value());
+        $this->assertInstanceOf(
+            'Desmond\\data_types\\ListType', $this->resultOf('(concat)'));
+
+        $this->assertEquals([], $this->valueOf('(concat)'));
+
+        $this->assertEquals([$one, $two], $this->valueOf('(concat (list 1 2))'));
+
+        $this->assertEquals(
+            [$one, $two, $three, $four],
+            $this->valueOf('(concat (list 1 2) (list 3 4))'));
+
+        $this->assertEquals(
+            [$one, $two, $three, $four, $one, $two],
+            $this->valueOf('(concat (list 1 2) (list 3 4) (list 1 2))'));
+
+        $this->assertEquals([], $this->valueOf('(concat (concat))'));
+
+        $this->assertEquals(
+            [$one, $two, $three, $four, $five, $six],
+            $this->valueOf('
+                (do
+                    (define list1 (list 1 2))
+                    (define list2 (list 3 4))
+                    (concat list1 list2 (list 5 6)))'));
     }
 
     private function resultOf($string)
