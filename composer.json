@@ -14,8 +14,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Desmond\\": "src",
-            "Desmond\\test\\": "test"
+            "Desmond\\": "src/",
+            "Desmond\\test\\": "test/"
         }
     }
 }
