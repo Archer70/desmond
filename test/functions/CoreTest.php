@@ -1,6 +1,9 @@
 <?php
 use PHPUnit\Framework\TestCase;
+use Desmond\Lexer;
+use Desmond\Evaluator;
 use Desmond\functions\Core;
+use Desmond\data_types\ListType;
 use Desmond\data_types\IntegerType;
 use Desmond\data_types\SymbolType;
 use Desmond\data_types\StringType;
@@ -11,6 +14,15 @@ use Desmond\data_types\NilType;
 
 class CoreTest extends TestCase
 {
+    private $lexer;
+    private $eval;
+
+    public function setUp()
+    {
+        $this->lexer = new Lexer();
+        $this->eval = new Evaluator();
+    }
+
     public function testAst()
     {
         $ast = Core::ast([new StringType("(+ 1 2)")]);
@@ -96,5 +108,68 @@ class CoreTest extends TestCase
         ];
         $this->assertInstanceOf('Desmond\\data_types\\ListType', Core::newList($args));
         $this->assertInstanceOf('Desmond\\data_types\\SymbolType', Core::newList($args)->get(0));
+    }
+
+    public function testCons()
+    {
+        $one = new IntegerType(1);
+        $two = new IntegerType(2);
+        $three = new IntegerType(3);
+
+        $this->assertEquals([$one], $this->valueOf('(cons 1 (list))'));
+        $this->assertEquals([$one, $two], $this->valueOf('(cons 1 (list 2))'));
+        $this->assertEquals([$one, $two, $three], $this->valueOf('(cons 1 (list 2 3))'));
+        $this->assertEquals(
+            [new ListType([$one]), $two, $three],
+            $this->valueOf('(cons (list 1) (list 2 3))'));
+        $this->assertEquals(
+            [$one, $two, $three],
+            $this->valueOf('(do (define a (list 2 3)) (cons 1 a))'));
+    }
+
+    public function testConcat()
+    {
+        $one = new IntegerType(1);
+        $two = new IntegerType(2);
+        $three = new IntegerType(3);
+        $four = new IntegerType(4);
+        $five = new IntegerType(5);
+        $six = new IntegerType(6);
+
+        $this->assertInstanceOf(
+            'Desmond\\data_types\\ListType', $this->resultOf('(concat)'));
+
+        $this->assertEquals([], $this->valueOf('(concat)'));
+
+        $this->assertEquals([$one, $two], $this->valueOf('(concat (list 1 2))'));
+
+        $this->assertEquals(
+            [$one, $two, $three, $four],
+            $this->valueOf('(concat (list 1 2) (list 3 4))'));
+
+        $this->assertEquals(
+            [$one, $two, $three, $four, $one, $two],
+            $this->valueOf('(concat (list 1 2) (list 3 4) (list 1 2))'));
+
+        $this->assertEquals([], $this->valueOf('(concat (concat))'));
+
+        $this->assertEquals(
+            [$one, $two, $three, $four, $five, $six],
+            $this->valueOf('
+                (do
+                    (define list1 (list 1 2))
+                    (define list2 (list 3 4))
+                    (concat list1 list2 (list 5 6)))'));
+    }
+
+    private function resultOf($string)
+    {
+        $ast = $this->lexer->readString($string);
+        return $this->eval->getReturn($ast);
+    }
+
+    private function valueOf($string)
+    {
+        return $this->resultOf($string)->value();
     }
 }

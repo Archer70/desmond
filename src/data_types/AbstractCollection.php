@@ -7,6 +7,11 @@ abstract class AbstractCollection
 
     protected abstract function ends();
 
+    public function __construct(array $elements=[])
+    {
+        $this->collection = $elements;
+    }
+
     public function get($key)
     {
         return array_key_exists($key, $this->collection)

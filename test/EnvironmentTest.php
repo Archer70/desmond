@@ -25,7 +25,7 @@ class EnvironmentTest extends TestCase
 
     /**
      * @expectedException Exception
-     * @expectedExceptionMessage Symbol not found in environment.
+     * @expectedExceptionMessage Symbol "no-such-key" not found in environment.
      */
     public function testKeyNotFoundError()
     {
