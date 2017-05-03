@@ -1,7 +1,9 @@
 <?php
+
+namespace Desmond;
+
 use Desmond\Lexer;
 use Desmond\Evaluator;
-require_once __DIR__ . '/vendor/autoload.php';
 
 class Desmond
 {
@@ -22,7 +24,7 @@ class Desmond
         try {
             $ast = $this->lexer->readString($command);
             $value = $this->eval->getReturn($ast);
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             return $exception->getMessage();
         }
         return $value;
