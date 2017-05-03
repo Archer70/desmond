@@ -23,7 +23,7 @@ class Environment
         if (null !== $envWithKey) {
             return $envWithKey->values[$key];
         } else {
-            throw new Exception('Symbol not found in environment.');
+            throw new Exception('Symbol "' . $key . '" not found in environment.');
         }
     }
 
