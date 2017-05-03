@@ -1,4 +1,4 @@
-# Desmond
+# Desmond [![Build Status](https://travis-ci.org/Archer70/desmond.svg?branch=master)](https://travis-ci.org/Archer70/desmond)
 *Put some LISP in your PHP.*
 
 ## Goals
