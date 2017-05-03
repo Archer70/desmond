@@ -1,8 +1,6 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . '/../Desmond.php';
-
 class DesmondTest extends TestCase
 {
     public function testRunsProgram()
