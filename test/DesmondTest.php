@@ -1,4 +1,5 @@
 <?php
+use Desmond\Desmond;
 use PHPUnit\Framework\TestCase;
 
 class DesmondTest extends TestCase
