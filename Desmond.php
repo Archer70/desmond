@@ -1,7 +1,7 @@
 <?php
 use Desmond\Lexer;
 use Desmond\Evaluator;
-require_once __DIR__ . '/test/bootstrap.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 class Desmond
 {
@@ -30,6 +30,6 @@ class Desmond
 
     public function pretty($value)
     {
-        return $value->__toString();
+        return method_exists('__toString', $value) ? $value->__toString() : $value;
     }
 }

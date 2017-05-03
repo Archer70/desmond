@@ -23,4 +23,12 @@ class DesmondTest extends TestCase
         $desmond = new Desmond();
         $this->assertEquals('(1, 2, 3)', $desmond->pretty($desmond->run('(list 1 2 3)')));
     }
+
+    public function testPrettyStringNoToStringIfAlreadyString()
+    {
+        $desmond = new Desmond();
+        $value = $desmond->pretty(
+            $desmond->run('(list 1 2 3'));
+        $this->assertEquals('Expected ")", found EOF.', $value);
+    }
 }
