@@ -1,13 +1,15 @@
 <?php
+namespace Desmond\test\functions\core;
 use PHPUnit\Framework\TestCase;
+use Desmond\test\helpers\RunnerTrait;
 
-class FilesTest extends TestCase
+class FileContentsTest extends TestCase
 {
-    use Desmond\test\helpers\RunnerTrait;
+    use RunnerTrait;
 
     public function testFileContents()
     {
-        $file = __DIR__ . '/../desmond_files/single-line.dsmnd';
+        $file = __DIR__ . '/../../desmond_files/single-line.dsmnd';
         $this->assertEquals("(+ 1 2)\n", $this->valueOf('
             (do
                 (define :file "'. $file. '")
