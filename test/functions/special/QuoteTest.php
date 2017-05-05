@@ -2,7 +2,7 @@
 namespace Desmond\test\collections;
 use PHPUnit\Framework\TestCase;
 use Desmond\test\helpers\RunnerTrait;
-use Desmond\data_types\IntegerType;
+use Desmond\data_types\NumberType;
 use Desmond\data_types\ListType;
 
 class QuoteTest extends TestCase
@@ -16,19 +16,19 @@ class QuoteTest extends TestCase
 
     public function testQuoteList()
     {
-        $one = new IntegerType(1);
-        $two = new IntegerType(2);
-        $three = new IntegerType(3);
+        $one = new NumberType(1);
+        $two = new NumberType(2);
+        $three = new NumberType(3);
 
         $this->assertEquals([$one, $two, $three], $this->valueOf('(quote (1 2 3))'));
     }
 
     public function testQuoteRecursiveLists()
     {
-        $one = new IntegerType(1);
-        $two = new IntegerType(2);
-        $three = new IntegerType(3);
-        $four = new IntegerType(4);
+        $one = new NumberType(1);
+        $two = new NumberType(2);
+        $three = new NumberType(3);
+        $four = new NumberType(4);
 
         $this->assertEquals([$one, $two, new ListType([$three, $four])], $this->valueOf('(quote (1 2 (3 4)))'));
     }

@@ -39,6 +39,12 @@ class LexerTest extends TestCase
         $this->assertEquals(-2, $this->lexer->readString('-2')->value());
     }
 
+    public function testFloat()
+    {
+        $this->assertEquals(4.20, $this->lexer->readString('4.20')->value());
+        $this->assertEquals(-4.20, $this->lexer->readString('-4.20')->value());
+    }
+
     public function testString()
     {
         $this->assertEquals('This is a string.', $this->lexer->readString('"This is a string."')->value());
@@ -85,7 +91,7 @@ class LexerTest extends TestCase
     public function testNestedHashes()
     {
         $tree = $this->lexer->readString('{:key {:nested 1}}');
-        $this->assertInstanceOf('Desmond\\data_types\\IntegerType', $tree->get(':key')->get(':nested'));
+        $this->assertInstanceOf('Desmond\\data_types\\NumberType', $tree->get(':key')->get(':nested'));
     }
 
     /**
@@ -118,8 +124,8 @@ class LexerTest extends TestCase
     public function testRecursiveTree()
     {
         $tree = $this->lexer->readString('(1 (2))');
-        $this->assertInstanceOf('Desmond\data_types\IntegerType', $tree->get(0));
-        $this->assertInstanceOf('Desmond\data_types\IntegerType', $tree->get(1)->get(0));
+        $this->assertInstanceOf('Desmond\data_types\NumberType', $tree->get(0));
+        $this->assertInstanceOf('Desmond\data_types\NumberType', $tree->get(1)->get(0));
     }
 
     /**

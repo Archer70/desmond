@@ -1,7 +1,7 @@
 <?php
 namespace Desmond\functions\core;
 use Desmond\functions\DesmondFunction;
-use Desmond\data_types\IntegerType;
+use Desmond\data_types\NumberType;
 
 class Add implements DesmondFunction
 {
@@ -16,6 +16,6 @@ class Add implements DesmondFunction
         foreach ($args as $arg) {
             $value += $arg->value();
         }
-        return new IntegerType($value);
+        return new NumberType($value);
     }
 }

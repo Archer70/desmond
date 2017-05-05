@@ -7,7 +7,7 @@ use Desmond\data_types\ListType;
 use Desmond\data_types\VectorType;
 use Desmond\data_types\HashType;
 use Desmond\data_types\SymbolType;
-use Desmond\data_types\IntegerType;
+use Desmond\data_types\NumberType;
 use Desmond\data_types\NilType;
 use Desmond\data_types\TrueType;
 use Desmond\data_types\FalseType;
@@ -101,7 +101,7 @@ class Lexer
     private function tokenTestList($token)
     {
         return [
-            [preg_match('/^-?[0-9]+$/', $token), new IntegerType($token)],
+            [preg_match('/^-?[0-9\.]+$/', $token), new NumberType($token)],
             [preg_match('/^".*"$/', $token), new StringType($token)],
             [$token === 'nil', new NilType($token)],
             [$token === 'true', new TrueType($token)],

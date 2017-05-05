@@ -1,7 +1,7 @@
 <?php
 namespace Desmond\functions\core;
 use Desmond\functions\DesmondFunction;
-use Desmond\data_types\IntegerType;
+use Desmond\data_types\NumberType;
 
 class Divide implements DesmondFunction
 {
@@ -17,6 +17,6 @@ class Divide implements DesmondFunction
         foreach ($args as $number) {
             $value /= $number->value();
         }
-        return new IntegerType($value);
+        return new NumberType($value);
     }
 }

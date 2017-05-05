@@ -2,7 +2,7 @@
 namespace Desmond\test\collections;
 use PHPUnit\Framework\TestCase;
 use Desmond\test\helpers\RunnerTrait;
-use Desmond\data_types\IntegerType;
+use Desmond\data_types\NumberType;
 use Desmond\data_types\ListType;
 use Desmond\data_types\NilType;
 
@@ -17,19 +17,19 @@ class QuasiquoteTest extends TestCase
 
     public function testQuasiQuoteIntList()
     {
-        $one = new IntegerType(1);
-        $two = new IntegerType(2);
-        $three = new IntegerType(3);
+        $one = new NumberType(1);
+        $two = new NumberType(2);
+        $three = new NumberType(3);
 
         $this->assertEquals([$one, $two, $three], $this->valueOf('(quasiquote (1 2 3))'));
     }
 
     public function testQuasiQuoteNestedIntLists()
     {
-        $one = new IntegerType(1);
-        $two = new IntegerType(2);
-        $three = new IntegerType(3);
-        $four = new IntegerType(4);
+        $one = new NumberType(1);
+        $two = new NumberType(2);
+        $three = new NumberType(3);
+        $four = new NumberType(4);
         $this->assertEquals(
             [$one, $two, new ListType([$three, $four])],
             $this->valueOf('(quasiquote (1 2 (3 4)))'));
@@ -64,9 +64,9 @@ class QuasiquoteTest extends TestCase
 
     public function testUnquoteSymbolInList()
     {
-        $one = new IntegerType(1);
-        $two = new IntegerType(2);
-        $three = new IntegerType(3);
+        $one = new NumberType(1);
+        $two = new NumberType(2);
+        $three = new NumberType(3);
 
         $this->assertEquals([$one, $two, $three], $this->valueOf('
             (do

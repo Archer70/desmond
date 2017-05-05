@@ -6,7 +6,7 @@ use Desmond\data_types\VectorType;
 use Desmond\data_types\HashType;
 use Desmond\data_types\LambdaType;
 use Desmond\data_types\SymbolType;
-use Desmond\data_types\IntegerType;
+use Desmond\data_types\NumberType;
 use Desmond\data_types\NilType;
 use Desmond\data_types\StringType;
 use Exception;
@@ -36,7 +36,7 @@ class Evaluator
 
     private function evalAtom($atom)
     {
-        if (!($atom instanceof SymbolType || $atom instanceof IntegerType)) {
+        if (!($atom instanceof SymbolType)) {
             return $atom;
         }
         try {

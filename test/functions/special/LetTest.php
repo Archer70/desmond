@@ -10,7 +10,7 @@ class LetTest extends TestCase
     public function testLetReturnLastValue()
     {
         $this->assertInstanceOf(
-            'Desmond\\data_types\\IntegerType', $this->resultOf('(let {:num 5} :num)'));
+            'Desmond\\data_types\\NumberType', $this->resultOf('(let {:num 5} :num)'));
         $this->assertEquals(
             5, $this->valueOf('(let {:num 5} :num)'));
     }

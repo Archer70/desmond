@@ -17,7 +17,7 @@ class HashTest extends TestCase
     public function testHashEvaluatesForms()
     {
         $hash = $this->resultOf('{:key (+ 1 2)}');
-        $this->assertInstanceOf('Desmond\\data_types\\IntegerType', $hash->get(':key'));
+        $this->assertInstanceOf('Desmond\\data_types\\NumberType', $hash->get(':key'));
         $this->assertEquals(3, $hash->get(':key')->value());
     }
 }
