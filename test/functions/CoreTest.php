@@ -2,7 +2,6 @@
 use PHPUnit\Framework\TestCase;
 use Desmond\Lexer;
 use Desmond\Evaluator;
-use Desmond\functions\Core;
 use Desmond\data_types\ListType;
 use Desmond\data_types\IntegerType;
 use Desmond\data_types\SymbolType;
@@ -18,31 +17,26 @@ class CoreTest extends TestCase
 
     public function testAst()
     {
-        $ast = Core::ast([new StringType("(+ 1 2)")]);
-        $this->assertInstanceOf('Desmond\\data_types\\ListType', $ast);
+        $ast = $this->resultOf('(ast "(+ 1 2 3)")');
         $this->assertEquals('+', $ast->get(0)->value());
-
-        $ast = Core::ast([new StringType("/")]);
-        $this->assertEquals('/', $ast->value());
+        $this->assertEquals('/', $this->valueOf('(ast "/")'));
     }
 
     public function testEquals()
     {
-        $equalArgs = [new IntegerType(7), new IntegerType(7), new IntegerType(7)];
-        $unequalArgs = [new IntegerType(7), new IntegerType(7), new IntegerType(5)];
-        $this->assertEquals(true, Core::equal($equalArgs)->value());
-        $this->assertEquals(false, Core::equal($unequalArgs)->value());
+        $this->assertTrue($this->valueOf('(= 1 1 1 1)'));
+        $this->assertFalse($this->valueOf('(= 1 2)'));
     }
 
     public function testPrint()
     {
         $this->expectOutputString('test words');
-        Core::outputPrint([new StringType('test'), new StringType(' words')]);
+        $this->resultOf('(print "test words")');
     }
 
     public function testPrintLine()
     {
         $this->expectOutputString("test words\n");
-        Core::outputPrintLine([new StringType('test'), new StringType(' words')]);
+        $this->resultOf('(print-line "test words")');
     }
 }

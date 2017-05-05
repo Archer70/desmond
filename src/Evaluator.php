@@ -1,6 +1,6 @@
 <?php
 namespace Desmond;
-use Desmond\functions\Core as CoreFunctions;
+use Desmond\functions\EnvLoader;
 use Desmond\data_types\ListType;
 use Desmond\data_types\VectorType;
 use Desmond\data_types\HashType;
@@ -20,7 +20,7 @@ class Evaluator
     {
         $this->coreEnv = new Environment();
         $this->currentEnv = $this->coreEnv;
-        CoreFunctions::loadInto($this->coreEnv);
+        EnvLoader::loadInto($this->coreEnv, 'core');
     }
 
     public function getReturn($ast)
@@ -96,7 +96,7 @@ class Evaluator
             $args[$formIndex] = $this->getReturn($atom);
         }
         $actualFunction = $env->get($function);
-        return call_user_func($actualFunction, $args);
+        return $actualFunction::run($args);
     }
 
     private function doBlock($args)
@@ -134,9 +134,9 @@ class Evaluator
 
     public function loadFile($args)
     {
-        $contents = CoreFunctions::file_contents([$args[0]]);
+        $contents = \Desmond\functions\core\FileContents::run([$args[0]]);
         $contents = sprintf('(do %s)', $contents->value());
-        $ast = CoreFunctions::ast([new StringType($contents)]);
+        $ast = \Desmond\functions\core\Ast::run([new StringType($contents)]);
         return $this->getReturn($ast);
     }
 
