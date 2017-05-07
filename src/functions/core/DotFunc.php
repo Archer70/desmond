@@ -4,11 +4,11 @@ use Desmond\functions\DesmondFunction;
 use Desmond\data_types\VectorType;
 use Exception;
 
-class Dot implements DesmondFunction
+class DotFunc implements DesmondFunction
 {
     public static function id()
     {
-        return '.';
+        return '.func';
     }
 
     public static function run(array $args)
@@ -38,7 +38,7 @@ class Dot implements DesmondFunction
     private static function getFunction(array $args)
     {
         if (!isset($args[0])) {
-            throw new Exception('Dot called with no function argument. (. <func> [args..])');
+            throw new Exception('.func called with no function argument. (.func <func> [args..])');
         } else if (!function_exists($args[0]->value())) {
             throw new Exception("Function \"{$args[0]->value()}\" not found.");
         } else {

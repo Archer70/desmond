@@ -2,9 +2,9 @@
 namespace Desmond\test\functions\core;
 use PHPUnit\Framework\TestCase;
 use Desmond\test\helpers\RunnerTrait;
-use Desmond\functions\core\Dot;
+use Desmond\functions\core\DotFunc;
 
-class DotTest extends TestCase
+class DotFuncTest extends TestCase
 {
     use RunnerTrait;
 
@@ -18,16 +18,16 @@ class DotTest extends TestCase
     public function testCallsPHPFunction()
     {
         $this->assertEquals(
-            '&lt;a', $this->resultOf('(. htmlspecialchars ["<a"])'));
+            '&lt;a', $this->resultOf('(.func htmlspecialchars ["<a"])'));
     }
 
     /**
      * @expectedException Exception
-     * @expectedExceptionMessage Dot called with no function argument. (. <func> [args..])
+     * @expectedExceptionMessage .func called with no function argument. (.func <func> [args..])
      */
     public function testExceptionIfNoFunctionNamed()
     {
-        $this->resultOf('(. )');
+        $this->resultOf('(.func )');
     }
 
     /**
@@ -36,23 +36,23 @@ class DotTest extends TestCase
      */
     public function testFailsIfFunctionDoesntExist()
     {
-        $this->resultOf('(. nofunc)');
+        $this->resultOf('(.func nofunc)');
     }
 
     public function testCallsWithoutArgs()
     {
-        $this->resultOf('(. \Desmond\test\functions\core\dummyFunction)');
+        $this->resultOf('(.func \Desmond\test\functions\core\dummyFunction)');
         $this->assertEquals([null, null], self::$dummyArgs);
     }
 
     public function testCallsWithArgs()
     {
-        $this->resultOf('(. \Desmond\test\functions\core\dummyFunction ["test" "arg"])');
+        $this->resultOf('(.func \Desmond\test\functions\core\dummyFunction ["test" "arg"])');
         $this->assertEquals(['test', 'arg'], self::$dummyArgs);
     }
 }
 
 function dummyFunction($arg=null, $arg2=null)
 {
-    DotTest::$dummyArgs = [$arg, $arg2];
+    DotFuncTest::$dummyArgs = [$arg, $arg2];
 }
