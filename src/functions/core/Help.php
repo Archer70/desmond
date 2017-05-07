@@ -17,7 +17,10 @@ class Help implements DesmondFunction
         $library = new DocLibrary();
         $library->index();
         if (!isset($args[0]) || !($args[0] instanceof StringType)) {
-            throw new Exception('First argument must be a string.');
+            throw new Exception('First argument must be a string containing the name of a function. See (function-list) for available functions.');
+        }
+        if (!isset($library->library()[$args[0]->value()])) {
+            throw new Exception('Function "' . $args[0]->value() . '" not found.');
         }
         $doc = $library->library()[$args[0]->value()];
         return self::formatHelpText($doc);

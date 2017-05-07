@@ -14,10 +14,19 @@ class HelpTest extends TestCase
 
     /**
      * @expectedException Exception
-     * @expectedExceptionMessage First argument must be a string.
+     * @expectedExceptionMessage First argument must be a string containing the name of a function. See (function-list) for available functions.
      */
     public function testFirstArgumentIsString()
     {
         $this->resultOf('(help)');
+    }
+
+    /**
+     * @expectedException Exception
+     * @expectedExceptionMessage Function "asdfads" not found.
+     */
+    public function testFunctionNotFound()
+    {
+        $this->resultOf('(help "asdfads")');
     }
 }
