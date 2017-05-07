@@ -14,4 +14,13 @@ class EvalTest extends TestCase
         $this->assertEquals(3,
             $this->valueOf('(eval (ast "(+ 1 2)"))'));
     }
+
+    public function testEvaluatesSymbol()
+    {
+        $this->assertEquals(5,
+            $this->valueOf('
+                (do
+                    (define :my-list (ast "(+ 4 1)"))
+                    (eval :my-list))'));
+    }
 }
