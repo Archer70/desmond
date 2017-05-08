@@ -4,11 +4,8 @@ use Desmond\functions\EnvLoader;
 use Desmond\data_types\ListType;
 use Desmond\data_types\VectorType;
 use Desmond\data_types\HashType;
-use Desmond\data_types\LambdaType;
 use Desmond\data_types\SymbolType;
-use Desmond\data_types\NumberType;
-use Desmond\data_types\NilType;
-use Desmond\data_types\StringType;
+use Desmond\data_types\LambdaType;
 use Exception;
 
 class Evaluator
