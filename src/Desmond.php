@@ -30,6 +30,11 @@ class Desmond
         return $value;
     }
 
+    public function loadFile($file)
+    {
+        $this->run('(load-file "' . $file . '")');
+    }
+
     public function pretty($value)
     {
         return method_exists('__toString', $value) ? $value->__toString() : $value;

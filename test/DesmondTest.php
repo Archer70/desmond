@@ -33,4 +33,10 @@ class DesmondTest extends TestCase
             $this->desmond->run('(list 1 2 3'));
         $this->assertEquals('Expected ")", found EOF.', $value);
     }
+
+    public function testLoadsFile()
+    {
+        $this->expectOutputString('30');
+        $this->desmond->loadFile(__DIR__ . '/desmond_files/print-math.dsmnd');
+    }
 }
