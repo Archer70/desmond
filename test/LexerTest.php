@@ -50,6 +50,9 @@ class LexerTest extends TestCase
         $this->assertEquals('This is a string.', $this->lexer->readString('"This is a string."')->value());
         $this->assertEquals('String with " quote.', $this->lexer->readString('"String with \" quote."')->value());
         $this->assertEquals('new '."\n".' line', $this->lexer->readString('"new \n line"')->value());
+        $this->assertEquals("new\nline.",
+            $this->lexer->readString('"new
+line."'));
     }
 
     public function testSymbol()

@@ -102,7 +102,7 @@ class Lexer
     {
         return [
             [preg_match('/^-?(\.?[0-9]+)|([0-9]+.[0-9]+)$/', $token), new NumberType($token)],
-            [preg_match('/^".*"$/', $token), new StringType($token)],
+            [preg_match('/".*"/s', $token), new StringType($token)],
             [$token === 'nil', new NilType($token)],
             [$token === 'true', new TrueType($token)],
             [$token === 'false', new FalseType($token)],
