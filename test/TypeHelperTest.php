@@ -47,13 +47,9 @@ class TypeHelperTest extends TestCase
         $this->assertInstanceOf(self::type('HashType'), self::fromPhpType(['key' => 'val']));
     }
 
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage Unidentified PHP type.
-     */
-    public function testUnknownType()
+    public function testObjectType()
     {
-        self::fromPhpType(function () {});
+        $this->assertInstanceOf(self::type('ObjectType'), self::fromPhpType(new \stdClass));
     }
 
     private function type($type)

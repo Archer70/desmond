@@ -1,6 +1,7 @@
 <?php
 namespace Desmond;
 use Exception;
+use Desmond\data_types\ObjectType;
 use Desmond\data_types\StringType;
 use Desmond\data_types\NumberType;
 use Desmond\data_types\VectorType;
@@ -27,6 +28,8 @@ trait TypeHelper {
                 }
             }
             return new VectorType($value);
+        } else if (is_object($value)) {
+            return new ObjectType($value);
         } else {
             throw new Exception('Unidentified PHP type.');
         }
