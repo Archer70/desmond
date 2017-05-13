@@ -15,7 +15,7 @@ class DotMethod implements DesmondFunction
     public static function run(array $args)
     {
         $object = $args[0]->value();
-        if (strpos('::', $object)) {
+        if (is_string($object)) {
             return self::callStaticMethod($object, $args);
         } else {
             return self::callInstanceMethod($object, $args);
@@ -34,10 +34,10 @@ class DotMethod implements DesmondFunction
 
     private static function callStaticMethod($method, $args)
     {
-        $methodArgs = array_slice($args, 2);
+        $methodArgs = array_slice($args, 1);
         foreach ($methodArgs as $key=> $arg) {
             $methodArgs[$key] = $arg->value();
         }
-        $method(...$args);
+        $method(...$methodArgs);
     }
 }

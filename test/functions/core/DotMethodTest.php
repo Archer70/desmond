@@ -25,7 +25,7 @@ class DotMethodTest extends TestCase
     public function testCallsStaticMethod()
     {
         $this->assertEquals(15, $this->valueOf('
-            (.method Desmond\\test\\mocks\\DotMethodMock::add 5 5 5)'));
+            (.method Desmond\\test\\mocks\\DotMethodMock::addStatic 5 5 5)'));
     }
 
     public function testTakesArgumentsLikeABoss()
@@ -48,6 +48,11 @@ class DotMethodMock
     }
 
     public function add($int, $int2, $int3)
+    {
+        return $int + $int2 + $int3;
+    }
+
+    public static function addStatic($int, $int2, $int3)
     {
         return $int + $int2 + $int3;
     }
