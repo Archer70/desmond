@@ -2,6 +2,7 @@
 namespace Desmond\functions\core;
 use Desmond\functions\DesmondFunction;
 use Desmond\data_types\ObjectType;
+use Desmond\exceptions\ArgumentException;
 use Exception;
 
 class DotMethod implements DesmondFunction
@@ -15,7 +16,7 @@ class DotMethod implements DesmondFunction
     public static function run(array $args)
     {
         if (!isset($args[0])) {
-            throw new Exception('First argument must be an object or Class::method.');
+            self::firstArgumentException();
         }
         $object = $args[0]->value();
         if (is_string($object) && strpos($object, '::')) {
@@ -23,18 +24,18 @@ class DotMethod implements DesmondFunction
         } else if (is_object($object)) {
             return self::callInstanceMethod($object, $args);
         } else {
-            throw new Exception('First argument must be an object or Class::method.');
+            self::firstArgumentException();
         }
     }
 
     private static function callInstanceMethod($object, $args)
     {
         if (!isset($args[1])) {
-            throw new Exception('Method not found in object.');
+            self::methodNotFound();
         }
         $method = $args[1]->value();
         if (!method_exists($object, $method)) {
-            throw new Exception('Method not found in object.');
+            self::methodNotFound();
         }
         $methodArgs = array_slice($args, 2);
         foreach ($methodArgs as $key=> $arg) {
@@ -47,15 +48,25 @@ class DotMethod implements DesmondFunction
     {
         $parts = explode('::', $method);
         if (!class_exists($parts[0])) {
-            throw new Exception('First argument must be an object or Class::method.');
+            self::firstArgumentException();
         }
         if (!method_exists($parts[0], $parts[1])) {
-            throw new Exception('Method "' . $parts[1] . '" not found in class "' . $parts[0] . '".');
+            throw new ArgumentException('Method "' . $parts[1] . '" not found in class "' . $parts[0] . '".');
         }
         $methodArgs = array_slice($args, 1);
         foreach ($methodArgs as $key=> $arg) {
             $methodArgs[$key] = $arg->value();
         }
         return self::fromPhpType($method(...$methodArgs));
+    }
+
+    private static function firstArgumentException()
+    {
+        throw new ArgumentException('First argument must be an object or Class::method.');
+    }
+
+    private static function methodNotFound()
+    {
+        throw new ArgumentException('Method not found in object.');
     }
 }

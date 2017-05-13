@@ -44,7 +44,7 @@ class DotMethodTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException Desmond\exceptions\ArgumentException
      * @expectedExceptionMessage First argument must be an object or Class::method.
      */
     public function testErrorIfNoObject()
@@ -53,7 +53,7 @@ class DotMethodTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException Desmond\exceptions\ArgumentException
      * @expectedExceptionMessage First argument must be an object or Class::method.
      */
     public function testErrorIfNotObject()
@@ -62,7 +62,7 @@ class DotMethodTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException Desmond\exceptions\ArgumentException
      * @expectedExceptionMessage Method not found in object.
      */
     public function testErrorIfNoObjectMethod()
@@ -74,7 +74,7 @@ class DotMethodTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException Desmond\exceptions\ArgumentException
      * @expectedExceptionMessage Method not found in object.
      */
     public function testErrorIfUndefinedObjectMethod()
@@ -86,7 +86,7 @@ class DotMethodTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException Desmond\exceptions\ArgumentException
      * @expectedExceptionMessage First argument must be an object or Class::method.
      */
     public function testErrorIfClassButNoMethod()
@@ -95,7 +95,7 @@ class DotMethodTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException Desmond\exceptions\ArgumentException
      * @expectedExceptionMessage First argument must be an object or Class::method.
      */
     public function testErrorIfNoClassExists()
@@ -104,7 +104,7 @@ class DotMethodTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException Desmond\exceptions\ArgumentException
      * @expectedExceptionMessage Method "fakeMethod" not found in class "Desmond\test\mocks\DotMethodMock".
      */
     public function testErrorIfNoClassMethod()
