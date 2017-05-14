@@ -29,7 +29,7 @@ abstract class AbstractCollection
 
     public function first()
     {
-        return $this->get(0);
+        return array_values($this->collection)[0];
     }
 
     public function rest()
