@@ -22,12 +22,15 @@ trait TypeHelper {
         } else if (is_bool($value)) {
             return $value === true ? new TrueType($value) : new FalseType($value);
         } else if (is_array($value)) {
-            foreach (array_keys($value) as $key) {
-                if (is_string($key)) {
-                    return new HashType($value);
-                }
+            foreach ($value as $key => $data) {
+                $value[$key] = self::fromPhpType($data);
             }
-            return new VectorType($value);
+            // Is associative?
+            if (count(array_filter(array_keys($value), 'is_string')) > 0) {
+                return new HashType($value);
+            } else {
+                return new VectorType($value);
+            }
         } else if (is_object($value)) {
             return new ObjectType($value);
         } else {

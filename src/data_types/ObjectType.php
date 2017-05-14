@@ -10,6 +10,6 @@ class ObjectType extends AbstractAtom
 
     public function __toString()
     {
-        return 'nil';
+        return '#object ' . get_class($this->value());
     }
 }

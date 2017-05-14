@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 class TypeHelperTest extends TestCase
 {
     use TypeHelper;
+    use \Desmond\test\helpers\NumberTrait;
 
     public function testNilType()
     {
@@ -42,9 +43,38 @@ class TypeHelperTest extends TestCase
         $this->assertInstanceOf(self::type('VectorType'), self::fromPhpType([1, 2, 3]));
     }
 
+    public function testVectorContentsEncoded()
+    {
+        $this->assertEquals(
+            $this->intList([1, 2, 3], true),
+            self::fromPhpType([1, 2, 3]));
+    }
+
+    public function testVectorContentsRecursivelyEncoded()
+    {
+        $expected = $this->intList([1, 2], true);
+        $expected->set($this->intList([3, 4], true));
+        $this->assertEquals(
+            $expected,
+            self::fromPhpType([1, 2, [3, 4]]));
+    }
+
     public function testHashType()
     {
         $this->assertInstanceOf(self::type('HashType'), self::fromPhpType(['key' => 'val']));
+    }
+
+    public function testHashContentsEncoded()
+    {
+        $this->assertInstanceOf(
+            self::type('StringType'), self::fromPhpType(['key', 'val'])->first());
+    }
+
+    public function testHashContentsRecursivelyEncoded()
+    {
+        $result = self::fromPhpType(['key' => ['sub-key' => 'val']])->get('key')->get('sub-key');
+        $this->assertInstanceOf(
+            self::type('StringType'), $result);
     }
 
     public function testObjectType()
