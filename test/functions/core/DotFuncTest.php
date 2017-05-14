@@ -18,7 +18,7 @@ class DotFuncTest extends TestCase
     public function testCallsPHPFunction()
     {
         $this->assertEquals(
-            '&lt;a', $this->resultOf('(.func htmlspecialchars ["<a"])'));
+            '&lt;a', $this->resultOf('(.func htmlspecialchars "<a")'));
     }
 
     /**
@@ -47,7 +47,7 @@ class DotFuncTest extends TestCase
 
     public function testCallsWithArgs()
     {
-        $this->resultOf('(.func \Desmond\test\functions\core\dummyFunction ["test" "arg"])');
+        $this->resultOf('(.func \Desmond\test\functions\core\dummyFunction "test" "arg")');
         $this->assertEquals(['test', 'arg'], self::$dummyArgs);
     }
 }

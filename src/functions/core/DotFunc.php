@@ -17,7 +17,7 @@ class DotFunc implements DesmondFunction
         $args = self::getArgs($args);
 
         if (!empty($args)) {
-            return call_user_func_array($function, $args);
+            return $function(...$args);
         } else {
             return call_user_func($function);
         }
@@ -25,11 +25,9 @@ class DotFunc implements DesmondFunction
 
     private static function getArgs($args)
     {
-        if (!isset($args[1]) || !($args[1] instanceof VectorType)) {
-            return [];
-        }
+        array_shift($args);
         $argValues = [];
-        foreach ($args[1]->value() as $arg) {
+        foreach ($args as $arg) {
             $argValues[] = $arg->value();
         }
         return $argValues;

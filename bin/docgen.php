@@ -1,6 +1,14 @@
+#!/bin/php
 <?php
 use Desmond\Desmond;
 require_once __DIR__ . '/../vendor/autoload.php';
+
+if (isset($argv[1]) && ($argv[1] == '-u' || $argv[1] == '--undocumented')) {
+    $docs = scandir(__DIR__ . '/../src/functions/docs');
+    $functions = scandir(__DIR__ . '/../src/functions/core');
+    print_r(array_diff($functions, $docs));
+    exit;
+}
 
 $template = '<?php
 namespace Desmond\\functions\docs;
