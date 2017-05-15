@@ -62,4 +62,10 @@ class ArgumentHelperTest extends TestCase
         $list = $this->newReturnType('List', [1, 2]);
         $this->assertEquals(1, $list->get(0));
     }
+
+    public function testIsDesmondType()
+    {
+        $this->assertTrue($this->isDesmondType('Vector', new VectorType));
+        $this->assertFalse($this->isDesmondType('List', new VectorType));
+    }
 }

@@ -12,12 +12,12 @@ class %s implements DesmondFunction
 {
     use ArgumentHelper;
 
-    public static function id()
+    public function id()
     {
         return \'%s\';
     }
 
-    public static function run(array $args)
+    public function run(array $args)
     {
         $this->expectArguments(
             \'%s\'

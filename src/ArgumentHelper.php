@@ -47,6 +47,11 @@ trait ArgumentHelper
         return 'Desmond\\data_types\\' . $type . 'Type';
     }
 
+    public function isDesmondType($type, $object) {
+        $class = $this->typeClassPath($type);
+        return $object instanceof $class;
+    }
+
     public function newReturnType($type, $arg=null)
     {
         $class = $this->typeClassPath($type);
