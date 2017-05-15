@@ -11,7 +11,7 @@ use Desmond\data_types\TrueType;
 use Desmond\data_types\FalseType;
 
 trait TypeHelper {
-    static function fromPhpType($value)
+    public static function fromPhpType($value)
     {
         if (is_null($value)) {
             return new NilType();
@@ -20,7 +20,7 @@ trait TypeHelper {
         } else if (is_int($value) || is_float($value)) {
             return new NumberType($value);
         } else if (is_bool($value)) {
-            return $value === true ? new TrueType($value) : new FalseType($value);
+            return $value === true ? new TrueType() : new FalseType();
         } else if (is_array($value)) {
             foreach ($value as $key => $data) {
                 $value[$key] = self::fromPhpType($data);

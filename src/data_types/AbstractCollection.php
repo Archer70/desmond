@@ -5,7 +5,7 @@ abstract class AbstractCollection
 {
     protected $collection = [];
 
-    protected abstract function ends();
+    abstract protected function ends();
 
     public function __construct(array $elements=[])
     {
@@ -46,7 +46,7 @@ abstract class AbstractCollection
 
     public function value()
     {
-        return $this->collection; // IDK. This will probably be gone soon.
+        return $this->collection;
     }
 
     public function __toString()

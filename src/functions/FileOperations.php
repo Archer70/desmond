@@ -5,20 +5,17 @@ class FileOperations
 {
     public static function getDocFiles()
     {
-        $allFiles = scandir(__DIR__ . '/docs');
-        $files = [];
-        foreach ($allFiles as $file) {
-            if ($file == '.' || $file == '..' || !preg_match('/\.php$/', $file)) {
-                continue;
-            }
-            $files[] = $file;
-        }
-        return $files;
+        return self::getFilesInDirectory('docs');
     }
 
     public static function getFunctionFiles()
     {
-        $allFiles = scandir(__DIR__ . '/core');
+        return self::getFilesInDirectory('core');
+    }
+
+    private static function getFilesInDirectory($dir)
+    {
+        $allFiles = scandir(__DIR__ . '/' . $dir);
         $files = [];
         foreach ($allFiles as $file) {
             if ($file == '.' || $file == '..' || !preg_match('/\.php$/', $file)) {

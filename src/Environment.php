@@ -42,7 +42,6 @@ class Environment
     {
         $newEnvId = Environment::getNewEnvId($this->values);
         $newEnv = new Environment($this);
-        $previousEnv = $this;
 
         $this->set($newEnvId, $newEnv);
         return $newEnvId;

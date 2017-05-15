@@ -25,11 +25,7 @@ class DotProperty implements DesmondFunction
             $this->setProperty($object, $property, $args[2]);
         }
 
-        if (!$this->isDesmondType('Object', $args[0])) {
-            return $this->getStaticProperty($object, $property);
-        } else {
-            return $this->getInstanceProperty($object, $property);
-        }
+        return $this->getProperty($object, $property);
     }
 
     private function checkArgs($args)
@@ -44,11 +40,19 @@ class DotProperty implements DesmondFunction
         );
     }
 
-    private function getStaticProperty($object, $property)
+    private function getProperty($object, $property)
     {
         if (!property_exists($object, $property)) {
             return $this->newReturnType('Nil');
         }
+        return is_string($object)
+            ? TypeHelper::fromPhpType($object::$$property)
+            : TypeHelper::fromPhpType($object->$property);
+    }
+
+    private function getStaticProperty($object, $property)
+    {
+
         // Isn't this the cutest thing...
         return TypeHelper::fromPhpType($object::$$property);
     }

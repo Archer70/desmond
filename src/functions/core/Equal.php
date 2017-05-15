@@ -15,7 +15,6 @@ class Equal implements DesmondFunction
     {
         $last = $args[0];
         array_shift($args);
-        $equal = false;
         foreach ($args as $arg) {
             if ($arg->value() !== $last->value()) {
                 return new FalseType();

@@ -17,7 +17,6 @@ class Lexer
 {
     private static $CONDITON = 0;
     private static $VALUE = 1;
-    private $hashTokenIsKey = true;
 
     public function readString($string)
     {
@@ -103,9 +102,9 @@ class Lexer
         return [
             [preg_match('/^-?(\.?[0-9]+)|([0-9]+.[0-9]+)$/', $token), new NumberType($token)],
             [preg_match('/".*"/s', $token), new StringType($token)],
-            [$token === 'nil', new NilType($token)],
-            [$token === 'true', new TrueType($token)],
-            [$token === 'false', new FalseType($token)],
+            [$token === 'nil', new NilType()],
+            [$token === 'true', new TrueType()],
+            [$token === 'false', new FalseType()],
             [true, new SymbolType($token)] // Basically, if it's nothing else, it's a symbol.
         ];
     }
