@@ -10,6 +10,7 @@ class EnvironmentFunction implements DesmondSpecialFunction
             $args[$formIndex] = $eval->getReturn($atom);
         }
         $actualFunction = $env->get($function);
-        return $actualFunction::run($args);
+        $object = new $actualFunction;
+        return $object->run($args);
     }
 }

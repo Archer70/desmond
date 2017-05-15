@@ -5,12 +5,12 @@ use Desmond\data_types\NumberType;
 
 class Add implements DesmondFunction
 {
-    public static function id()
+    public function id()
     {
         return '+';
     }
 
-    public static function run(array $args)
+    public function run(array $args)
     {
         $value = 0;
         foreach ($args as $arg) {

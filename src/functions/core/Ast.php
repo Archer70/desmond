@@ -5,12 +5,12 @@ use Desmond\functions\DesmondFunction;
 
 class Ast implements DesmondFunction
 {
-    public static function id()
+    public function id()
     {
         return 'ast';
     }
 
-    public static function run(array $args)
+    public function run(array $args)
     {
         $string = $args[0];
         $lexer = new Lexer();

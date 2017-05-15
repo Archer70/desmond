@@ -6,12 +6,12 @@ use Desmond\data_types\StringType;
 
 class FileContents implements DesmondFunction
 {
-    public static function id()
+    public function id()
     {
         return 'file-contents';
     }
 
-    public static function run(array $args)
+    public function run(array $args)
     {
         $path = $args[0];
         if (!file_exists($path)) {

@@ -5,12 +5,12 @@ use Desmond\data_types\ListType;
 
 class Concat implements DesmondFunction
 {
-    public static function id()
+    public function id()
     {
         return 'concat';
     }
 
-    public static function run(array $args)
+    public function run(array $args)
     {
         $newList = new ListType();
         foreach ($args as $list) {

@@ -6,12 +6,12 @@ use Desmond\data_types\FalseType;
 
 class Equal implements DesmondFunction
 {
-    public static function id()
+    public function id()
     {
         return '=';
     }
 
-    public static function run(array $args)
+    public function run(array $args)
     {
         $last = $args[0];
         array_shift($args);

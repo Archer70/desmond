@@ -6,12 +6,12 @@ use Desmond\data_types\FalseType;
 
 class EqualQuestion implements DesmondFunction
 {
-    public static function id()
+    public function id()
     {
         return 'equal?';
     }
 
-    public static function run(array $args)
+    public function run(array $args)
     {
         return Equal::run($args);
     }

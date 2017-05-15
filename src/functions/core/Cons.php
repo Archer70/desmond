@@ -5,12 +5,12 @@ use Desmond\data_types\ListType;
 
 class Cons implements DesmondFunction
 {
-    public static function id()
+    public function id()
     {
         return 'cons';
     }
 
-    public static function run(array $args)
+    public function run(array $args)
     {
         $newList = new ListType([$args[0]]);
         $oldList = $args[1];

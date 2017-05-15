@@ -9,12 +9,12 @@ class DotGet implements DesmondFunction
 {
     use TypeHelper;
 
-    public static function id()
+    public function id()
     {
         return '.get';
     }
 
-    public static function run(array $args)
+    public function run(array $args)
     {
         if (!isset($args[0])) {
             return self::fromPhpType($_GET);

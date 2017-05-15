@@ -8,12 +8,12 @@ use Exception;
 class DotMethod implements DesmondFunction
 {
     use \Desmond\TypeHelper;
-    public static function id()
+    public function id()
     {
         return '.method';
     }
 
-    public static function run(array $args)
+    public function run(array $args)
     {
         if (!isset($args[0])) {
             self::firstArgumentException();

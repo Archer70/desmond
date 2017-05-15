@@ -3,6 +3,6 @@ namespace Desmond\functions;
 
 interface DesmondFunction
 {
-    public static function id();
-    public static function run(array $args);
+    public function id();
+    public function run(array $args);
 }

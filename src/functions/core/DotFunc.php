@@ -6,12 +6,12 @@ use Exception;
 
 class DotFunc implements DesmondFunction
 {
-    public static function id()
+    public function id()
     {
         return '.func';
     }
 
-    public static function run(array $args)
+    public function run(array $args)
     {
         $function = self::getFunction($args);
         $args = self::getArgs($args);

@@ -5,12 +5,12 @@ use Desmond\data_types\NumberType;
 
 class Divide implements DesmondFunction
 {
-    public static function id()
+    public function id()
     {
         return '/';
     }
 
-    public static function run(array $args)
+    public function run(array $args)
     {
         $value = $args[0]->value();
         array_shift($args);

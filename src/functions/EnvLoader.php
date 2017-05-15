@@ -10,7 +10,7 @@ class EnvLoader
             $class = sprintf('Desmond\\functions\\%s\\%s',
                 $functionDir, substr($file, 0, -4));
             $function = new $class;
-            $env->set($function->id(), $class);
+            $env->set($function->id(), $function);
         }
     }
 }

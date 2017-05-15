@@ -5,12 +5,12 @@ use Desmond\data_types\VoidType;
 
 class PrintLine implements DesmondFunction
 {
-    public static function id()
+    public function id()
     {
         return 'print-line';
     }
 
-    public static function run(array $strings)
+    public function run(array $strings)
     {
         $string = '';
         foreach ($strings as $arg) {

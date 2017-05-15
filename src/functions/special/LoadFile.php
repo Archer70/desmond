@@ -9,9 +9,11 @@ class LoadFile implements DesmondSpecialFunction
 {
     public static function run(array $args, $function, &$env, $eval)
     {
-        $contents = FileContents::run([$args[0]]);
+        $fileContents = new FileContents;
+        $contents = $fileContents->run([$args[0]]);
         $contents = sprintf('(do %s)', $contents->value());
-        $ast = Ast::run([new StringType($contents)]);
+        $ast = new Ast;
+        $ast = $ast->run([new StringType($contents)]);
         return $eval->getReturn($ast);
     }
 }

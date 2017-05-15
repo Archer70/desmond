@@ -9,12 +9,12 @@ class DotNew implements DesmondFunction
 {
     use TypeHelper;
 
-    public static function id()
+    public function id()
     {
         return '.new';
     }
 
-    public static function run(array $args)
+    public function run(array $args)
     {
         if (count($args) == 0) {
             return new ObjectType(new \stdClass());

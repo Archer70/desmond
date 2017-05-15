@@ -7,12 +7,12 @@ use Exception;
 
 class Help implements DesmondFunction
 {
-    public static function id()
+    public function id()
     {
         return 'help';
     }
 
-    public static function run(array $args)
+    public function run(array $args)
     {
         $library = new DocLibrary();
         $library->index();

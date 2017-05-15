@@ -9,12 +9,12 @@ use Desmond\exceptions\ArgumentException;
 
 class Get implements DesmondFunction
 {
-    public static function id()
+    public function id()
     {
         return 'get';
     }
 
-    public static function run(array $args)
+    public function run(array $args)
     {
         if (!isset($args[0]) || !($args[0] instanceof AbstractCollection)) {
             throw new ArgumentException('Get expects first argument to be a collection.');

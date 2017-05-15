@@ -5,12 +5,12 @@ use Desmond\data_types\StringType;
 
 class Debug implements DesmondFunction
 {
-    public static function id()
+    public function id()
     {
         return 'debug';
     }
 
-    public static function run(array $args)
+    public function run(array $args)
     {
         $string = '';
         foreach ($args as $arg) {

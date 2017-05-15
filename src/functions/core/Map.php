@@ -9,12 +9,12 @@ use Desmond\data_types\HashType;
 
 class Map implements DesmondFunction
 {
-    public static function id()
+    public function id()
     {
         return 'map';
     }
 
-    public static function run(array $args)
+    public function run(array $args)
     {
         self::requireArgTypes($args);
         $collection = $args[0];

@@ -9,12 +9,12 @@ use Desmond\exceptions\ArgumentException;
 
 class Nth implements DesmondFunction
 {
-    public static function id()
+    public function id()
     {
         return 'nth';
     }
 
-    public static function run(array $args)
+    public function run(array $args)
     {
         if (!isset($args[0]) || !($args[0] instanceof ListType) && !($args[0] instanceof VectorType)) {
             throw new ArgumentException('Nth expects first argument to be a List or Vector.');

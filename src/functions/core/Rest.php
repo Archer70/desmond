@@ -11,12 +11,12 @@ class Rest implements DesmondFunction
 {
     use \Desmond\TypeHelper;
 
-    public static function id()
+    public function id()
     {
         return 'rest';
     }
 
-    public static function run(array $args)
+    public function run(array $args)
     {
         if (!isset($args[0])|| !($args[0] instanceof AbstractCollection)) {
             throw new ArgumentException('Rest expects argument to be a collection.');
