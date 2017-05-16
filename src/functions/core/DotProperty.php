@@ -50,21 +50,6 @@ class DotProperty implements DesmondFunction
             : TypeHelper::fromPhpType($object->$property);
     }
 
-    private function getStaticProperty($object, $property)
-    {
-
-        // Isn't this the cutest thing...
-        return TypeHelper::fromPhpType($object::$$property);
-    }
-
-    private function getInstanceProperty($object, $property)
-    {
-        if (!property_exists($object, $property)) {
-            return $this->newReturnType('Nil');
-        }
-        return TypeHelper::fromPhpType($object->$property);
-    }
-
     private function setProperty($object, $property, $value)
     {
         if (is_string($object)) {
