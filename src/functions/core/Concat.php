@@ -1,10 +1,12 @@
 <?php
 namespace Desmond\functions\core;
 use Desmond\functions\DesmondFunction;
-use Desmond\data_types\ListType;
+use Desmond\ArgumentHelper;
 
 class Concat implements DesmondFunction
 {
+    use ArgumentHelper;
+
     public function id()
     {
         return 'concat';
@@ -12,7 +14,12 @@ class Concat implements DesmondFunction
 
     public function run(array $args)
     {
-        $newList = new ListType();
+        $this->expectArguments(
+            'concat',
+            [0 => ['List'], 1 => ['List']],
+            $args
+        );
+        $newList = $this->newReturnType('List');
         foreach ($args as $list) {
             foreach ($list->value() as $value) {
                 $newList->set($value);

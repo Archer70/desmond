@@ -34,8 +34,8 @@ class DotGetTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
-     * @expectedExceptionMessage Index "not-found" not found.
+     * @expectedException Desmond\exceptions\ArgumentException
+     * @expectedExceptionMessage ".get": Index "not-found" not found.
      */
     public function testIndexNotFound()
     {

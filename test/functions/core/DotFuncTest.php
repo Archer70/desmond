@@ -22,27 +22,45 @@ class DotFuncTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
-     * @expectedExceptionMessage .func called with no function argument. (.func <func> [args..])
+     * @expectedException Desmond\exceptions\ArgumentException
+     * @expectedExceptionMessage ".func" expects argument 1 to be one of [Symbol, String].
      */
     public function testExceptionIfNoFunctionNamed()
     {
-        $this->resultOf('(.func )');
+        $this->resultOf('(.func)');
     }
 
     /**
-     * @expectedException Exception
-     * @expectedExceptionMessage Function "nofunc" not found.
+     * @expectedException Desmond\exceptions\ArgumentException
+     * @expectedExceptionMessage ".func": undefined PHP function "nofunc".
      */
     public function testFailsIfFunctionDoesntExist()
     {
         $this->resultOf('(.func nofunc)');
     }
 
-    public function testCallsWithoutArgs()
+    public function testCallsWithoutUnrequiredArgs()
     {
         $this->resultOf('(.func \Desmond\test\functions\core\dummyFunction)');
         $this->assertEquals([null, null], self::$dummyArgs);
+    }
+
+    /**
+    * @expectedException Desmond\exceptions\ArgumentException
+    * @expectedExceptionMessage ".func": Too few arguments passed to Desmond\test\functions\core\requiredArgs.
+    */
+    public function testCallsWithoutRequiredArgs()
+    {
+        $this->resultOf('(.func Desmond\\test\\functions\\core\\requiredArgs)');
+    }
+
+    /**
+    * @expectedException Desmond\exceptions\ArgumentException
+    * @expectedExceptionMessage ".func": Too few arguments passed to htmlspecialchars.
+    */
+    public function testCallsPHPFunctionWithoutRequiredArgs()
+    {
+        $this->resultOf('(.func htmlspecialchars)');
     }
 
     public function testCallsWithArgs()
@@ -50,6 +68,11 @@ class DotFuncTest extends TestCase
         $this->resultOf('(.func \Desmond\test\functions\core\dummyFunction "test" "arg")');
         $this->assertEquals(['test', 'arg'], self::$dummyArgs);
     }
+}
+
+function requiredArgs($arg, $arg2)
+{
+
 }
 
 function dummyFunction($arg=null, $arg2=null)

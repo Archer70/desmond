@@ -1,11 +1,15 @@
 <?php
 namespace Desmond\functions\core;
 use Desmond\functions\DesmondFunction;
+use Desmond\ArgumentHelper;
 use Desmond\data_types\VectorType;
-use Exception;
+use Desmond\exceptions\ArgumentException;
+use RuntimeException;
+use ArgumentCountError;
 
 class DotFunc implements DesmondFunction
 {
+    use ArgumentHelper;
     public function id()
     {
         return '.func';
@@ -13,14 +17,28 @@ class DotFunc implements DesmondFunction
 
     public function run(array $args)
     {
+        $this->expectArguments(
+            '.func',
+            [0 => ['Symbol', 'String']],
+            $args
+        );
         $function = self::getFunction($args);
         $args = self::getArgs($args);
 
-        if (!empty($args)) {
-            return $function(...$args);
-        } else {
-            return call_user_func($function);
+        // This is to capture warnings when you call PHP functions without all their args.
+        set_error_handler(function($errno, $errstr, $errfile, $errline) {
+            throw new RuntimeException();
+        });
+
+        try {
+            $value = $function(...$args);
+        } catch (RuntimeException $error) {
+            throw new ArgumentException("\".func\": Too few arguments passed to $function.");
+        } catch (ArgumentCountError $error) {
+            throw new ArgumentException("\".func\": Too few arguments passed to $function.");
         }
+        restore_error_handler();
+        return $value;
     }
 
     private static function getArgs($args)
@@ -35,10 +53,9 @@ class DotFunc implements DesmondFunction
 
     private static function getFunction(array $args)
     {
-        if (!isset($args[0])) {
-            throw new Exception('.func called with no function argument. (.func <func> [args..])');
-        } else if (!function_exists($args[0]->value())) {
-            throw new Exception("Function \"{$args[0]->value()}\" not found.");
+        $functionName = $args[0]->value();
+        if (!function_exists($functionName)) {
+            throw new ArgumentException("\".func\": undefined PHP function \"$functionName\".");
         } else {
             return $args[0]->value();
         }

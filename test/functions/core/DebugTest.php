@@ -12,4 +12,9 @@ class DebugTest extends TestCase
         $result = $this->valueOf('(debug [1 2 3])');
         $this->assertEquals('[1, 2, 3]', $result);
     }
+
+    public function testReturnsEmptyStringifNoArgs()
+    {
+        $this->assertEquals('', $this->valueOf('(debug)'));
+    }
 }

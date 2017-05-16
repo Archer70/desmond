@@ -8,17 +8,6 @@ class ConcatTest extends TestCase
 {
     use RunnerTrait, NumberTrait;
 
-    public function testConcatNothing()
-    {
-        $this->assertEquals([], $this->valueOf('(concat)'));
-    }
-
-    public function testConcatOneList()
-    {
-        $this->assertEquals(
-            $this->intList([1, 2]), $this->valueOf('(concat (list 1 2))'));
-    }
-
     public function testConcatTwoLists()
     {
         $this->assertEquals(
@@ -33,11 +22,6 @@ class ConcatTest extends TestCase
             $this->valueOf('(concat (list 1 2) (list 3 4) (list 5 6))'));
     }
 
-    public function testConcatAnEmptyConcat()
-    {
-        $this->assertEquals([], $this->valueOf('(concat (concat))'));
-    }
-
     public function testConcatMultipleDefinedLists()
     {
         $this->assertEquals(
@@ -47,5 +31,24 @@ class ConcatTest extends TestCase
                     (define list1 (list 1 2))
                     (define list2 (list 3 4))
                     (concat list1 list2 (list 5 6)))'));
+    }
+
+    /**
+     * @expectedException Desmond\exceptions\ArgumentException
+     * @expectedExceptionMessage "concat" expects argument 1 to be a List.
+     */
+    public function testConcatNothing()
+    {
+        $this->assertEquals([], $this->valueOf('(concat)'));
+    }
+
+    /**
+     * @expectedException Desmond\exceptions\ArgumentException
+     * @expectedExceptionMessage "concat" expects argument 2 to be a List.
+     */
+    public function testConcatOneList()
+    {
+        $this->assertEquals(
+            $this->intList([1, 2]), $this->valueOf('(concat (list 1 2))'));
     }
 }

@@ -45,4 +45,43 @@ class ConsTest extends TestCase
             $this->intList([1, 2, 3]),
             $this->valueOf('(do (define a (list 2 3)) (cons 1 a))'));
     }
+
+    public function testConsVector()
+    {
+        $this->assertEquals(
+            $this->intList([1, 2, 3]),
+            $this->valueOf('(cons 1 [2 3])')
+        );
+    }
+
+    public function testReturnsTheRightCollction()
+    {
+        $this->assertInstanceOf(
+            'Desmond\\data_types\\VectorType',
+            $this->resultOf('(cons 1 [2 3])')
+        );
+
+        $this->assertInstanceOf(
+            'Desmond\\data_types\\ListType',
+            $this->resultOf('(cons 1 (list 2 3))')
+        );
+    }
+
+    /**
+     * @expectedException Desmond\exceptions\ArgumentException
+     * @expectedExceptionMessage "cons" expects 2 arguments.
+     */
+    public function testFailsIfNoFirstArgument()
+    {
+        $this->resultOf('(cons)');
+    }
+
+    /**
+     * @expectedException Desmond\exceptions\ArgumentException
+     * @expectedExceptionMessage "cons" expects argument 2 to be one of [List, Vector].
+     */
+    public function testFailsIfSecondArgIsNotListOrVector()
+    {
+        $this->resultOf('(cons 1 "string")');
+    }
 }

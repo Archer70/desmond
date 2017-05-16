@@ -3,7 +3,7 @@ namespace Desmond\functions\core;
 use Desmond\functions\DesmondFunction;
 use Desmond\data_types\HashType;
 use Desmond\TypeHelper;
-use Exception;
+use Desmond\exceptions\ArgumentException;
 
 class DotGet implements DesmondFunction
 {
@@ -21,7 +21,7 @@ class DotGet implements DesmondFunction
         }
         $index = $args[0]->value();
         if (!isset($_GET[$index])) {
-            throw new Exception('Index "' . $index . '" not found.');
+            throw new ArgumentException('".get": Index "' . $index . '" not found.');
         }
         return self::fromPhpType($_GET[$index]);
     }

@@ -12,4 +12,10 @@ class DebugDumpTest extends TestCase
         $this->expectOutputRegex('/\[\]/');
         $this->resultOf('(debug-dump [])');
     }
+
+    public function testOutputsNothingIfNoArgs()
+    {
+        $this->expectOutputString('');
+        $this->resultOf('(debug-dump)');
+    }
 }
