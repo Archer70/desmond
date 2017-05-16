@@ -3,8 +3,12 @@ namespace Desmond\data_types;
 
 class StringType extends AbstractAtom
 {
-    public function __construct($token)
+    public function __construct($token, $dontFormat=false)
     {
+        if ($dontFormat) {
+            $this->setValue($token);
+            return;
+        }
         $this->setValue($this->formatLiteralString($token));
     }
 

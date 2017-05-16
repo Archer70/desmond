@@ -18,6 +18,6 @@ class FileContents implements DesmondFunction
             throw new Exception('File not found.');
         }
         $contents = file_get_contents($path);
-        return new StringType($contents);
+        return new StringType($contents, true);
     }
 }

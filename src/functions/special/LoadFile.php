@@ -13,7 +13,7 @@ class LoadFile implements DesmondSpecialFunction
         $contents = $fileContents->run([$args[0]]);
         $contents = sprintf('(do %s)', $contents->value());
         $ast = new Ast;
-        $ast = $ast->run([new StringType($contents)]);
+        $ast = $ast->run([new StringType($contents, true)]);
         return $eval->getReturn($ast);
     }
 }
