@@ -1,7 +1,7 @@
 {
     "name": "archer70/desmond",
     "description": "A LISP interpreter for PHP, with interop and awareness of its host environment.",
-    "license": "MPL-2.0",
+    "license": "MIT",
     "authors": [
         {
             "name": "Archer70",
