@@ -1,4 +1,4 @@
-# Desmond [![Build Status](https://travis-ci.org/Archer70/desmond.svg?branch=master)](https://travis-ci.org/Archer70/desmond) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Archer70/desmond/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Archer70/desmond/?branch=master)
+# Desmond [![Build Status](https://travis-ci.org/Archer70/desmond.svg?branch=master)](https://travis-ci.org/Archer70/desmond) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Archer70/desmond/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Archer70/desmond/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/Archer70/desmond/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Archer70/desmond/?branch=master)
 *Put some LISP in your PHP.*
 
 ## Goals
