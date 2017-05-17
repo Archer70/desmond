@@ -45,7 +45,7 @@ class DotMethodTest extends TestCase
 
     /**
      * @expectedException Desmond\exceptions\ArgumentException
-     * @expectedExceptionMessage First argument must be an object or Class::method.
+     * @expectedExceptionMessage ".method" expects argument 1 to be one of [Object, Symbol, String].
      */
     public function testErrorIfNoObject()
     {
@@ -54,7 +54,7 @@ class DotMethodTest extends TestCase
 
     /**
      * @expectedException Desmond\exceptions\ArgumentException
-     * @expectedExceptionMessage First argument must be an object or Class::method.
+     * @expectedExceptionMessage ".method" expects argument 1 to be one of [Object, Symbol, String].
      */
     public function testErrorIfNotObject()
     {
@@ -63,7 +63,7 @@ class DotMethodTest extends TestCase
 
     /**
      * @expectedException Desmond\exceptions\ArgumentException
-     * @expectedExceptionMessage Method not found in object.
+     * @expectedExceptionMessage ".method" expects argument 2 to be one of [Symbol, String].
      */
     public function testErrorIfNoObjectMethod()
     {
@@ -75,7 +75,7 @@ class DotMethodTest extends TestCase
 
     /**
      * @expectedException Desmond\exceptions\ArgumentException
-     * @expectedExceptionMessage Method not found in object.
+     * @expectedExceptionMessage ".method": Method "fakeMethod" not found in object "Desmond\test\mocks\DotMethodMock".
      */
     public function testErrorIfUndefinedObjectMethod()
     {
@@ -87,7 +87,7 @@ class DotMethodTest extends TestCase
 
     /**
      * @expectedException Desmond\exceptions\ArgumentException
-     * @expectedExceptionMessage First argument must be an object or Class::method.
+     * @expectedExceptionMessage ".method": First argument must be an object or Class::method.
      */
     public function testErrorIfClassButNoMethod()
     {
@@ -96,7 +96,7 @@ class DotMethodTest extends TestCase
 
     /**
      * @expectedException Desmond\exceptions\ArgumentException
-     * @expectedExceptionMessage First argument must be an object or Class::method.
+     * @expectedExceptionMessage ".method": Class "NotRealClass" not found.
      */
     public function testErrorIfNoClassExists()
     {
@@ -105,7 +105,7 @@ class DotMethodTest extends TestCase
 
     /**
      * @expectedException Desmond\exceptions\ArgumentException
-     * @expectedExceptionMessage Method "fakeMethod" not found in class "Desmond\test\mocks\DotMethodMock".
+     * @expectedExceptionMessage ".method": Method "fakeMethod" not found in class "Desmond\test\mocks\DotMethodMock".
      */
     public function testErrorIfNoClassMethod()
     {

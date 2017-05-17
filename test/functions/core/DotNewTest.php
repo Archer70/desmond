@@ -24,4 +24,22 @@ class DotNewTest extends TestCase
         $object = $this->valueOf('(.new)');
         $this->assertInstanceOf('stdClass', $object);
     }
+
+    /**
+    * @expectedException Desmond\exceptions\ArgumentException
+    * @expectedExceptionMessage ".new" expects argument 1 to be one of [Symbol, String].
+    */
+    public function testFailsIfNotValidName()
+    {
+        $this->resultOf('(.new [])');
+    }
+
+    /**
+    * @expectedException Desmond\exceptions\ArgumentException
+    * @expectedExceptionMessage ".new": Class "FakeClass" not found.
+    */
+    public function testClassNotFound()
+    {
+        $this->resultOf('(.new FakeClass)');
+    }
 }
