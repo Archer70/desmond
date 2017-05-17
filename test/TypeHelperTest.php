@@ -82,6 +82,15 @@ class TypeHelperTest extends TestCase
         $this->assertInstanceOf(self::type('ObjectType'), self::fromPhpType(new \stdClass));
     }
 
+    /**
+    * @expectedException Exception
+    * @expectedExceptionMessage Unknown PHP type.
+    */
+    public function testUnknownType()
+    {
+        self::fromPhpType(\STDIN);
+    }
+
     private function type($type)
     {
         return "Desmond\\data_types\\$type";

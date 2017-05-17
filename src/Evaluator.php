@@ -52,7 +52,23 @@ class Evaluator
 
     private function doSpecialForm($function, $args)
     {
-        $possibilities = [
+        $possibilities = $this->specialFunctionList($function);
+        $functionName = null;
+        foreach ($possibilities as $possibility) {
+            if ($possibility[0]) {
+                $functionName = $possibility[1];
+                break;
+            }
+        }
+        $functionName = $functionName ? $functionName : 'EnvironmentFunction';
+        return call_user_func_array(
+            "Desmond\\functions\\special\\{$functionName}::run",
+            [$args, $function, &$this->currentEnv, $this]);
+    }
+
+    private function specialFunctionList($function)
+    {
+        return [
             [$function == 'quote', 'Quote'],
             [$function == 'quasiquote', 'Quasiquote'],
             [$function == 'define', 'DefineSymbol'],
@@ -62,16 +78,8 @@ class Evaluator
             [$function == 'lambda', 'CreateLambda'],
             [($function instanceof LambdaType), 'RunLambda'],
             [$function == 'load-file', 'LoadFile'],
-            [$function == 'eval', 'EvalBlock'],
-            [true, 'EnvironmentFunction']
+            [$function == 'eval', 'EvalBlock']
         ];
-        foreach ($possibilities as $possibility) {
-            if ($possibility[0]) {
-                return call_user_func_array(
-                    "Desmond\\functions\\special\\{$possibility[1]}::run",
-                    [$args, $function, &$this->currentEnv, $this]);
-            }
-        }
     }
 
     private function evalAtom($atom)

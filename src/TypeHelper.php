@@ -34,7 +34,7 @@ trait TypeHelper {
         } else if (is_object($value)) {
             return new ObjectType($value);
         } else {
-            throw new Exception('Unidentified PHP type.');
+            throw new Exception('Unknown PHP type.');
         }
     }
 }

@@ -3,7 +3,7 @@ namespace Desmond\data_types;
 
 abstract class AbstractAtom
 {
-    private $value;
+    private $value = null;
 
     public function setValue($value)
     {
@@ -13,11 +13,6 @@ abstract class AbstractAtom
     public function value()
     {
         return $this->value;
-    }
-
-    public function type()
-    {
-        return __CLASS__;
     }
 
     public function __toString()

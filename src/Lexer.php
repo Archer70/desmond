@@ -35,19 +35,19 @@ class Lexer
                 $collection = new ListType();
                 return $this->readCollection($reader, $collection, ')');
             case ')':
-                throw new Exception('unexpected )');
+                throw new Exception('Unexpected )');
             case '[':
                 $reader->next();
                 $collection = new VectorType();
                 return $this->readCollection($reader, $collection, ']');
             case ']':
-                throw new Exception('unexpected )');
+                throw new Exception('Unexpected ]');
             case '{':
                 $reader->next();
                 $hash = new HashType();
                 return $this->readHash($reader, $hash);
             case '}':
-                throw new Exception('unexpected }');
+                throw new Exception('Unexpected }');
             default:
                 $form = $this->readAtom($reader->peek());
                 $reader->next();

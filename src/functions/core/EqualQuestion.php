@@ -13,6 +13,7 @@ class EqualQuestion implements DesmondFunction
 
     public function run(array $args)
     {
-        return Equal::run($args);
+        $equal = new Equal();
+        return $equal->run($args);
     }
 }

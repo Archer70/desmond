@@ -140,6 +140,33 @@ line."'));
         $this->lexer->readString('(+ 1 2');
     }
 
+    /**
+    * @expectedException Exception
+    * @expectedExceptionMessage Unexpected )
+    */
+    public function testUnexpectedListEnd()
+    {
+        $this->lexer->readString(')');
+    }
+
+    /**
+    * @expectedException Exception
+    * @expectedExceptionMessage Unexpected ]
+    */
+    public function testUnexpectedVectorEnd()
+    {
+        $this->lexer->readString(']');
+    }
+
+    /**
+    * @expectedException Exception
+    * @expectedExceptionMessage Unexpected }
+    */
+    public function testUnexpectedHashEnd()
+    {
+        $this->lexer->readString('}');
+    }
+
     public function testIfForm()
     {
         $result = $this->lexer->readString('(if false "yes" "no")');

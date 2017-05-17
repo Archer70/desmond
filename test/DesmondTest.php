@@ -22,6 +22,11 @@ class DesmondTest extends TestCase
         $this->assertEquals(10, $this->desmond->run(':a')->value());
     }
 
+    public function testReturnsEmptyStringIfNoCode()
+    {
+        $this->assertEquals('', $this->desmond->run(''));
+    }
+
     public function testGetsPrettyString()
     {
         $this->assertEquals('(1, 2, 3)', $this->desmond->pretty($this->desmond->run('(list 1 2 3)')));

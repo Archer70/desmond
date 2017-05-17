@@ -16,6 +16,6 @@ class ListType extends AbstractCollection
 
     public function getArgs()
     {
-        return $this->rest(); // Effectively does the same thing.
+        return $this->rest();
     }
 }
