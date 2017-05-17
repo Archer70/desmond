@@ -34,11 +34,20 @@ class DotPostTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
-     * @expectedExceptionMessage Index "not-found" not found.
+     * @expectedException Desmond\exceptions\ArgumentException
+     * @expectedExceptionMessage ".post": Index "not-found" not found.
      */
     public function testIndexNotFound()
     {
         $this->resultOf('(.post not-found)');
+    }
+
+    /**
+    * @expectedException Desmond\exceptions\ArgumentException
+    * @expectedExceptionMessage ".post" expects argument 1 to be one of [Symbol, String].
+    */
+    public function testInvalidArgument()
+    {
+        $this->resultOf('(.post [fail])');
     }
 }

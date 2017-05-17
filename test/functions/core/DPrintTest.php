@@ -12,4 +12,22 @@ class DPrintTest extends TestCase
         $this->expectOutputString('test words');
         $this->resultOf('(print "test words")');
     }
+
+    public function testMultipleStrings()
+    {
+        $this->expectOutputString('test words');
+        $this->resultOf('(print "test " "words")');
+    }
+
+    public function testPrintVector()
+    {
+        $this->expectOutputString('[1, 2, 3]');
+        $this->resultOf('(print [1 2 3])');
+    }
+
+    public function testPrintNothing()
+    {
+        $this->expectOutputString('');
+        $this->resultOf('(print)');
+    }
 }

@@ -1,10 +1,13 @@
 <?php
 namespace Desmond\functions\core;
 use Desmond\functions\DesmondFunction;
-use Desmond\data_types\VoidType;
+use Desmond\ArgumentHelper;
+use Desmond\exceptions\ArgumentException;
 
 class DPrint implements DesmondFunction
 {
+    use ArgumentHelper;
+
     public function id()
     {
         return 'print';
@@ -14,9 +17,9 @@ class DPrint implements DesmondFunction
     {
         $string = '';
         foreach ($strings as $arg) {
-            $string .= $arg->value();
+            $string .= $arg->__toString();
         }
         print($string);
-        return new VoidType();
+        return $this->newReturnType('Void');
     }
 }
