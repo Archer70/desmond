@@ -5,11 +5,11 @@ use Desmond\data_types\LambdaType;
 
 class RunLambda implements DesmondSpecialFunction
 {
-    public static function run(array $args, $function, &$env, $eval)
+    public function run(array $args)
     {
         foreach ($args as $index => $arg) {
-            $args[$index] = $eval->getReturn($arg);
+            $args[$index] = $this->eval->getReturn($arg);
         }
-        return $function->run($args);
+        return $this->function->run($args);
     }
 }

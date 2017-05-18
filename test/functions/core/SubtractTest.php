@@ -11,4 +11,25 @@ class SubtractTest extends TestCase
     {
         $this->assertEquals(-3, $this->valueOf('(- 1 4)'));
     }
+
+    public function testNoArgs()
+    {
+        $this->assertEquals(0, $this->valueOf('(-)'));
+    }
+
+    public function testOneArg()
+    {
+        $this->assertEquals(-3, $this->valueOf('(- 3)'));
+    }
+
+    public function testFloat()
+    {
+        $this->assertEquals(4.20, $this->valueOf('(- 5 0.80)'));
+    }
+
+    public function testNegativeFloat()
+    {
+        $this->assertEquals(-4.20, $this->valueOf('(- 1 5.20)'));
+        $this->assertEquals(-4.20, $this->valueOf('(- 4.20)'));
+    }
 }

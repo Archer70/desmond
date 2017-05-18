@@ -61,9 +61,12 @@ class Evaluator
             }
         }
         $functionName = $functionName ? $functionName : 'EnvironmentFunction';
-        return call_user_func_array(
-            "Desmond\\functions\\special\\{$functionName}::run",
-            [$args, $function, &$this->currentEnv, $this]);
+        $class = "Desmond\\functions\\special\\{$functionName}";
+        $object = new $class();
+        $object->function = $function;
+        $object->currentEnv = &$this->currentEnv;
+        $object->eval = $this;
+        return $object->run($args);
     }
 
     private function specialFunctionList($function)

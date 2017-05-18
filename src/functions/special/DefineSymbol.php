@@ -4,10 +4,10 @@ use Desmond\functions\DesmondSpecialFunction;
 
 class DefineSymbol implements DesmondSpecialFunction
 {
-    public static function run(array $args, $function, &$currentEnv, $eval)
+    public function run(array $args)
     {
-        $value = $eval->getReturn($args[1]);
-        $currentEnv->set($args[0]->value(), $value);
+        $value = $this->eval->getReturn($args[1]);
+        $this->currentEnv->set($args[0]->value(), $value);
         return $value;
     }
 }

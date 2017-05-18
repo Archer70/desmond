@@ -7,13 +7,13 @@ use Desmond\data_types\StringType;
 
 class LoadFile implements DesmondSpecialFunction
 {
-    public static function run(array $args, $function, &$env, $eval)
+    public function run(array $args)
     {
         $fileContents = new FileContents;
         $contents = $fileContents->run([$args[0]]);
         $contents = sprintf('(do %s)', $contents->value());
         $ast = new Ast;
         $ast = $ast->run([new StringType($contents, true)]);
-        return $eval->getReturn($ast);
+        return $this->eval->getReturn($ast);
     }
 }

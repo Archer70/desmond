@@ -1,5 +1,5 @@
 <?php
-namespace Desmond\test\collections;
+namespace Desmond\test\functions\special;
 use PHPUnit\Framework\TestCase;
 use Desmond\test\helpers\RunnerTrait;
 

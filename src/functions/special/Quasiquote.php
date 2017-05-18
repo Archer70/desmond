@@ -5,7 +5,7 @@ use Desmond\data_types\ListType;
 
 class Quasiquote implements DesmondSpecialFunction
 {
-    public static function run(array $args, $function, &$env, $eval)
+    public function run(array $args)
     {
         $arg = $args[0];
         $isList = $arg instanceof ListType;
@@ -13,17 +13,20 @@ class Quasiquote implements DesmondSpecialFunction
             $list = $arg;
             foreach ($list->value() as $index => $element) {
                 if ($element->value() == 'unquote') {
-                    $newValue = $eval->getReturn($list->rest()[0]);
+                    $newValue = $this->eval->getReturn($list->rest()[0]);
                     $list = $newValue;
                 }
                 else if ($element instanceof ListType && !empty($element->value())) {
                     if ($element->first()->value() == 'unquote') {
-                        $newValue = $eval->getReturn($element->rest()[0]);
+                        $newValue = $this->eval->getReturn($element->rest()[0]);
                         $list->set($newValue, $index);
                     }
                 }
             }
         }
-        return isset($list) ? Quote::run([$list], $function, $env, $eval) : Quote::run($args, $function, $env, $eval);
+        $quote = new Quote();
+        return isset($list)
+            ? $quote->run([$list], $this->function, $this->currentEnv, $this->eval)
+            : $quote->run($args, $this->function, $this->currentEnv, $this->eval);
     }
 }

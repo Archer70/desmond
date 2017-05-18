@@ -4,20 +4,20 @@ use Desmond\functions\DesmondSpecialFunction;
 
 class Let implements DesmondSpecialFunction
 {
-    public static function run(array $args, $function, &$env, $eval)
+    public function run(array $args)
     {
         $hash = $args[0];
         $function = $args[1];
-        $newEnvId = $env->makeChild();
+        $newEnvId = $this->currentEnv->makeChild();
 
-        $env = $env->values[$newEnvId];
+        $this->currentEnv = $this->currentEnv->values[$newEnvId];
         foreach ($hash->value() as $key => $val) {
-            $env->set($key, $eval->getReturn($val));
+            $this->currentEnv->set($key, $this->eval->getReturn($val));
         }
-        $funcVal = $eval->getReturn($function);
+        $funcVal = $this->eval->getReturn($function);
 
-        $env = $env->getParent();
-        $env->destroyChild($newEnvId);
+        $this->currentEnv = $this->currentEnv->getParent();
+        $this->currentEnv->destroyChild($newEnvId);
         return $funcVal;
     }
 }

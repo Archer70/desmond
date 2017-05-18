@@ -4,12 +4,12 @@ use Desmond\functions\DesmondSpecialFunction;
 
 class EnvironmentFunction implements DesmondSpecialFunction
 {
-    public static function run(array $args, $function, &$env, $eval)
+    public function run(array $args)
     {
         foreach ($args as $formIndex => $atom) {
-            $args[$formIndex] = $eval->getReturn($atom);
+            $args[$formIndex] = $this->eval->getReturn($atom);
         }
-        $actualFunction = $env->get($function);
+        $actualFunction = $this->currentEnv->get($this->function);
         $object = new $actualFunction;
         return $object->run($args);
     }

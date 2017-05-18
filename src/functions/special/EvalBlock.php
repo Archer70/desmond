@@ -7,9 +7,9 @@ use Desmond\data_types\StringType;
 
 class EvalBlock implements DesmondSpecialFunction
 {
-    public static function run(array $args, $function, &$env, $eval)
+    public function run(array $args)
     {
-        $return = $eval->getReturn($args[0]);
-        return $eval->getReturn($return);
+        $return = $this->eval->getReturn($args[0]);
+        return $this->eval->getReturn($return);
     }
 }

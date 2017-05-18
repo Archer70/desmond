@@ -5,8 +5,8 @@ use Desmond\data_types\LambdaType;
 
 class CreateLambda implements DesmondSpecialFunction
 {
-    public static function run(array $args, $function, &$env, $eval)
+    public function run(array $args)
     {
-        return new LambdaType($eval, $args[0], $args[1]);
+        return new LambdaType($this->eval, $args[0], $args[1]);
     }
 }

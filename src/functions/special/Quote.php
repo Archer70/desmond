@@ -4,7 +4,7 @@ use Desmond\functions\DesmondSpecialFunction;
 
 class Quote implements DesmondSpecialFunction
 {
-    public static function run(array $args, $function, &$env, $eval)
+    public function run(array $args)
     {
         return $args[0];
     }

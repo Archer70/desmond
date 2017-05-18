@@ -4,13 +4,13 @@ use Desmond\functions\DesmondSpecialFunction;
 
 class DoBlock implements DesmondSpecialFunction
 {
-    public static function run(array $args, $function, &$env, $eval)
+    public function run(array $args)
     {
         $last = end($args);
         array_pop($args);
         foreach($args as $arg) {
-            $eval->getReturn($arg);
+            $this->eval->getReturn($arg);
         }
-        return $eval->getReturn($last);
+        return $this->eval->getReturn($last);
     }
 }

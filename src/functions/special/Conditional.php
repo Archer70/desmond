@@ -5,13 +5,13 @@ use Desmond\data_types\NilType;
 
 class Conditional implements DesmondSpecialFunction
 {
-    public static function run(array $args, $function, &$env, $eval)
+    public function run(array $args)
     {
-        $condition = $eval->getReturn($args[0])->value();
+        $condition = $this->eval->getReturn($args[0])->value();
         if ($condition !== null && $condition !== false) {
-            return $eval->getReturn($args[1]);
+            return $this->eval->getReturn($args[1]);
         } else {
-            return isset($args[2]) ? $eval->getReturn($args[2]) : new NilType();
+            return isset($args[2]) ? $this->eval->getReturn($args[2]) : new NilType();
         }
     }
 }
