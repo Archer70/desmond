@@ -4,7 +4,7 @@ use Desmond\functions\DesmondFunction;
 use Desmond\ArgumentHelper;
 use Desmond\exceptions\ArgumentException;
 
-class Cons implements DesmondFunction
+class Cons extends DesmondFunction
 {
     use ArgumentHelper;
 

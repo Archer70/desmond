@@ -3,7 +3,7 @@ namespace Desmond\functions\core;
 use Desmond\functions\DesmondFunction;
 use Desmond\data_types\NumberType;
 
-class Subtract implements DesmondFunction
+class Subtract extends DesmondFunction
 {
     public function id()
     {

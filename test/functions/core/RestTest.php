@@ -32,7 +32,6 @@ class RestTest extends TestCase
 
     /**
      * @expectedException Desmond\exceptions\ArgumentException
-     * @expectedExceptionMessage Rest expects argument to be a collection.
      */
     public function testFailesIfNoArgument()
     {
@@ -41,7 +40,6 @@ class RestTest extends TestCase
 
     /**
      * @expectedException Desmond\exceptions\ArgumentException
-     * @expectedExceptionMessage Rest expects argument to be a collection.
      */
     public function testFailesIfArgumentNotCollection()
     {

@@ -1,12 +1,15 @@
 <?php
 namespace Desmond\functions\core;
 use Desmond\functions\DesmondFunction;
+use Desmond\ArgumentHelper;
 use Desmond\functions\DocLibrary;
 use Desmond\data_types\StringType;
-use Exception;
+use Desmond\exceptions\ArgumentException;
 
-class Help implements DesmondFunction
+class Help extends DesmondFunction
 {
+    use ArgumentHelper;
+
     public function id()
     {
         return 'help';
@@ -14,16 +17,23 @@ class Help implements DesmondFunction
 
     public function run(array $args)
     {
+        $this->expectFunction($args);
         $library = new DocLibrary();
         $library->index();
-        if (!isset($args[0]) || !($args[0] instanceof StringType)) {
-            throw new Exception('First argument must be a string containing the name of a function. See (function-list) for available functions.');
-        }
         if (!isset($library->library()[$args[0]->value()])) {
-            throw new Exception('Function "' . $args[0]->value() . '" not found.');
+            throw new ArgumentException('"help": Function "' . $args[0]->value() . '" not found.');
         }
         $doc = $library->library()[$args[0]->value()];
         return self::formatHelpText($doc);
+    }
+
+    private function expectFunction($args)
+    {
+        $this->expectArguments(
+            'help',
+            [0 => ['String']],
+            $args
+        );
     }
 
     private static function formatHelpText($doc)

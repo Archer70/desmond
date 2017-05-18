@@ -4,7 +4,7 @@ use Desmond\functions\DesmondFunction;
 use Desmond\functions\FileOperations;
 use Desmond\data_types\ListType;
 
-class FunctionList implements DesmondFunction
+class FunctionList extends DesmondFunction
 {
     public function id()
     {

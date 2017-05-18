@@ -1,8 +1,13 @@
 <?php
 namespace Desmond\functions;
 
-interface DesmondFunction
+abstract class DesmondFunction
 {
-    public function id();
-    public function run(array $args);
+    abstract public function id();
+    abstract public function run(array $args);
+
+    public function __toString()
+    {
+        return '#core-func';
+    }
 }

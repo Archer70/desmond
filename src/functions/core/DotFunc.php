@@ -7,7 +7,7 @@ use Desmond\exceptions\ArgumentException;
 use RuntimeException;
 use ArgumentCountError;
 
-class DotFunc implements DesmondFunction
+class DotFunc extends DesmondFunction
 {
     use ArgumentHelper;
     public function id()

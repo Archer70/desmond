@@ -24,7 +24,6 @@ class FirstTest extends TestCase
 
     /**
      * @expectedException Desmond\exceptions\ArgumentException
-     * @expectedExceptionMessage First expects argument to be a collection.
      */
     public function testFailesIfNoArgument()
     {
@@ -33,7 +32,6 @@ class FirstTest extends TestCase
 
     /**
      * @expectedException Desmond\exceptions\ArgumentException
-     * @expectedExceptionMessage First expects argument to be a collection.
      */
     public function testFailesIfArgumentNotCollection()
     {

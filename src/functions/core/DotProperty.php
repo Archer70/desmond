@@ -5,7 +5,7 @@ use Desmond\ArgumentHelper;
 use Desmond\TypeHelper;
 use Desmond\exceptions\ArgumentException;
 
-class DotProperty implements DesmondFunction
+class DotProperty extends DesmondFunction
 {
     use ArgumentHelper;
     use TypeHelper;

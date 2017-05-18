@@ -1,11 +1,14 @@
 <?php
 namespace Desmond\functions\core;
 use Desmond\functions\DesmondFunction;
+use Desmond\ArgumentHelper;
 use Desmond\exceptions\ArgumentException;
 use Desmond\data_types\AbstractCollection;
 
-class First implements DesmondFunction
+class First extends DesmondFunction
 {
+    use ArgumentHelper;
+    
     public function id()
     {
         return 'first';
@@ -13,9 +16,11 @@ class First implements DesmondFunction
 
     public function run(array $args)
     {
-        if (!isset($args[0])|| !($args[0] instanceof AbstractCollection)) {
-            throw new ArgumentException('First expects argument to be a collection.');
-        }
+        $this->expectArguments(
+            'first',
+            [0 => ['List', 'Vector', 'Hash']],
+            $args
+        );
         return $args[0]->first();
     }
 }

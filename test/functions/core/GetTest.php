@@ -13,7 +13,7 @@ class GetTest extends TestCase
             (get {:key 7} :key))'));
     }
 
-    // You'd be better of using nth for this, but whatever.
+    // You'd be better off using nth for this, but whatever.
     public function testGetFromVector()
     {
         $this->assertEquals(7, $this->valueOf('
@@ -22,7 +22,6 @@ class GetTest extends TestCase
 
     /**
      * @expectedException Desmond\exceptions\ArgumentException
-     * @expectedExceptionMessage Get expects first argument to be a collection.
      */
     public function testFailsIfNoHash()
     {
@@ -31,7 +30,6 @@ class GetTest extends TestCase
 
     /**
      * @expectedException Desmond\exceptions\ArgumentException
-     * @expectedExceptionMessage Get expects first argument to be a collection.
      */
     public function testFailsIfNotAHash()
     {
@@ -40,7 +38,6 @@ class GetTest extends TestCase
 
     /**
      * @expectedException Desmond\exceptions\ArgumentException
-     * @expectedExceptionMessage Get expects second argument to be a Number, Symbol or String.
      */
     public function testFailsIfNoKey()
     {
@@ -49,7 +46,6 @@ class GetTest extends TestCase
 
     /**
      * @expectedException Desmond\exceptions\ArgumentException
-     * @expectedExceptionMessage Get expects second argument to be a Number, Symbol or String.
      */
     public function testFailsIfNotValidKey()
     {

@@ -3,7 +3,7 @@ namespace Desmond\functions\core;
 use Desmond\functions\DesmondFunction;
 use Desmond\data_types\StringType;
 
-class Debug implements DesmondFunction
+class Debug extends DesmondFunction
 {
     public function id()
     {

@@ -4,7 +4,7 @@ use Desmond\Lexer;
 use Desmond\functions\DesmondFunction;
 use Desmond\ArgumentHelper;
 
-class Ast implements DesmondFunction
+class Ast extends DesmondFunction
 {
     use ArgumentHelper;
 

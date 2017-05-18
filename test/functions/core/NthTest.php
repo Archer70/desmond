@@ -24,7 +24,6 @@ class NthTest extends TestCase
 
     /**
      * @expectedException Desmond\exceptions\ArgumentException
-     * @expectedExceptionMessage Nth expects first argument to be a List or Vector.
      */
     public function testFailsIfNoFirstArgument()
     {
@@ -33,7 +32,6 @@ class NthTest extends TestCase
 
     /**
      * @expectedException Desmond\exceptions\ArgumentException
-     * @expectedExceptionMessage Nth expects first argument to be a List or Vector.
      */
     public function testFailsIfNotListOrVector()
     {
@@ -42,7 +40,6 @@ class NthTest extends TestCase
 
     /**
      * @expectedException Desmond\exceptions\ArgumentException
-     * @expectedExceptionMessage Nth expects second argument to be a Number.
      */
     public function testFailsIfNoSecondArgument()
     {
@@ -51,7 +48,6 @@ class NthTest extends TestCase
 
     /**
      * @expectedException Desmond\exceptions\ArgumentException
-     * @expectedExceptionMessage Nth expects second argument to be a Number.
      */
     public function testFailsIfSecondArgumentNotNumber()
     {

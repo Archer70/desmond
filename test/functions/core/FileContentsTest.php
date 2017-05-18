@@ -17,11 +17,19 @@ class FileContentsTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
-     * @exectedExceptionMessage File "asdfa" not found.
+     * @expectedException Desmond\exceptions\ArgumentException
+     * @exectedExceptionMessage "file-contents": File "asdfa" not found.
      */
     public function testFileContentsNoFile()
     {
         $this->resultOf('(file-contents "asdfa")');
+    }
+
+    /**
+     * @expectedException Desmond\exceptions\ArgumentException
+     */
+    public function testNoFile()
+    {
+        $this->resultOf('(file-contents)');
     }
 }

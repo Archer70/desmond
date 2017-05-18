@@ -3,7 +3,7 @@ namespace Desmond\functions\core;
 use Desmond\functions\DesmondFunction;
 use Desmond\ArgumentHelper;
 
-class Equal implements DesmondFunction
+class Equal extends DesmondFunction
 {
     use ArgumentHelper;
 

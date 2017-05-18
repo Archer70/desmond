@@ -59,7 +59,7 @@ abstract class AbstractCollection
             $string .=
                 $separator.
                 (is_string($key) ? $key. ' ' : '').
-                (method_exists('__toString', $val) ? $val->__toString() : $val);
+                (method_exists($val, '__toString') ? $val->__toString() : $val);
         }
         return $this->ends()[0] . $string . $this->ends()[1];
     }

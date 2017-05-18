@@ -3,7 +3,7 @@ namespace Desmond\functions\core;
 use Desmond\functions\DesmondFunction;
 use Desmond\data_types\ListType;
 
-class ListFunc implements DesmondFunction
+class ListFunc extends DesmondFunction
 {
     public function id()
     {

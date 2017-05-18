@@ -13,8 +13,7 @@ class HelpTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
-     * @expectedExceptionMessage First argument must be a string containing the name of a function. See (function-list) for available functions.
+     * @expectedException Desmond\exceptions\ArgumentException
      */
     public function testFirstArgumentIsString()
     {
@@ -22,8 +21,8 @@ class HelpTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
-     * @expectedExceptionMessage Function "asdfads" not found.
+     * @expectedException Desmond\exceptions\ArgumentException
+     * @expectedExceptionMessage "help": Function "asdfads" not found.
      */
     public function testFunctionNotFound()
     {

@@ -1,15 +1,16 @@
 <?php
 namespace Desmond\functions\core;
 use Desmond\functions\DesmondFunction;
+use Desmond\ArgumentHelper;
 use Desmond\exceptions\ArgumentException;
 use Desmond\data_types\AbstractCollection;
 use Desmond\data_types\VectorType;
 use Desmond\data_types\HashType;
 use Desmond\data_types\ListType;
 
-class Rest implements DesmondFunction
+class Rest extends DesmondFunction
 {
-    use \Desmond\TypeHelper;
+    use ArgumentHelper;
 
     public function id()
     {
@@ -18,9 +19,11 @@ class Rest implements DesmondFunction
 
     public function run(array $args)
     {
-        if (!isset($args[0])|| !($args[0] instanceof AbstractCollection)) {
-            throw new ArgumentException('Rest expects argument to be a collection.');
-        }
-        return new VectorType(array_values($args[0]->rest()));
+        $this->expectArguments(
+            'rest',
+            [0 => ['List', 'Vector', 'Hash']],
+            $args
+        );
+        return $this->newReturnType('Vector', array_values($args[0]->rest()));
     }
 }

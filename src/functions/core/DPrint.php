@@ -4,7 +4,7 @@ use Desmond\functions\DesmondFunction;
 use Desmond\ArgumentHelper;
 use Desmond\exceptions\ArgumentException;
 
-class DPrint implements DesmondFunction
+class DPrint extends DesmondFunction
 {
     use ArgumentHelper;
 

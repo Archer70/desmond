@@ -3,7 +3,7 @@ namespace Desmond\functions\core;
 use Desmond\functions\DesmondFunction;
 use Desmond\ArgumentHelper;
 
-class Concat implements DesmondFunction
+class Concat extends DesmondFunction
 {
     use ArgumentHelper;
 

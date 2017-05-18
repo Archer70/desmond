@@ -6,7 +6,7 @@ use Desmond\TypeHelper;
 use Desmond\ArgumentHelper;
 use Desmond\exceptions\ArgumentException;
 
-class DotPost implements DesmondFunction
+class DotPost extends DesmondFunction
 {
     use TypeHelper;
     use ArgumentHelper;

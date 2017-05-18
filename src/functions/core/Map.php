@@ -1,14 +1,12 @@
 <?php
 namespace Desmond\functions\core;
 use Desmond\functions\DesmondFunction;
-use Desmond\data_types\AbstractCollection;
-use Desmond\data_types\LambdaType;
-use Desmond\data_types\VectorType;
-use Desmond\data_types\ListType;
-use Desmond\data_types\HashType;
+use Desmond\ArgumentHelper;
 
-class Map implements DesmondFunction
+class Map extends DesmondFunction
 {
+    use ArgumentHelper;
+
     public function id()
     {
         return 'map';
@@ -16,34 +14,23 @@ class Map implements DesmondFunction
 
     public function run(array $args)
     {
-        self::requireArgTypes($args);
+        $this->requireArgTypes($args);
         $collection = $args[0];
         $values = $collection->value();
         $function = $args[1];
         foreach ($values as $key => $value) {
-            $values[$key] = $function->run([$value]);
+            $collection->set(
+                $function->run([$value]), $key);
         }
-        return self::returnCollection($collection, $values);
+        return $collection;
     }
 
-    private static function requireArgTypes(array $args)
+    private function requireArgTypes(array $args)
     {
-        if (!isset($args[0]) || !($args[0] instanceof AbstractCollection)) {
-            throw new \Exception('Map requires first argument to be a collection.');
-        }
-        if (!isset($args[1]) || !($args[1] instanceof LambdaType)) {
-            throw new \Exception('Map requires second argument to be a lambda function.');
-        }
-    }
-
-    private static function returnCollection($collectionType, $collection)
-    {
-        if ($collectionType instanceof VectorType) {
-            return new VectorType($collection);
-        } else if ($collectionType instanceof ListType) {
-            return new ListType($collection);
-        } else {
-            return new HashType($collection);
-        }
+        $this->expectArguments(
+            'map',
+            [0 => ['List', 'Vector', 'Hash'], 1 => ['Lambda']],
+            $args
+        );
     }
 }

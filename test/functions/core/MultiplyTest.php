@@ -11,4 +11,27 @@ class MultiplyTest extends TestCase
     {
         $this->assertEquals(8, $this->valueOf('(* 2 4)'));
     }
+
+    public function testNoNumbers()
+    {
+        $this->assertEquals(0, $this->valueOf('(*)'));
+        $this->assertEquals(7, $this->valueOf('(* 7)'));
+    }
+
+    /**
+     * @expectedException Desmond\exceptions\ArgumentException
+     */
+    public function testInvalidType()
+    {
+        $this->resultOf('(* "seven")');
+    }
+
+    /**
+     * @expectedException Desmond\exceptions\ArgumentException
+     * @expectedExceptionMessage "*" expects all arguments to be Numbers.
+     */
+    public function testInvalidNumber()
+    {
+        $this->resultOf('(* 2 "five")');
+    }
 }

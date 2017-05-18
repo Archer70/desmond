@@ -3,7 +3,7 @@ namespace Desmond\functions\core;
 use Desmond\functions\DesmondFunction;
 use Desmond\data_types\VoidType;
 
-class DebugDump implements DesmondFunction
+class DebugDump extends DesmondFunction
 {
     public function id()
     {

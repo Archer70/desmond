@@ -5,7 +5,7 @@ use Desmond\data_types\HashType;
 use Desmond\TypeHelper;
 use Desmond\exceptions\ArgumentException;
 
-class DotGet implements DesmondFunction
+class DotGet extends DesmondFunction
 {
     use TypeHelper;
 

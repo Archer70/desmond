@@ -4,7 +4,7 @@ use Desmond\functions\DesmondFunction;
 use Desmond\exceptions\ArgumentException;
 use Desmond\ArgumentHelper;
 
-class Divide implements DesmondFunction
+class Divide extends DesmondFunction
 {
     use ArgumentHelper;
 

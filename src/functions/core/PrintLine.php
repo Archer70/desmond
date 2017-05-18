@@ -3,7 +3,7 @@ namespace Desmond\functions\core;
 use Desmond\functions\DesmondFunction;
 use Desmond\data_types\VoidType;
 
-class PrintLine implements DesmondFunction
+class PrintLine extends DesmondFunction
 {
     public function id()
     {
@@ -12,11 +12,9 @@ class PrintLine implements DesmondFunction
 
     public function run(array $strings)
     {
-        $string = '';
-        foreach ($strings as $arg) {
-            $string .= $arg->value();
-        }
-        print($string . "\n");
+        $printer = new DPrint();
+        $printer->run($strings);
+        print("\n");
         return new VoidType();
     }
 }

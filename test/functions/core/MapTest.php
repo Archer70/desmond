@@ -11,8 +11,7 @@ class MapTest extends TestCase
     use NumberTrait;
 
     /**
-     * @expectedException Exception
-     * @expectedExceptionMessage Map requires first argument to be a collection.
+     * @expectedException Desmond\exceptions\ArgumentException
      */
     public function testFailsIfNoCollection()
     {
@@ -20,8 +19,7 @@ class MapTest extends TestCase
     }
 
     /**
-     * @expectedException Exception
-     * @expectedExceptionMessage Map requires second argument to be a lambda function.
+     * @expectedException Desmond\exceptions\ArgumentException
      */
     public function testFailsIfNoCallback()
     {
