@@ -3,7 +3,7 @@ namespace Desmond\functions\special;
 use Desmond\functions\DesmondSpecialFunction;
 use Desmond\data_types\NilType;
 
-class DoBlock implements DesmondSpecialFunction
+class DoBlock extends DesmondSpecialFunction
 {
     public function run(array $args)
     {

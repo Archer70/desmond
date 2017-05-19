@@ -2,7 +2,7 @@
 namespace Desmond\functions\special;
 use Desmond\functions\DesmondSpecialFunction;
 
-class Quote implements DesmondSpecialFunction
+class Quote extends DesmondSpecialFunction
 {
     public function run(array $args)
     {

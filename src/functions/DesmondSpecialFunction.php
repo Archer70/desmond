@@ -1,7 +1,10 @@
 <?php
 namespace Desmond\functions;
 
-interface DesmondSpecialFunction
+abstract class DesmondSpecialFunction
 {
-    public function run(array $args);
+    public $function;
+    public $currentEnv;
+    public $eval;
+    abstract public function run(array $args);
 }

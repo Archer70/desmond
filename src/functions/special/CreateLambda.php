@@ -5,7 +5,7 @@ use Desmond\data_types\LambdaType;
 use Desmond\ArgumentHelper;
 use Desmond\exceptions\ArgumentException;
 
-class CreateLambda implements DesmondSpecialFunction
+class CreateLambda extends DesmondSpecialFunction
 {
     use ArgumentHelper;
 

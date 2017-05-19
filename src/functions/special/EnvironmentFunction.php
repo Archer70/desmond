@@ -2,7 +2,7 @@
 namespace Desmond\functions\special;
 use Desmond\functions\DesmondSpecialFunction;
 
-class EnvironmentFunction implements DesmondSpecialFunction
+class EnvironmentFunction extends DesmondSpecialFunction
 {
     public function run(array $args)
     {

@@ -3,7 +3,7 @@ namespace Desmond\functions\special;
 use Desmond\functions\DesmondSpecialFunction;
 use Desmond\data_types\LambdaType;
 
-class RunLambda implements DesmondSpecialFunction
+class RunLambda extends DesmondSpecialFunction
 {
     public function run(array $args)
     {

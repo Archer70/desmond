@@ -4,7 +4,7 @@ use Desmond\functions\DesmondSpecialFunction;
 use Desmond\ArgumentHelper;
 use Desmond\exceptions\ArgumentException;
 
-class Conditional implements DesmondSpecialFunction
+class Conditional extends DesmondSpecialFunction
 {
     use ArgumentHelper;
 

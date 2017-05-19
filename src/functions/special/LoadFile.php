@@ -6,7 +6,7 @@ use Desmond\functions\core\FileContents;
 use Desmond\functions\core\Ast;
 use Desmond\data_types\StringType;
 
-class LoadFile implements DesmondSpecialFunction
+class LoadFile extends DesmondSpecialFunction
 {
     use ArgumentHelper;
 

@@ -4,7 +4,7 @@ use Desmond\functions\DesmondSpecialFunction;
 use Desmond\ArgumentHelper;
 use Desmond\exceptions\ArgumentException;
 
-class DefineSymbol implements DesmondSpecialFunction
+class DefineSymbol extends DesmondSpecialFunction
 {
     use ArgumentHelper;
 
