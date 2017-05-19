@@ -23,4 +23,14 @@ class EvalTest extends TestCase
                     (define :my-list (ast "(+ 4 1)"))
                     (eval :my-list))'));
     }
+
+    public function testEvalsLiteralString()
+    {
+        $this->assertEquals('test', $this->valueOf('(eval "test")'));
+    }
+
+    public function testNilIfNoEval()
+    {
+        $this->assertEquals(null, $this->valueOf('(eval)'));
+    }
 }

@@ -13,4 +13,20 @@ class LoadFileTest extends TestCase
         $this->resultOf(
             '(load-file "' . __DIR__ . '/../../desmond_files/print-math.dsmnd")');
     }
+
+    /**
+     * @expectedException Desmond\exceptions\ArgumentException
+     */
+    public function testFileDoesntExist()
+    {
+        $this->resultOf('(load-file noop)');
+    }
+
+    /**
+     * @expectedException Desmond\exceptions\ArgumentException
+     */
+    public function testNoFileName()
+    {
+        $this->resultOf('(load-file)');
+    }
 }

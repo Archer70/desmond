@@ -3,7 +3,7 @@ namespace Desmond\test\collections;
 use PHPUnit\Framework\TestCase;
 use Desmond\test\helpers\RunnerTrait;
 
-class LambdaTest extends TestCase
+class CreateLambdaTest extends TestCase
 {
     use RunnerTrait;
 
@@ -45,5 +45,21 @@ class LambdaTest extends TestCase
                     (+ :num1 :num2)
                 ) :x :y)
             )'));
+    }
+
+    /**
+     * @expectedException Desmond\exceptions\ArgumentException
+     */
+    public function testNoArgs()
+    {
+        $this->resultOf('(lambda)');
+    }
+
+    /**
+     * @expectedException Desmond\exceptions\ArgumentException
+     */
+    public function testNoBody()
+    {
+        $this->resultOf('(lambda [] )');
     }
 }

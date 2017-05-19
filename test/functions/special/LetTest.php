@@ -20,4 +20,21 @@ class LetTest extends TestCase
         $this->assertNotEquals(
             5, $this->valueOf('(do (let {:num 5} :num) :num)'));
     }
+
+    /**
+     * @expectedException Desmond\exceptions\ArgumentException
+     */
+    public function testNoBindings()
+    {
+        $this->resultOf('(let "something")');
+    }
+
+    /**
+     * @expectedException Desmond\exceptions\ArgumentException
+     * @expectedExceptionMessage "let" expects a second argument.
+     */
+    public function testNoBody()
+    {
+        $this->resultOf('(let {})');
+    }
 }

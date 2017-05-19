@@ -24,4 +24,21 @@ class DefineTest extends TestCase
         $this->assertEquals(
             6, $this->valueOf('(do (define :five 5) (+ 1 :five))'));
     }
+
+    /**
+     * @expectedException Desmond\exceptions\ArgumentException
+     */
+    public function testNoSymbol()
+    {
+        $this->resultOf('(define)');
+    }
+
+    /**
+     * @expectedException Desmond\exceptions\ArgumentException
+     * @expectedExceptionMessage "define" expects second argument.
+     */
+    public function testNoValue()
+    {
+        $this->resultOf('(define :sym)');
+    }
 }
