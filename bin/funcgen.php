@@ -8,7 +8,7 @@ namespace Desmond\\functions\\core;
 use Desmond\\functions\\DesmondFunction;
 use Desmond\\ArgumentHelper;
 
-class %s implements DesmondFunction
+class %s extends DesmondFunction
 {
     use ArgumentHelper;
 
