@@ -27,7 +27,7 @@ class DotFunc extends DesmondFunction
 
         // This is to capture warnings when you call PHP functions without all their args.
         set_error_handler(function($errno, $errstr, $errfile, $errline) {
-            throw new RuntimeException();
+            throw new RuntimeException($errstr);
         });
 
         try {

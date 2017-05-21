@@ -27,6 +27,11 @@ abstract class AbstractCollection
         }
     }
 
+    public function prepend($value)
+    {
+        array_unshift($this->collection, $value);
+    }
+
     public function first()
     {
         return array_values($this->collection)[0];
