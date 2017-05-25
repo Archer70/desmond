@@ -2,6 +2,7 @@
 namespace Desmond\functions\core;
 use Desmond\functions\DesmondFunction;
 use Desmond\ArgumentHelper;
+use Desmond\exceptions\ArgumentException;
 
 class Map extends DesmondFunction
 {
@@ -29,8 +30,11 @@ class Map extends DesmondFunction
     {
         $this->expectArguments(
             'map',
-            [0 => ['List', 'Vector', 'Hash'], 1 => ['Lambda']],
+            [['List', 'Vector', 'Hash']],
             $args
         );
+        if (!isset($args[1]) || !($args[1] instanceof DesmondFunction)) {
+            throw new ArgumentException('"map" expects argument 1 to be a function.');
+        }
     }
 }

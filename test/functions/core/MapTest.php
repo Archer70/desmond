@@ -59,4 +59,12 @@ class MapTest extends TestCase
             $this->valueOf($code)
         );
     }
+
+    public function testMapsWithCoreFunction()
+    {
+        $this->assertEquals(
+            $this->intList([1, 2, 3]),
+            $this->valueOf('(map [-1 -2 -3] +)')
+        );
+    }
 }

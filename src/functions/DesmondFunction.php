@@ -8,6 +8,6 @@ abstract class DesmondFunction
 
     public function __toString()
     {
-        return '#core-func';
+        return "#<function>";
     }
 }

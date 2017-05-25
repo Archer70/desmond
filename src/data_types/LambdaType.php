@@ -2,8 +2,9 @@
 namespace Desmond\data_types;
 use Desmond\Evaluator;
 use Desmond\Environment;
+use Desmond\functions\DesmondFunction;
 
-class LambdaType
+class LambdaType extends DesmondFunction
 {
     private $evaluator;
     private $environment;
@@ -18,7 +19,12 @@ class LambdaType
         $this->body = $body;
     }
 
-    public function run($params)
+    public function id()
+    {
+        return 'anonymous';
+    }
+
+    public function run(array $params)
     {
         $env = &$this->evaluator->currentEnv;
         $newEnv = $env->makeChild();
