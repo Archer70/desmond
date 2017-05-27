@@ -81,7 +81,8 @@ class Evaluator
             [$function == 'lambda', 'CreateLambda'],
             [($function instanceof LambdaType), 'RunLambda'],
             [$function == 'load-file', 'LoadFile'],
-            [$function == 'eval', 'EvalBlock']
+            [$function == 'eval', 'EvalBlock'],
+            [$function == 'try', 'TryCatch']
         ];
     }
 
