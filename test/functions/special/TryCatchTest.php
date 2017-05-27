@@ -13,6 +13,17 @@ class TryCatchTest extends TestCase
         $this->assertEquals('"/" expects argument 1 to be a Number.', $message);
     }
 
+    public function testGetsValidReturn()
+    {
+        $number = $this->valueOf('
+            (try
+                (+ 7 7)
+                (catch :exception :exception)
+            )'
+        );
+        $this->assertEquals(14, $number);
+    }
+
     /**
      * @expectedException Desmond\exceptions\ArgumentException
      */
