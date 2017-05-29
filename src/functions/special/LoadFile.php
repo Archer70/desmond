@@ -15,7 +15,14 @@ class LoadFile extends DesmondSpecialFunction
         $this->expectArguments('load-file', [['Symbol', 'String']], $args);
         $fileContents = new FileContents;
         $contents = $fileContents->run([$args[0]]);
-        $contents = sprintf('(do %s)', $contents->value());
+        $contents = sprintf('
+            (let
+                {_dir "%s", _file "%s"}
+                (do %s)
+            )',
+            dirname(realpath($args[0]->value())),
+            realpath($args[0]->value()),
+            $contents->value());
         $ast = new Ast;
         $ast = $ast->run([new StringType($contents, true)]);
         return $this->eval->getReturn($ast);

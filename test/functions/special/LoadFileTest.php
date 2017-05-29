@@ -14,6 +14,24 @@ class LoadFileTest extends TestCase
             '(load-file "' . __DIR__ . '/../../desmond_files/print-math.dsmnd")');
     }
 
+    public function testFileKnowsDir()
+    {
+        $file = __DIR__ . '/../../desmond_files/return-dir.dsmnd';
+        $this->assertEquals(
+            dirname(realpath(__DIR__ . '/../../desmond_files/return-dir.dsmnd')),
+            $this->valueOf('(load-file "' . $file . '")')
+        );
+    }
+
+    public function testFileKnowsFile()
+    {
+        $file = __DIR__ . '/../../desmond_files/return-file.dsmnd';
+        $this->assertEquals(
+            realpath($file),
+            $this->valueOf('(load-file "' . $file . '")')
+        );
+    }
+
     /**
      * @expectedException Desmond\exceptions\ArgumentException
      */
