@@ -16,6 +16,7 @@ class Evaluator
     public function __construct()
     {
         $this->coreEnv = new Environment();
+        DesmondNamespace::setRoot($this->coreEnv);
         $this->currentEnv = $this->coreEnv;
         EnvLoader::loadInto($this->coreEnv, 'core');
     }
@@ -74,6 +75,7 @@ class Evaluator
         return [
             [$function == 'quote', 'Quote'],
             [$function == 'quasiquote', 'Quasiquote'],
+            [$function == 'namespace', 'NamespaceBlock'],
             [$function == 'define', 'DefineSymbol'],
             [$function == 'let', 'Let'],
             [$function == 'do', 'DoBlock'],
