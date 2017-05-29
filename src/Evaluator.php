@@ -6,6 +6,7 @@ use Desmond\data_types\VectorType;
 use Desmond\data_types\HashType;
 use Desmond\data_types\SymbolType;
 use Desmond\data_types\LambdaType;
+use Desmond\DesmondNamespace as NS;
 use Exception;
 
 class Evaluator
@@ -16,7 +17,7 @@ class Evaluator
     public function __construct()
     {
         $this->coreEnv = new Environment();
-        DesmondNamespace::setRoot($this->coreEnv);
+        NS::setRoot($this->coreEnv);
         $this->currentEnv = $this->coreEnv;
         EnvLoader::loadInto($this->coreEnv, 'core');
     }
@@ -94,10 +95,30 @@ class Evaluator
             return $atom;
         }
         try {
-            $value = $this->currentEnv->get($atom->value());
+            if (false !== strpos($atom->value(), '/')) {
+                $value = $this->getNamespaceValue($atom);
+            } else {
+                $value = $this->currentEnv->get($atom->value());
+            }
             return $value;
         } catch (Exception $exeption) {
             return $atom;
         }
+    }
+
+    private function getNamespaceValue($atom)
+    {
+        $fullName = preg_replace('/^\//', '', $atom->value());
+        $pieces = explode('/', $fullName);
+        $symbol = end($pieces);
+        array_pop($pieces);
+        $namespace = implode('/', $pieces);
+        if (NS::exists($namespace)) {
+            $env = NS::get($namespace);
+            $value = $env->get($symbol);
+        } else {
+            $value = $atom;
+        }
+        return $value;
     }
 }

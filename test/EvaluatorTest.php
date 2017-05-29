@@ -15,4 +15,33 @@ class EvaluatorTest extends TestCase
     {
         $this->assertEquals(5, $this->valueOf('(+ 2 3)'));
     }
+
+    public function testGetSymFromNamespace()
+    {
+        $this->assertEquals(7, $this->valueOf('
+            (do
+                (namespace my-space
+                    (define number 7))
+                /my-space/number
+            )'
+        ));
+    }
+
+    public function testGetSymFromNamespaceWithoutLeadingSlash()
+    {
+        $this->assertEquals(7, $this->valueOf('
+            (do
+                (namespace my-space
+                    (define number 7))
+                my-space/number
+            )'
+        ));
+    }
+
+    public function testUndefinedNamespaceSym()
+    {
+        $this->assertEquals('nope/number', $this->valueOf('
+            nope/number'
+        ));
+    }
 }
