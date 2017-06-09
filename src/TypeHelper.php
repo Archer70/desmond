@@ -44,7 +44,7 @@ trait TypeHelper {
         if ($object instanceof AbstractCollection) {
             $values = [];
             foreach ($object->value() as $key => $value) {
-                $values[] = self::toPhpType($value);
+                $values[$key] = self::toPhpType($value);
             }
             $newValue = $values;
         } else {
