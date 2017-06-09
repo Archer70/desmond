@@ -17,9 +17,10 @@ class Prepend extends DesmondFunction
     {
         $this->expectArguments('prepend', [['Vector', 'List']], $args);
         if (!isset($args[1])) {
-            throw new ArgumentException('"prepend" expects a second argment.');
+            throw new ArgumentException('"prepend" expects a second argument.');
         }
-        $args[0]->prepend($args[1]);
-        return $args[0];
+        $collection = clone($args[0]);
+        $collection->prepend($args[1]);
+        return $collection;
     }
 }
