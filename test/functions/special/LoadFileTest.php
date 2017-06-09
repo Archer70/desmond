@@ -18,7 +18,7 @@ class LoadFileTest extends TestCase
     {
         $file = __DIR__ . '/../../desmond_files/return-dir.dsmnd';
         $this->assertEquals(
-            dirname(realpath(__DIR__ . '/../../desmond_files/return-dir.dsmnd')),
+            dirname(realpath($file)),
             $this->valueOf('(load-file "' . $file . '")')
         );
     }

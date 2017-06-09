@@ -1,0 +1,14 @@
+
+(define autoload-get-file (lambda [symbol]
+    (let
+        {
+            chunks (.func explode "/" symbol)
+            ns-chunks (pop chunks)
+            namespace (.func implode "/" ns-chunks)
+        }
+        (str _dir "/" namespace ".dsmnd")
+    )
+))
+(autoload (lambda [symbol]
+    (load-file (autoload-get-file symbol))
+))

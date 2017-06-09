@@ -7,14 +7,17 @@ use Desmond\functions\DesmondFunction;
 class LambdaType extends DesmondFunction
 {
     private $evaluator;
-    private $environment;
+    private $preRunEnv;
+    private $creationEnv;
+    private $functionEnv;
+    private $functionEnvId;
     private $args;
     private $body;
 
     public function __construct($evaluator, $args, $body)
     {
         $this->evaluator = $evaluator;
-        $this->environment = $evaluator->currentEnv;
+        $this->creationEnv = clone($evaluator->currentEnv);
         $this->args = $args;
         $this->body = $body;
     }
@@ -26,16 +29,44 @@ class LambdaType extends DesmondFunction
 
     public function run(array $params)
     {
-        $env = &$this->evaluator->currentEnv;
-        $newEnv = $env->makeChild();
-        $env = $env->values[$newEnv];
+        $this->saveCurrentEnvironment();
+        $this->useCreationEnvironment();
+        $this->createChildEnvironment();
         for ($i=0; $i<$this->args->count(); $i++) {
-            $env->set($this->args->get($i)->value(), $params[$i]);
+            $this->functionEnv->set(
+                $this->args->get($i)->value(), $params[$i]);
         }
         $funcVal = $this->evaluator->getReturn($this->body);
-        $env = $env->getParent();
-        $env->destroyChild($newEnv);
+        $this->destroyFunctionEnvironment();
+        $this->revertToLiveEnvironment();
         return $funcVal;
+    }
+
+    private function saveCurrentEnvironment()
+    {
+        $this->preRunEnv = $this->evaluator->currentEnv;
+    }
+
+    public function useCreationEnvironment()
+    {
+        $this->evaluator->currentEnv = $this->creationEnv;
+    }
+
+    private function createChildEnvironment()
+    {
+        $this->functionEnvId = $this->evaluator->currentEnv->makeChild();
+        $this->functionEnv = $this->evaluator->currentEnv->values[$this->functionEnvId];
+        $this->evaluator->currentEnv = $this->functionEnv;
+    }
+
+    private function destroyFunctionEnvironment()
+    {
+        $this->evaluator->currentEnv->destroyChild($this->functionEnvId);
+    }
+
+    private function revertToLiveEnvironment()
+    {
+        $this->evaluator->currentEnv = $this->preRunEnv;
     }
 
     public function __toString()

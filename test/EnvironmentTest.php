@@ -32,6 +32,17 @@ class EnvironmentTest extends TestCase
         $this->env->get('no-such-key');
     }
 
+    public function testExists()
+    {
+        $this->env->set('key', 'val');
+        $this->assertTrue($this->env->exists('key'));
+    }
+
+    public function testDoesntExist()
+    {
+        $this->assertFalse($this->env->exists('doesnt exist'));
+    }
+
     public function testMultiLayeredEnvironments()
     {
         // searching a low level bubbles up until it finds what we're looking for.

@@ -1,6 +1,7 @@
 <?php
 namespace Desmond;
 use Exception;
+use Desmond\data_types\AbstractCollection;
 use Desmond\data_types\ObjectType;
 use Desmond\data_types\StringType;
 use Desmond\data_types\NumberType;
@@ -36,5 +37,19 @@ trait TypeHelper {
         } else {
             throw new Exception('Unknown PHP type.');
         }
+    }
+
+    public static function toPhpType($object)
+    {
+        if ($object instanceof AbstractCollection) {
+            $values = [];
+            foreach ($object->value() as $key => $value) {
+                $values[] = self::toPhpType($value);
+            }
+            $newValue = $values;
+        } else {
+            $newValue = $object->value();
+        }
+        return $newValue;
     }
 }

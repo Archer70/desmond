@@ -17,10 +17,15 @@ class Environment
         $this->values[$key] = $val;
     }
 
+    public function exists($key)
+    {
+        return null !== $this->find($key);
+    }
+
     public function get($key)
     {
-        $envWithKey = $this->find($key);
-        if (null !== $envWithKey) {
+        if ($this->exists($key)) {
+            $envWithKey = $this->find($key);
             return $envWithKey->values[$key];
         } else {
             throw new Exception('Symbol "' . $key . '" not found in environment.');

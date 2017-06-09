@@ -2,6 +2,7 @@
 namespace Desmond\functions\core;
 use Desmond\functions\DesmondFunction;
 use Desmond\ArgumentHelper;
+use Desmond\TypeHelper;
 use Desmond\data_types\VectorType;
 use Desmond\exceptions\ArgumentException;
 use RuntimeException;
@@ -10,6 +11,8 @@ use ArgumentCountError;
 class DotFunc extends DesmondFunction
 {
     use ArgumentHelper;
+    use TypeHelper;
+
     public function id()
     {
         return '.func';
@@ -38,7 +41,7 @@ class DotFunc extends DesmondFunction
             throw new ArgumentException("\".func\": Too few arguments passed to $function.");
         }
         restore_error_handler();
-        return $value;
+        return self::fromPhpType($value);
     }
 
     private static function getArgs($args)
@@ -46,7 +49,7 @@ class DotFunc extends DesmondFunction
         array_shift($args);
         $argValues = [];
         foreach ($args as $arg) {
-            $argValues[] = $arg->value();
+            $argValues[] = self::toPhpType($arg);
         }
         return $argValues;
     }

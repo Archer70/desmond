@@ -113,6 +113,7 @@ class Evaluator
         $symbol = end($pieces);
         array_pop($pieces);
         $namespace = implode('/', $pieces);
+        Autoload::run($atom);
         if (NS::exists($namespace)) {
             $env = NS::get($namespace);
             $value = $env->get($symbol);

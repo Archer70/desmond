@@ -82,6 +82,18 @@ class TypeHelperTest extends TestCase
         $this->assertInstanceOf(self::type('ObjectType'), self::fromPhpType(new \stdClass));
     }
 
+    public function testToPhpCollection()
+    {
+        $array = [1, 2, 3];
+        $numbers = self::fromPhpType($array);
+        $this->assertEquals($array, self::toPhpType($numbers));
+    }
+
+    public function testToPhpSingleType()
+    {
+        $this->assertEquals('string', self::fromPhpType('string'));
+    }
+
     /**
     * @expectedException Exception
     * @expectedExceptionMessage Unknown PHP type.
