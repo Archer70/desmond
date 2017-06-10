@@ -15,11 +15,12 @@ class Prepend extends DesmondFunction
 
     public function run(array $args)
     {
+        $args = $this->cloneArgs($args);
         $this->expectArguments('prepend', [['Vector', 'List']], $args);
         if (!isset($args[1])) {
             throw new ArgumentException('"prepend" expects a second argument.');
         }
-        $collection = clone($args[0]);
+        $collection = $args[0];
         $collection->prepend($args[1]);
         return $collection;
     }

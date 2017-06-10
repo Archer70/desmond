@@ -67,4 +67,15 @@ class MapTest extends TestCase
             $this->valueOf('(map [-1 -2 -3] +)')
         );
     }
+
+    public function testImmutable()
+    {
+        $this->assertEquals($this->valueOf('[-1 -2]'), $this->valueOf('
+            (do
+                (define vec [-1 -2])
+                (map vec +)
+                vec
+            )
+        '));
+    }
 }

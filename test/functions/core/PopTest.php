@@ -21,4 +21,15 @@ class PopTest extends TestCase
     {
         $this->resultOf('(pop symbol)');
     }
+
+    public function testImmutable()
+    {
+        $this->assertEquals($this->valueOf('[1 2 3]'), $this->valueOf('
+            (do
+                (define vec [1 2 3])
+                (pop vec)
+                vec
+            )
+        '));
+    }
 }

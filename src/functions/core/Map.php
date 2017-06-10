@@ -15,6 +15,7 @@ class Map extends DesmondFunction
 
     public function run(array $args)
     {
+        $args = $this->cloneArgs($args);
         $this->requireArgTypes($args);
         $collection = $args[0];
         $values = $collection->value();

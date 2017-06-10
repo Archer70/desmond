@@ -34,4 +34,15 @@ class DivideTest extends TestCase
     {
         $this->resultOf('(/ 10 "five")');
     }
+
+    public function testImmutable()
+    {
+        $this->assertEquals($this->valueOf('2'), $this->valueOf('
+            (do
+                (define two 2)
+                (/ two 1)
+                two
+            )
+        '));
+    }
 }

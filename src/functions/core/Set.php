@@ -15,6 +15,7 @@ class Set extends DesmondFunction
 
     public function run(array $args)
     {
+        $args = $this->cloneArgs($args);
         $this->expectArguments(
             'set',
             [0 => ['Hash'], 1 => ['Number', 'Symbol', 'String']],

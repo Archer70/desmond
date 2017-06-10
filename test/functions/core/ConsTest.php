@@ -84,4 +84,15 @@ class ConsTest extends TestCase
     {
         $this->resultOf('(cons 1 "string")');
     }
+
+    public function testImmutable()
+    {
+        $this->assertEquals($this->valueOf('(list 2 3)'), $this->valueOf('
+            (do
+                (define lst (list 2 3))
+                (cons 1 lst)
+                lst
+            )
+        '));
+    }
 }

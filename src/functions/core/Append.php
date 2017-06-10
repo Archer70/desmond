@@ -15,6 +15,7 @@ class Append extends DesmondFunction
 
     public function run(array $args)
     {
+        $args = $this->cloneArgs($args);
         $this->expectArguments('append', [['Vector', 'List']], $args);
         if (!isset($args[1])) {
             throw new ArgumentException('"append" expects a second argment.');

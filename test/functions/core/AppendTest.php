@@ -44,4 +44,14 @@ class AppendTest extends TestCase
     {
         $this->resultOf('(append)');
     }
+
+    public function testImmutable()
+    {
+        $this->assertEquals($this->valueOf('[1 2]'), $this->valueOf('
+            (do
+                (define vec [1 2])
+                (append vec 3)
+                vec
+            )'));
+    }
 }

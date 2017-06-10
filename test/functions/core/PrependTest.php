@@ -44,4 +44,15 @@ class PrependTest extends TestCase
     {
         $this->resultOf('(prepend)');
     }
+
+    public function testImmutable()
+    {
+        $this->assertEquals($this->valueOf('[]'), $this->valueOf('
+            (do
+                (define vec [])
+                (prepend vec 1)
+                vec
+            )
+        '));
+    }
 }

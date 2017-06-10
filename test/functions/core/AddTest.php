@@ -41,4 +41,15 @@ class AddTest extends TestCase
     {
         $this->resultOf('(+ "one")');
     }
+
+    public function testImmutable()
+    {
+        $this->assertEquals(-1, $this->valueOf('
+            (do
+                (define negative-one -1)
+                (+ negative-one)
+                negative-one
+            )'
+        ));
+    }
 }

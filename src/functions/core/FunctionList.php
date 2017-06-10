@@ -15,7 +15,8 @@ class FunctionList extends DesmondFunction
     {
         $list = [
             'define', 'let', 'do', 'if',
-            'lambda', 'load-file', 'eval'
+            'lambda', 'load-file', 'eval',
+            'try'
         ];
         foreach (FileOperations::getFunctionFiles() as $file) {
             $class = sprintf('Desmond\\functions\\core\\%s', substr($file, 0, -4));

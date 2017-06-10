@@ -51,4 +51,15 @@ class ConcatTest extends TestCase
         $this->assertEquals(
             $this->intList([1, 2]), $this->valueOf('(concat (list 1 2))'));
     }
+
+    public function testImmutable()
+    {
+        $this->assertEquals($this->valueOf('(list 1 2)'), $this->valueOf('
+            (do
+                (define lst (list 1 2))
+                (concat lst (list 3 4))
+                lst
+            )
+        '));
+    }
 }

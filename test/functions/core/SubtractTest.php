@@ -32,4 +32,15 @@ class SubtractTest extends TestCase
         $this->assertEquals(-4.20, $this->valueOf('(- 1 5.20)'));
         $this->assertEquals(-4.20, $this->valueOf('(- 4.20)'));
     }
+
+    public function testImmutable()
+    {
+        $this->assertEquals($this->valueOf('2'), $this->valueOf('
+            (do
+                (define two 2)
+                (- two 1)
+                two
+            )
+        '));
+    }
 }

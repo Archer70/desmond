@@ -45,4 +45,15 @@ class RestTest extends TestCase
     {
         $this->resultOf('(rest "string")');
     }
+
+    public function testImmutable()
+    {
+        $this->assertEquals($this->valueOf('[1 2 3]'), $this->valueOf('
+            (do
+                (define vec [1 2 3])
+                (rest vec)
+                vec
+            )
+        '));
+    }
 }

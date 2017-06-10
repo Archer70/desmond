@@ -39,4 +39,15 @@ class SetTest extends TestCase
     {
         $this->resultOf('(set {} :key)');
     }
+
+    public function testImmutable()
+    {
+        $this->assertEquals($this->valueOf('{:key "val"}'), $this->valueOf('
+            (do
+                (define my-hash {:key "val"})
+                (set my-hash :new-key "new value")
+                my-hash
+            )
+        '));
+    }
 }
