@@ -68,4 +68,17 @@ class ArgumentHelperTest extends TestCase
         $this->assertTrue($this->isDesmondType('Vector', new VectorType));
         $this->assertFalse($this->isDesmondType('List', new VectorType));
     }
+
+    public function testCloneArgs()
+    {
+        $object = new \stdClass();
+        $object->value = 'first';
+
+        $newArgs = $this->cloneArgs([$object]);
+        $newObject = $newArgs[0];
+        $newObject->value = "second";
+
+        $this->assertEquals('first', $object->value);
+        $this->assertEquals('second', $newObject->value);
+    }
 }

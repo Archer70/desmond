@@ -57,4 +57,13 @@ trait ArgumentHelper
         $class = $this->typeClassPath($type);
         return $arg === null ? new $class() : new $class($arg);
     }
+
+    public function cloneArgs(array $args)
+    {
+        $newArgs = [];
+        foreach ($args as $arg) {
+            $newArgs[] = clone($arg);
+        }
+        return $newArgs;
+    }
 }
