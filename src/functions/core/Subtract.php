@@ -2,6 +2,7 @@
 namespace Desmond\functions\core;
 use Desmond\functions\DesmondFunction;
 use Desmond\data_types\NumberType;
+use Desmond\exceptions\ArgumentException;
 
 class Subtract extends DesmondFunction
 {
@@ -12,6 +13,7 @@ class Subtract extends DesmondFunction
 
     public function run(array $args)
     {
+        $this->enforceTypes($args);
         if (!isset($args[0])) {
             return new NumberType(0);
         }
@@ -24,5 +26,14 @@ class Subtract extends DesmondFunction
             $value -= $number->value();
         }
         return new NumberType($value);
+    }
+
+    private function enforceTypes($args)
+    {
+        foreach ($args as $arg) {
+            if (!($arg instanceof NumberType)) {
+                throw new ArgumentException('"-" expects arguments to be Numbers.');
+            }
+        }
     }
 }

@@ -10,4 +10,9 @@ abstract class DesmondFunction
     {
         return "#<function>";
     }
+
+    public function value()
+    {
+        return 'core-func: ' . $this->id();
+    }
 }
