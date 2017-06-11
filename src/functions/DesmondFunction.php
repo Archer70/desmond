@@ -1,5 +1,6 @@
 <?php
 namespace Desmond\functions;
+use Desmond\data_types\StringType;
 
 abstract class DesmondFunction
 {
@@ -8,11 +9,11 @@ abstract class DesmondFunction
 
     public function __toString()
     {
-        return "#<function>";
+        return '#<function> ' . $this->id();
     }
 
     public function value()
     {
-        return 'core-func: ' . $this->id();
+        return new StringType('#<function> ' . $this->id());
     }
 }
