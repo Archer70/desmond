@@ -1,14 +1,21 @@
 #!/usr/bin/env php
 <?php
 use Desmond\Desmond;
-require_once __DIR__ . '/../vendor/autoload.php';
+
+if (file_exists(__DIR__ . '/../autoload.php')) {
+    require_once(__DIR__ . '/../autoload.php');
+} else if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    require_once(__DIR__ . '/../vendor/autoload.php');
+} else {
+    exit ('Unable to locate composer autoload file.');
+}
 
 if (!isset($argv[1]) || (isset($argv[1]) && $argv[1] == '--repl')) {
-	require __DIR__ . '/repl.php';
-	exit;
+    require __DIR__ . '/repl.php';
+    exit;
 }
 
 if (isset($argv[1]) && file_exists($argv[1])) {
-	$lang = new Desmond();
-	$lang->loadFile($argv[1]);
+    $lang = new Desmond();
+    $lang->loadFile($argv[1]);
 }
