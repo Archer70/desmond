@@ -1,9 +1,7 @@
-#!/bin/php
 <?php
 use Desmond\Lexer;
 use Desmond\Evaluator;
 use Desmond\data_types\VoidType;
-require_once __DIR__ . '/vendor/autoload.php';
 
 $lexer = new Lexer();
 $evaluator = new Evaluator();

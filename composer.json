@@ -18,5 +18,6 @@
             "Desmond\\": "src/",
             "Desmond\\test\\": "test/"
         }
-    }
+    },
+	"bin": ["bin/desmond"]
 }
