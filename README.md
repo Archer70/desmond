@@ -2,68 +2,35 @@
 *Put some LISP in your PHP.*
 
 ## Goals
-The basic idea here is to create small and fast LISP interpreter for PHP that focuses on functional programming, while also allowing interoperation with PHP itself. Theoretically, you could add Desmond on top of an existing PHP code base, allowing lispy goodness that has access to the application it sits on.
+The basic idea here is to create small and fast LISP interpreter for PHP that focuses on functional programming, while also allowing interoperation with PHP itself. You should be able to add Desmond on top of an existing PHP code base, allowing lispy goodness that has access to the application it sits on. In other words, you could write a Wordpress mod in Desmond.
 
-## Quick Start
+## Features
 
-If you have PHP installed locally, you can run `repl.php` in the project root for testing purposes.
+- Functional
+- Immutable data types
+- PHP interop
+- PHP app integration
+- Geared for the web
+- Built in help text
 
-### Types
+## Installation
 
-**Numbers**
-```clojure
-; Whole numbers
-7
-; Floats
-4.20
+Globally with composer:
+
+```bash
+composer global require archer70/desmond
 ```
 
-**Symbols**
-```clojure
-; Can contain a-z, 0-9, :, !, ?, -, _
-my-symbol
+or per-project:
+
+```bash
+composer require archer70/desmond
 ```
 
-**Strings**
-```clojure
-"My text string with \"quotes\" escaped."
-```
+## Help / Docs
 
-**True, False, Nil**
+For more information, including a quick start guide, see our [wiki pages](https://github.com/Archer70/desmond/wiki).
 
-```clojure
-true
-false
-nil
-```
-
-**Vectors (numerically indexed arrays)**
-
-```clojure
-; Commas are optional and considered white space in Desmond.
-[1 2 3 4]
-```
-
-**Hash (associative arrays)**
-```clojure
-{
-    :symbol-key "value"
-    "string-key" "value2"
-}
-```
-
-**Lists (core structure of LISP and Desmond)**
-```clojure
-; First element is a function name unless otherwise specified.
-(print-line "text string")
-#> "text string"
-
-; Raw list.
-(list 1 2 3)
-#> (1, 2, 3)
-```
-
-## Help
-Open a REPL and run `(function-list)` and `(help function-name)` for more information.
+For information on specific functions, open a REPL and run `(function-list)` and `(help "function-name")`.
 
 Also, feel free to drop by #desmond on Freenode if you require additional assistance, or if you're just bored.
