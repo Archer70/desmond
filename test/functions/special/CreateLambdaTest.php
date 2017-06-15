@@ -47,6 +47,21 @@ class CreateLambdaTest extends TestCase
             )'));
     }
 
+    public function testDefinedLambdaCanReferToItself()
+    {
+        $this->assertEquals(10, $this->valueOf('
+            (do
+                (define ten (lambda [num]
+                    (if (= 10 num)
+                        num
+                        (ten (+ 1 num))
+                    )
+                ))
+                (ten 0)
+            )
+        '));
+    }
+
     /**
      * @expectedException Desmond\exceptions\ArgumentException
      */

@@ -22,6 +22,11 @@ class LambdaType extends DesmondFunction
         $this->body = $body;
     }
 
+    public function updateCreationEnv(Environment $env)
+    {
+        $this->creationEnv = clone($env);
+    }
+
     public function id()
     {
         return 'anonymous';
