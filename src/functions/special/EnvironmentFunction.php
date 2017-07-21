@@ -11,10 +11,6 @@ class EnvironmentFunction extends DesmondSpecialFunction
         }
         $actualFunction = $this->currentEnv->get($this->function);
         $object = new $actualFunction;
-        if (method_exists($object, 'run')) {
-            return $object->run($args);
-        } else {
-            return $object;
-        }
+        return method_exists($object, 'run') ? $object->run($args) : $object;
     }
 }
