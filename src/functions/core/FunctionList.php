@@ -2,10 +2,11 @@
 namespace Desmond\functions\core;
 use Desmond\functions\DesmondFunction;
 use Desmond\functions\FileOperations;
-use Desmond\data_types\ListType;
 
 class FunctionList extends DesmondFunction
 {
+    use \Desmond\TypeHelper;
+
     public function id()
     {
         return 'function-list';
@@ -23,6 +24,6 @@ class FunctionList extends DesmondFunction
             $function = new $class;
             $list[] = $function->id();
         }
-        return new ListType($list);
+        return self::fromPhpType($list);
     }
 }
