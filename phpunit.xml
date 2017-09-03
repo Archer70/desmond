@@ -15,6 +15,7 @@
             <directory suffix=".php">src</directory>
             <exclude>
                 <directory suffix=".php">src/functions/docs</directory>
+                <file>src/Repl.php</file>
             </exclude>
         </whitelist>
     </filter>
