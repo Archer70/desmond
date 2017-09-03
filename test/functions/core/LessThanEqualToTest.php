@@ -9,7 +9,7 @@ class LessThanEqualToTest extends TestCase
 
     public function testLessThan()
     {
-        $this->assertTrue($this->valueOf('(<= 5 4)'));
+        $this->assertTrue($this->valueOf('(<= 4 5)'));
     }
 
     public function testEqualTo()
@@ -19,12 +19,12 @@ class LessThanEqualToTest extends TestCase
     
     public function testNotLessThan()
     {
-		$this->assertFalse($this->valueOf('(<= 4 5)'));
+		$this->assertFalse($this->valueOf('(<= 5 4)'));
 	}
 	
 	public function testMultipleLessThan()
 	{
-		$this->assertTrue($this->valueOf('(<= 5 4 3 2 1)'));
+		$this->assertTrue($this->valueOf('(<= 1 2 3 4 5)'));
 	}
 	
 	/**
@@ -32,6 +32,6 @@ class LessThanEqualToTest extends TestCase
 	 */
 	public function testNotNumber()
 	{
-		$this->resultOf('(<= 5 4 3 2 "one")');
+		$this->resultOf('(<= 1 2 3 4 "five")');
 	}
 }

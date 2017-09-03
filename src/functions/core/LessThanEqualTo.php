@@ -22,7 +22,7 @@ class LessThanEqualTo extends DesmondFunction
             if (!$this->isDesmondType('Number', $number)) {
                 throw new ArgumentException('"<=" expects arguments to be numbers.');
             }
-            if ($number->value() > $last->value()) {
+            if ($number->value() < $last->value()) {
                 return $this->newReturnType('False');
             }
             $last = $number;

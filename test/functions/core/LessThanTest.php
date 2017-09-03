@@ -9,24 +9,29 @@ class LessThanTest extends TestCase
 
     public function testLessThan()
     {
-        $this->assertTrue($this->valueOf('(< 5 4)'));
+        $this->assertFalse($this->valueOf('(< 5 4)'));
+    }
+
+    public function testEqualTo()
+    {
+        $this->assertFalse($this->valueOf('(< 5 5)'));
     }
     
     public function testNotLessThan()
     {
-		$this->assertFalse($this->valueOf('(< 4 5)'));
+		$this->assertTrue($this->valueOf('(< 4 5)'));
 	}
 	
 	public function testMultipleLessThan()
 	{
-		$this->assertTrue($this->valueOf('(< 5 4 3 2 1)'));
+		$this->assertTrue($this->valueOf('(< 1 2 3 4 5)'));
 	}
 	
 	/**
-	 * @expectedException Desmond\exceptions\ArgumentException
+	 * @expectedException \Desmond\exceptions\ArgumentException
 	 */
 	public function testNotNumber()
 	{
-		$this->resultOf('(< 5 4 3 2 "one")');
+		$this->resultOf('(< 1 2 3 4 5 "six")');
 	}
 }
