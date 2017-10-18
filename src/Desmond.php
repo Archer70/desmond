@@ -4,6 +4,7 @@ namespace Desmond;
 
 class Desmond
 {
+    const VERSION = 3.3;
     private $lexer;
     private $eval;
 
