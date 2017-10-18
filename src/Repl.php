@@ -26,7 +26,7 @@ class Repl
                 try {
                     $return = $this->desmond->pretty(
                         $this->desmond->run($input));
-                } catch (Exception $exception) {
+                } catch (\Exception $exception) {
                     echo "#! {$exception->getMessage()}\n";
                     continue;
                 }
@@ -39,7 +39,7 @@ class Repl
     {
         echo "
 Copyright 2017, Scott Christianson
-Version 0.3.0
+Version 0.3.3
 Welcome to Desmond's REPL.\n\n";
     }
 

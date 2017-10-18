@@ -2,9 +2,6 @@
 
 namespace Desmond;
 
-use Desmond\Lexer;
-use Desmond\Evaluator;
-
 class Desmond
 {
     private $lexer;
