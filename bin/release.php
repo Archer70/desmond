@@ -39,7 +39,8 @@ curl_setopt($curl, CURLOPT_POSTFIELDS, $request);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HTTPHEADER, [
     'Content-Type: application/json',
-    'Content-Length: ' . strlen($request)
+    'Content-Length: ' . strlen($request),
+    'User-Agent: ' . $username
 ]);
 curl_setopt($curl, CURLOPT_USERPWD, "$username:$password");
 echo curl_exec($curl);
