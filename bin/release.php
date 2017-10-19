@@ -41,6 +41,5 @@ curl_setopt($curl, CURLOPT_HTTPHEADER, [
     'Content-Type: application/json',
     'Content-Length: ' . strlen($request)
 ]);
-curl_setopt($curl, CURLOPT_USERNAME, $username);
-curl_setopt($curl, CURLOPT_USERPWD, $password);
-curl_exec($curl);
+curl_setopt($curl, CURLOPT_USERPWD, "$username:$password");
+echo curl_exec($curl);
