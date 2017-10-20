@@ -3,6 +3,13 @@
 use Desmond\Desmond;
 require_once __DIR__ . '/../vendor/autoload.php';
 
+$dir = __DIR__;
+exec("$dir/../vendor/bin/phpunit -c $dir/../phpunit.xml", $output, $testsFailed);
+
+if ($testsFailed) {
+    exit ("Tests failed!\n");
+}
+
 $docs = scandir(__DIR__ . '/../src/functions/docs');
 $functions = scandir(__DIR__ . '/../src/functions/core');
 $diff = array_diff($functions, $docs);
