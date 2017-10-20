@@ -10,7 +10,7 @@ class VersionTest extends TestCase
     public function testVersion()
     {
         $this->assertRegExp(
-            '/Desmond \d.\d, PHP [\d\.]+\./',
+            '/Desmond \d.\d.\d, PHP [\d\.]+\./',
             $this->valueOf('(version)'));
     }
 }
