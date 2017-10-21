@@ -1,0 +1,4 @@
+{
+  "void": "Desmond\\test_framework\\reporters\\VoidReporter",
+  "dotty": "Desmond\\test_framework\\reporters\\Dotty"
+}

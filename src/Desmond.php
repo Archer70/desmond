@@ -1,6 +1,7 @@
 <?php
 
 namespace Desmond;
+use Desmond\test_framework\reporters\Dotty;
 
 class Desmond
 {
