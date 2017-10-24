@@ -12,6 +12,11 @@ class VoidReporterTest extends TestCase
         $this->reporter = new VoidReporter();
     }
 
+    public function testReset()
+    {
+        $this->assertNull($this->reporter->reset());
+    }
+
     public function testId()
     {
         $this->assertEquals('void', $this->reporter->id());
@@ -25,6 +30,11 @@ class VoidReporterTest extends TestCase
     public function testFail()
     {
         $this->assertNull($this->reporter->fail('testName', 'expected', 'actual'));
+    }
+
+    public function testFailures()
+    {
+        $this->assertNull($this->reporter->failures());
     }
 
     public function testHeader()

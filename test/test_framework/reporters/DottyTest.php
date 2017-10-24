@@ -5,54 +5,58 @@ use PHPUnit\Framework\TestCase;
 
 class DottyTest extends TestCase
 {
-    private $dotty;
-
-    public function setUp()
-    {
-        $this->dotty = new Dotty();
-    }
-
     public function testId()
     {
-        $this->assertEquals('dotty', $this->dotty->id());
+        $this->assertEquals('dotty', Dotty::id());
     }
 
     public function testPass()
     {
         $this->expectOutputString('.');
-        $this->dotty->pass('testName');
+        Dotty::pass('testName');
     }
 
     public function testFail()
     {
-        $this->expectOutputString('
-
-FAILURE: testName
-expected: 1
-actual: 2');
-        $this->dotty->fail('testName', 1, 2);
+        $this->expectOutputString('f');
+        Dotty::fail('testName', 1, 2);
     }
 
     public function testFailWithMessage()
     {
-        $this->expectOutputString('
-
-FAILURE: testName
-expected: 1
-actual: 2
-message: "Some dumb thing."');
-        $this->dotty->fail('testName', 1, 2, 'Some dumb thing.');
+        $this->expectOutputString('f');
+        Dotty::fail('testName', 1, 2, 'Some dumb thing.');
     }
 
     public function testHeader()
     {
-        $this->expectOutputString("Running tests...\n");
-        $this->dotty->header();
+        $this->expectOutputString("Running tests...\n\n");
+        Dotty::header();
+    }
+
+    public function testFailures()
+    {
+        $this->expectOutputString('.ff
+
+FAILURE: first-test
+expected: "1"
+actual: "2"
+message: "message"
+
+FAILURE: second-test
+expected: "string"
+actual: "text"
+message: "message"');
+        Dotty::reset();
+        Dotty::pass('pass-test');
+        Dotty::fail('first-test', 1, 2, 'message');
+        Dotty::fail('second-test', 'string', 'text', 'message');
+        Dotty::failures();
     }
 
     public function testFooter()
     {
-        $this->expectOutputString("0 tests run.\n");
-        $this->dotty->footer();
+        $this->expectOutputRegex('/\d tests run \(p:\d\/f:\d\)/');
+        Dotty::footer();
     }
 }

@@ -14,7 +14,7 @@ class TestRunnerTest extends TestCase
 
     public function testLoadsTestFiles()
     {
-        $this->expectOutputString('file 1, file 2.');
+        $this->expectOutputRegex('/file 1, file 2\./');
         $this->runner->runTests(
             __DIR__ . '/../mocks/test_file_reading');
     }

@@ -15,6 +15,15 @@ class TestRunner
 
     public function runTests($testDir)
     {
+        self::reporter()->reset();
+        self::reporter()->header();
+        $this->executeFiles($testDir);
+        self::reporter()->failures();
+        self::reporter()->footer();
+    }
+
+    private function executeFiles($testDir)
+    {
         $files = scandir($testDir);
         foreach ($files as $file) {
             if ($file == '.' || $file == '..') {
@@ -22,7 +31,7 @@ class TestRunner
             }
             $path = $testDir . '/' . $file;
             if (is_dir($path)) {
-                $this->runTests($path);
+                $this->executeFiles($path);
                 continue;
             }
             if (!preg_match('/test\.dsmnd$/', $file)) {

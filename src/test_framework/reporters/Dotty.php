@@ -3,31 +3,65 @@ namespace Desmond\test_framework\reporters;
 
 class Dotty implements BaseReporter
 {
-    public function id()
+    private static $passed = 0;
+    private static $failed = 0;
+    private static $failures = [];
+
+    public static function id()
     {
         return 'dotty';
     }
 
-    public function header()
+    public static function header()
     {
-        echo "Running tests...\n";
+        echo "Running tests...\n\n";
     }
 
-    public function pass($testName)
+    public static function pass($testName)
     {
+        self::$passed++;
         echo '.';
     }
 
-    public function fail($testName, $expected, $actual, $message='')
+    public static function fail($testName, $expected, $actual, $message='')
     {
-        echo "\n\nFAILURE: $testName\nexpected: $expected\nactual: $actual";
-        if ($message) {
-            echo "\nmessage: \"$message\"";
+        self::$failed++;
+        self::$failures[] = [
+            'test' => $testName,
+            'expected' => $expected,
+            'actual' => $actual,
+            'message' => $message
+        ];
+        echo 'f';
+    }
+
+    public static function failures()
+    {
+        foreach (self::$failures as $failure) {
+            printf(
+                "\n\nFAILURE: %s\nexpected: \"%s\"\nactual: \"%s\"",
+                $failure['test'],
+                $failure['expected'],
+                $failure['actual']
+            );
+            if ($failure['message']) {
+                echo "\nmessage: \"{$failure['message']}\"";
+            }
         }
     }
 
-    public function footer()
+    public static function footer()
     {
-        echo "0 tests run.\n";
+        $total = self::$passed + self::$failed;
+        $passed = self::$passed;
+        $failed = self::$failed;
+        echo "\n\n$total tests run (p:$passed/f:$failed)\n";
+    }
+
+    public static function reset()
+    {
+        self::$passed = 0;
+        self::$failed = 0;
+        self::$failures = [];
     }
 }

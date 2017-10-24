@@ -3,20 +3,26 @@ namespace Desmond\test_framework\reporters;
 
 class VoidReporter implements BaseReporter
 {
-    public function id()
+    public static function reset()
+    {}
+
+    public static function id()
     {
         return 'void';
     }
 
-    public function header()
+    public static function header()
     {}
 
-    public function pass($testName)
+    public static function pass($testName)
     {}
 
-    public function fail($testName, $expected, $actual, $message='')
+    public static function fail($testName, $expected, $actual, $message='')
     {}
 
-    public function footer()
+    public static function failures()
+    {}
+
+    public static function footer()
     {}
 }
