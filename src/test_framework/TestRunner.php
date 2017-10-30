@@ -29,6 +29,10 @@ class TestRunner
 
     private function executeFiles($testDir)
     {
+        if (!is_dir($testDir)) {
+            printf('Directory not found: "%s"', $testDir);
+            return;
+        }
         $files = scandir($testDir);
         foreach ($files as $file) {
             if ($file == '.' || $file == '..') {

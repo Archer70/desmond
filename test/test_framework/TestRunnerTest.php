@@ -53,4 +53,10 @@ class TestRunnerTest extends TestCase
         $this->assertTrue(TestRunner::changeReporter('void'));
         $this->assertFalse(TestRunner::changeReporter('notreal'));
     }
+
+    public function testFileNotFound()
+    {
+        $this->expectOutputRegex('/Directory not found: "test\/dir"/');
+        $this->runner->runTests('test/dir');
+    }
 }
