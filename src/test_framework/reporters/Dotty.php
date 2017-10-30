@@ -6,10 +6,16 @@ class Dotty implements BaseReporter
     private static $passed = 0;
     private static $failed = 0;
     private static $failures = [];
+    private static $testName = '';
 
     public static function id()
     {
         return 'dotty';
+    }
+
+    public static function setTestName($testName)
+    {
+        self::$testName = $testName;
     }
 
     public static function header()
@@ -17,17 +23,17 @@ class Dotty implements BaseReporter
         echo "Running tests...\n\n";
     }
 
-    public static function pass($testName)
+    public static function pass()
     {
         self::$passed++;
         echo '.';
     }
 
-    public static function fail($testName, $expected, $actual, $message='')
+    public static function fail($expected, $actual, $message='')
     {
         self::$failed++;
         self::$failures[] = [
-            'test' => $testName,
+            'test' => self::$testName,
             'expected' => $expected,
             'actual' => $actual,
             'message' => $message
@@ -63,5 +69,6 @@ class Dotty implements BaseReporter
         self::$passed = 0;
         self::$failed = 0;
         self::$failures = [];
+        self::$testName = '';
     }
 }

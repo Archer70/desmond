@@ -22,6 +22,11 @@ class VoidReporterTest extends TestCase
         $this->assertEquals('void', $this->reporter->id());
     }
 
+    public function testSetTestName()
+    {
+        $this->assertNull($this->reporter->setTestName('test'));
+    }
+
     public function testPass()
     {
         $this->assertNull($this->reporter->pass('testName'));

@@ -26,10 +26,10 @@ class AssertEquals extends DesmondFunction
         $message = isset($args[2]) ? $args[2]->value() : '';
 
         if ($expected == $actual) {
-            $this->pass('testName');
+            $this->pass();
             return $this->newReturnType('True');
         } else {
-            $this->fail('testName', $expected, $actual, $message);
+            $this->fail($expected, $actual, $message);
             return $this->newReturnType('False');
         }
     }
@@ -37,12 +37,12 @@ class AssertEquals extends DesmondFunction
     private function pass()
     {
         $reporter = TestRunner::reporter();
-        $reporter->pass('testName');
+        $reporter::pass();
     }
 
     private function fail($expected, $actual, $message='')
     {
         $reporter = TestRunner::reporter();
-        $reporter->fail('testName', $expected, $actual, $message);
+        $reporter::fail($expected, $actual, $message);
     }
 }

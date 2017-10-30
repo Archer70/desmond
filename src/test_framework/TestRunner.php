@@ -5,6 +5,10 @@ use Desmond\Desmond;
 class TestRunner
 {
     private $desmond;
+
+    /**
+     * @var \Desmond\test_framework\reporters\BaseReporter $reporter
+     */
     private static $reporter;
 
     public function __construct()
@@ -15,11 +19,12 @@ class TestRunner
 
     public function runTests($testDir)
     {
-        self::reporter()->reset();
-        self::reporter()->header();
+        $reporter = self::reporter();
+        $reporter::reset();
+        $reporter::header();
         $this->executeFiles($testDir);
-        self::reporter()->failures();
-        self::reporter()->footer();
+        $reporter::failures();
+        $reporter::footer();
     }
 
     private function executeFiles($testDir)
@@ -50,7 +55,7 @@ class TestRunner
     public static function reporter()
     {
         $defaultReporter = self::reporters()['dotty'];
-        return self::$reporter ? self::$reporter : new $defaultReporter;
+        return self::$reporter ? self::$reporter : $defaultReporter;
     }
 
     public static function changeReporter($reporter)
@@ -58,7 +63,7 @@ class TestRunner
         $validList = self::reporters();
         if (array_key_exists($reporter, $validList)) {
             $class = $validList[$reporter];
-            self::$reporter = new $class;
+            self::$reporter = $class;
             return true;
         }
         return false;
@@ -67,6 +72,6 @@ class TestRunner
     public static function resetReporterToDefault()
     {
         $class = self::reporters()['dotty'];
-        self::$reporter = new $class;
+        self::$reporter = $class;
     }
 }

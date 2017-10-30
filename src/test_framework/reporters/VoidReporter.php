@@ -11,13 +11,16 @@ class VoidReporter implements BaseReporter
         return 'void';
     }
 
+    public static function setTestName($testName)
+    {}
+
     public static function header()
     {}
 
-    public static function pass($testName)
+    public static function pass()
     {}
 
-    public static function fail($testName, $expected, $actual, $message='')
+    public static function fail($expected, $actual, $message='')
     {}
 
     public static function failures()

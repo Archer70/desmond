@@ -13,19 +13,19 @@ class DottyTest extends TestCase
     public function testPass()
     {
         $this->expectOutputString('.');
-        Dotty::pass('testName');
+        Dotty::pass();
     }
 
     public function testFail()
     {
         $this->expectOutputString('f');
-        Dotty::fail('testName', 1, 2);
+        Dotty::fail(1, 2);
     }
 
     public function testFailWithMessage()
     {
         $this->expectOutputString('f');
-        Dotty::fail('testName', 1, 2, 'Some dumb thing.');
+        Dotty::fail(1, 2, 'Some dumb thing.');
     }
 
     public function testHeader()
@@ -48,9 +48,11 @@ expected: "string"
 actual: "text"
 message: "message"');
         Dotty::reset();
-        Dotty::pass('pass-test');
-        Dotty::fail('first-test', 1, 2, 'message');
-        Dotty::fail('second-test', 'string', 'text', 'message');
+        Dotty::pass();
+        Dotty::setTestName('first-test');
+        Dotty::fail(1, 2, 'message');
+        Dotty::setTestName('second-test');
+        Dotty::fail('string', 'text', 'message');
         Dotty::failures();
     }
 

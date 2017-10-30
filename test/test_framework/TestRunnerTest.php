@@ -21,7 +21,7 @@ class TestRunnerTest extends TestCase
 
     public function testGetReporter()
     {
-        $this->assertInstanceOf(
+        $this->assertEquals(
             'Desmond\\test_framework\\reporters\\Dotty',
             TestRunner::reporter()
         );
@@ -35,14 +35,14 @@ class TestRunnerTest extends TestCase
 
     public function testChangeReporter()
     {
-        $this->assertInstanceOf(
+        $this->assertEquals(
             'Desmond\\test_framework\\reporters\\Dotty',
             TestRunner::reporter()
         );
 
         TestRunner::changeReporter('void');
 
-        $this->assertInstanceOf(
+        $this->assertEquals(
             'Desmond\\test_framework\\reporters\\VoidReporter',
             TestRunner::reporter()
         );

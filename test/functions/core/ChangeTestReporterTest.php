@@ -12,7 +12,7 @@ class ChangeTestReporterTest extends TestCase
     {
         TestRunner::resetReporterToDefault();
 
-        $this->assertInstanceOf(
+        $this->assertEquals(
             'Desmond\\test_framework\\reporters\\Dotty',
             TestRunner::reporter()
         );

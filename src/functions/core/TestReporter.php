@@ -16,6 +16,6 @@ class TestReporter extends DesmondFunction
     public function run(array $args)
     {
         $reporter = TestRunner::reporter();
-        return $this->newReturnType('String', $reporter->id());
+        return $this->newReturnType('String', $reporter::id());
     }
 }

@@ -1,0 +1,2 @@
+(describe "described")
+(assert-equals 1 2)
