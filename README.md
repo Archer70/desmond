@@ -27,6 +27,24 @@ or per-project:
 composer require archer70/desmond
 ```
 
+## Development
+
+Clone the repo
+
+```bash
+git clone https://github.com/Archer70/desmond.git
+```
+
+Install development dependencies (PHPUnit) and create autoloader.
+```bash
+composer install
+```
+
+Run the tests  
+```bash
+vendor/bin/phpunit -c phpunit.xml test/
+```
+
 ## Help / Docs
 
 For more information, including a quick start guide, see our [wiki pages](https://github.com/Archer70/desmond/wiki).
