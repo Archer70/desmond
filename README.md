@@ -45,6 +45,8 @@ Run the tests
 vendor/bin/phpunit -c phpunit.xml test/
 ```
 
+You can start a REPL by running `bin/desmond`, or run a file with `bin/desmond file.dsmnd`.
+
 ## Help / Docs
 
 For more information, including a quick start guide, see our [wiki pages](https://github.com/Archer70/desmond/wiki).
